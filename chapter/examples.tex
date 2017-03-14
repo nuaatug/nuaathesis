@@ -1,0 +1,17 @@
+%# -*- coding: utf-8-unix -*-
+
+\chapter{\LaTeX 排版用例}\label{chap:example}
+
+本部分可参考SJTU Thesis模板\cite{SJTUThesis}的用例，源代码存放在tex文件夹下的examples.tex文件中，非常详尽。鄙人对其中几个部分有一些自己不同的见解，另外文献中也有一些没有提及的内容，写在本文档中。
+
+\section{流程图}
+
+对于不想花时间学习tizk宏包的同学，推荐在Power Point中绘制好流程图，然后以图片方式插入到文档中，学习成本较低，效果也非常好。
+
+\section{表格}
+
+SJTU Thesis中的表格介绍非常详尽，但其实有非常简单的从Excel生成\LaTeX 表格代码的方式，即Excel宏——excel2latex。此宏非常强大，强烈推荐大家使用。
+
+\section{图片表格指定位置插入}
+
+图片和表格的插入默认是htbp四个选项，有时候这会让图片表格遍布整篇论文，可能会有同学非常反感这种情况，为了强制在当前位置插入图片，可以使用float宏包，然后使用H选项：\verb+\begin{figure}[H]+即可强制\TeX 在当前位置插入图片，从而避免正文和图片表格相距太远。

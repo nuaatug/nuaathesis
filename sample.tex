@@ -1,0 +1,23 @@
+\documentclass[bachelor]{nuaathesis}
+
+\addbibresource{bib/sample.bib}
+
+\begin{document}
+
+\include{chapter/coverpage}             %% 封面&诚信承诺书
+
+\frontmatter                            %% 使用罗马数字对摘要页编号
+\include{chapter/abstract}              %% 中英文摘要
+\include{chapter/contents}              %% 目录、图目录、表目录
+\include{chapter/symbol}                %% 符号说明
+
+\mainmatter                             %% 使用阿拉伯数字对正文编号
+\pagestyle{plain}                       %% 正文内容
+\include{chapter/introduction}          %% 文档介绍
+\include{chapter/examples}              %% 文档介绍
+
+\backmatter                             %% 文后无编号部分
+\printbibliography[heading=bibintoc]
+\include{chapter/acknowledgement}       %% 致谢
+\include{chapter/postscript}            %% 后记
+\end{document}
