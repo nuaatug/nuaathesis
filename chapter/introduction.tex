@@ -1,9 +1,9 @@
 %# -*- coding: utf-8-unix -*-
-\chapter{简介\& 声明}\label{chap:intro}
+\chapter{简介}\label{chap:intro}
 
-这是南京航空航天大学(非官方)本科生学位论文\LaTeX 模板，当前版本是\version 。
+这是南京航空航天大学(非官方)本科生学位论文\LaTeX 模板，当前版本是\version(鄙人使用此模板完成毕设并顺利毕业后，此模板将正式升级为v1.0)。
 
-本模板最早可以追溯到人人网上的一篇博客\cite{renren}，由黄大宁、邓欣珂、徐添豪三人共同开发完善，参考了当时东南大学的\seuthesix 模板；除此之外在Github上也可以找到一个repo\footnote{\url{https://jack}}{\footnotesize}，由Felix Ding、Jun Wang、Jackie Hou三位老师和Vevi Zhong同学共同维护，但是repo中的.cls和.sty文件是空文件。
+本模板最早可以追溯到人人网上的一篇博客\footnote{\url{http://blog.renren.com/share/546499630/17959595570?from=0101010202\&ref=timelinefeed\&sfet=102\&fin=0\&fid=27825118585\&ff\_id=546499630\&platform=6\&expose\_time=1489401101}}，由黄大宁、邓欣珂、徐添豪、石坤四人共同开发完善，参考了当时东南大学的\seuthesix 模板；除此之外在Github上也可以找到一个repo\footnote{\url{https://github.com/nuaa803/nuaa-thesis}}，由Felix Ding、Jun Wang、Jackie Hou三位老师和Vevi Zhong同学共同维护，但是repo中的.cls和.sty文件是空文件。
 
 回顾人人网的模板，没有直接提供nuaa.png和nuaa.bst文件，可以使用强制编译的方法生成文件，但是缺少左上角南航字样。除此之外，由于模板使用了已经被放弃使用的CJK宏包，因此在编译\verb+\Unicode{}+命令时会出错，代码的阅读性和维护性也不如现在的ctex和xeCJK。由于上述原因，许多初次使用\LaTeX 和使用经验不多的同学在一开始就放弃了使用旧版模板进行毕业设计的书写及排版。
 
@@ -13,30 +13,33 @@
 
 本模板于Windows~10平台开发，使用MikTeX v2.9发行版，所使用的宏包均跟进到最新版本。本模板并未在其他平台和发行版进行测试，如OS~X\&MacTeX、GNU\textbackslash Linux\&TeXLive、Windows\&Ctex/TeXLive，如出现问题，请自行Google、Bing、Baidu搜索解决方法。学会使用搜索引擎、熟练阅读外文是一个学生最基本的能力，更是一个\LaTeX 使用者得以立足和前进的根本。
 
-\textbf{本人郑重声明：尚未有人使用此模板完成过任何毕业设计，本人也在尝试中，任何人使用本模板进行毕业设计排版属于自愿行为，如发生任何问题，本人概不负责。}
+鄙人非常期待有其他南航的\TeX 使用者加入到本模板的开发与维护当中来，不断完善模板，为南航广大学子造福！
 
 \section{模板使用}
 \subsection{准备工作}
-\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+\begin{itemize}
   \item \TeX 发行版：Windows 系统推荐使用MikTeX和TeXLive这两种发行版，前者占用空间小，只在有宏包缺失情况下才进行下载，后者占用空间大，但基本无需担心宏包缺失。Linux系统(Arch系除外)推荐手动安装TeXLive发行版，官方源中的TeXLive版本跟进较慢。OS X系统鄙人没有接触过，可以参考SJTU Thesis中的介绍。
-  \item 字体依赖：因南航官方毕业设计模板用到了：\textbf{宋体粗体}，\textbf{黑体粗体}和\textbf{楷体粗体}这三种\TeX 字体源中不存在的字体(Word中可能采用其他技术手段实现)，因此需要额外的字体才能接近官方模板的效果，因此请自行下载这三种字体：华文宋体 Bold，华文楷体 Bold和思源黑体 CN Bold，放在本模板根目录下后再编译。
+  \item 字体依赖：因南航官方毕业设计模板用到了：\textbf{宋体粗体}，\textbf{黑体粗体}和\textbf{楷体粗体}这三种\TeX 字体源中不存在的字体(Word中可能采用其他技术手段实现)，因此需要额外的字体才能接近官方模板的效果，因此请自行下载这三种字体：华文宋体 Bold\footnote{\url{http://www.zitikoudai.com/chinese-fonts/huawen/Songti-SC-Bold.html}}，华文楷体 Bold\footnote{\url{http://www.zitikoudai.com/chinese-fonts/huawen/Kaiti-SC-Bold.html}}和思源黑体 CN Bold\footnote{\url{http://www.zitikoudai.com/chinese-fonts/other/SourceHanSansCN-Bold.html}}，放在本模板根目录下后再编译。
   \item \TeX 知识：本说明文档提供\TeX 使用的例子，但不能解决所有的问题，因此使用前请自行学习\TeX~\&~\LaTeX 相关知识。
 \end{itemize}
 
 \subsection{模板编译}
 
-切记使用\XeLaTeX 引擎进行编译，Ctex和CJK的时代已经过去。
+切记使用\XeLaTeX 进行编译，Ctex和CJK的时代已经过去。
 
 曾经鄙人被bibtex困扰很久，直到在Arch Linux上成功编译出一次参考文献后才了解如何实现参考文献的编译。鄙人采取的方法如下：
 \begin{lstlisting}[basicstyle=\small\ttfamily, caption={手动逐次编译}, numbers=none]
 xelatex -no-pdf .tex文件名
 biber --debug .tex文件名
 xelatex .tex文件名
+xelatex .tex文件名
 \end{lstlisting}
 
 使用\XeLaTeX 编译可以直接用各\TeX 编辑器实现，如：TeXworks，TeXmaker，TeXStudio，Emacs\& 插件，Atom\& 插件等等，biber命令需使用Windows的cmd/Power Shell、Linux和OS S下的bash实现。Windows平台可以自行编写简单的.bat批处理文件来实现。
 
 使用biber需注意：\textbf{.bib文件内的记录必须在.tex文件中引用，多余不引用的记录不要因为懒而不去除，否则将编译失败}
+
+目录内容需要编译两次才能正常显示，原因推断为早期的电脑内存不够，所以将目录的生成分成了两步来进行。
 
 \subsection{模板文件结构}
 \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]

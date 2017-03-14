@@ -1,8 +1,8 @@
 %% class clarification %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nuaathesis}[2017/03/20 0.9 The LaTeX template for academic  degree thesis of Nanjing University of Aeronautics and Astronautics]
-\typeout{Document Class `nuaathesis' 0.9 by Jack Wang (2017/03/20)}
-\newcommand\version{v0.9}
+\ProvidesClass{nuaathesis}[2017/03/20 0.9a The LaTeX template for academic  degree thesis of Nanjing University of Aeronautics and Astronautics]
+\typeout{Document Class `nuaathesis' 0.9a by Jack Wang (2017/03/20)}
+\newcommand\version{v0.9a}
 
 %% 学士学位论文选项、以后可以此格式拓展硕士、博士选项
 \newif\ifnuaa@bachelor\nuaa@bachelorfalse
@@ -24,7 +24,7 @@
 \RequirePackage[inline]{enumitem}
 \RequirePackage{fancyhdr}
 \RequirePackage{fontspec}
-\RequirePackage[bottom,norule]{footmisc}
+\RequirePackage[perpage,bottom]{footmisc}
 \RequirePackage[top=4.05cm,bottom=2.82cm,left=2cm,right=2cm]{geometry}
 \RequirePackage{graphicx}
 \RequirePackage[xetex,hidelinks]{hyperref}
