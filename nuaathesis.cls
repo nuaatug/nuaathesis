@@ -75,13 +75,6 @@
 
 %% ctex & xeCJK package
 
-\setCJKfamilyfont{hwstbd}{Songti-SC-Bold.ttf}         %% 使用华文宋体 Bold
-\newcommand{\songbd}{\CJKfamily{hwstbd}}
-\setCJKfamilyfont{hwhtbd}{SourceHanSansCN-Bold.ttf}   %% 使用思源黑体 Bold
-\newcommand{\heibd}{\CJKfamily{hwhtbd}}
-\setCJKfamilyfont{hwktbd}{Kaiti-SC-Bold.ttf}          %% 使用华文楷体 Bold
-\newcommand{\kaibd}{\CJKfamily{hwktbd}}
-
 %% 字号宏定义
 \newcommand{\verybig}{\fontsize{53pt}{82.68pt}\selectfont}
 \newcommand{\chuhao}{\Huge\selectfont}
@@ -106,6 +99,7 @@
 \renewcommand{\lstlistingname}{\nuaa@value@listingname}
 
 \ctexset{chapter={
+	format={\centering\xiaosanhao\heiti},
 	nameformat={\xiaosanhao\heiti},
 	titleformat={\xiaosanhao\heiti},
 	beforeskip={15\p@},
@@ -241,9 +235,9 @@
       {\heiti\sanhao\nuaa@label@thesisnum\hspace{10pt}\underline{\hspace{60pt}}} \\
     \end{flushright}
     \begin{center}
-      {\erhao\kaibd\@nuaa} \\
+      {\textbf{\erhao\kaishu\@nuaa}} \\
       \vspace*{32pt}
-      {\verybig\songbd\nuaa@coverpagetitle} \\
+      {\verybig\nuaa@coverpagetitle} \\
       \vspace*{65pt}
       {\erhao\heiti\nuaa@label@title\parbox[t]{10em}{\hfill\nuaa@value@zhtitle\hfill~}} \\
       \vspace*{40pt}
@@ -252,7 +246,7 @@
       {
         \begin{tabular}{cc}
           {\xiaosanhao\heiti\nuaa@label@author\quad} &
-          \underline{\makebox[20em][s]{\makebox[20em][c]{\sanhao\heiti\heiti\nuaa@value@author}}} \\
+          \underline{\makebox[20em][s]{\makebox[20em][c]{\sanhao\heiti\nuaa@value@author}}} \\
           {\xiaosanhao\heiti\nuaa@label@studentid\quad} &
           \underline{\makebox[20em][s]{\makebox[20em][c]{\sanhao\heiti\nuaa@value@studentid}}} \\
           {\xiaosanhao\heiti\nuaa@label@college\quad} &
@@ -276,7 +270,7 @@
 %%===========
 \newcommand{\declare}{
   \thispagestyle{empty}{
-    \begin{center}{\heibd\xiaoerhao\@nuaa\\\vspace{1em}本科毕业设计（论文）诚信承诺书}
+    \begin{center}{\heiti\xiaoerhao\@nuaa\\\vspace{1em}本科毕业设计（论文）诚信承诺书}
     \end{center}
     {
     \linespread{1.68}
@@ -309,7 +303,7 @@
 }{
   \par
   \begin{description}
-    \item[\xiaosanhao\heiti 关键词：] \@keywords
+    \item[\sffamily\mdseries\xiaosanhao 关键词：] \@keywords
   \end{description}
 }
 
