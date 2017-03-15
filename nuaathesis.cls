@@ -16,31 +16,32 @@
 %% 加载LaTeX宏包
 %%===============
 
-\RequirePackage{algorithm, algorithmicx, algpseudocode}
-\RequirePackage{amsfonts,amssymb,amsthm,bm,mathrsfs,mathtools}
-\RequirePackage[backend=biber, style=gb7714-2015]{biblatex}
-\RequirePackage{booktabs}
-\RequirePackage{ccaption}
-\RequirePackage[inline]{enumitem}
-\RequirePackage{fancyhdr}
+\RequirePackage{algorithm, algorithmicx, algpseudocode} %% 算法排版相关
+\RequirePackage{amsfonts,amssymb,amsthm,bm,mathrsfs,mathtools}  %% 公式相关
+\RequirePackage[backend=biber, style=gb7714-2015]{biblatex} %% 参考文献相关
+\RequirePackage{booktabs} %% 表格格式相关
+\RequirePackage[inline]{enumitem} %% list环境相关
+\RequirePackage{fancyhdr} %% 页眉页脚相关
 \RequirePackage{fontspec}
 \RequirePackage[perpage,bottom]{footmisc}
-\RequirePackage[top=4.05cm,bottom=2.82cm,left=2cm,right=2cm]{geometry}
-\RequirePackage{graphicx}
-\RequirePackage[xetex,hidelinks]{hyperref}
-\RequirePackage{indentfirst}
-\RequirePackage{listings}
-\RequirePackage{longtable}
-\RequirePackage{multirow}
+\RequirePackage[top=4.05cm,bottom=2.82cm,left=2cm,right=2cm]{geometry} %% 页面大小相关
+\RequirePackage{graphicx} %% 插图相关
+\RequirePackage[xetex,hidelinks]{hyperref} %% 交叉引用相关
+\RequirePackage{indentfirst}  %% 首段缩进
+\RequirePackage{listings} %% 代码排版相关
+\RequirePackage{longtable}  %% 跨页表格
+\RequirePackage{makecell} %% 表格相关
+\RequirePackage{multirow} %% 跨行表格相关
+\RequirePackage{rotating} %% 宽表格
 \RequirePackage[titles]{tocloft}
-\RequirePackage{xcolor}
+\RequirePackage{tabularx} %% 表格相关
+\RequirePackage[table]{xcolor}  %% 颜色相关
 \RequirePackage{xltxtra}
+\RequirePackage{ccaption} %% ccaption包因为特殊原因必须在longtable之后加载
 
 %%====================
 %% 基本设置与简单宏定义
 %%====================
-
-
 
 \setcounter{secnumdepth}{3}  %% 章节编号深度 (part 对应 -1)
 \setcounter{tocdepth}{2}     %% 目录深度 (part 对应 -1)
@@ -51,6 +52,8 @@
 
 %% 设置行间距
 \linespread{1.5}
+
+\renewcommand{\labelenumi}{(\theenumi)}
 
 %%===========
 %% 各宏包设置
@@ -98,7 +101,7 @@
 \renewcommand{\listalgorithmname}{\nuaa@listalgorithmname}
 \renewcommand{\lstlistingname}{\nuaa@value@listingname}
 
-\ctexset{chapter={
+\ctexset{chapter={%
 	format={\centering\xiaosanhao\heiti},
 	nameformat={\xiaosanhao\heiti},
 	titleformat={\xiaosanhao\heiti},
@@ -106,18 +109,18 @@
 	afterskip={12\p@},
 	}
 }
-\ctexset{section={
+\ctexset{section={%
 	format={\sihao\heiti},
 	afterskip={1.0ex \@plus .2ex},
 	}
 }
-\ctexset{subsection={
+\ctexset{subsection={%
 	format={\xiaosihao\heiti},
 	indent={0\ccwd},
 	afterskip={1.0ex \@plus .2ex},
 	}
 }
-\ctexset{subsubsection={
+\ctexset{subsubsection={%
 	format={\normalfont\normalsize},
 	indent={0\ccwd},
 	afterskip={1.0ex \@plus .2ex},
@@ -172,14 +175,14 @@
   breakindent=4em, %
   aboveskip=1em, %代码块边框
   %% added by http://bbs.ctex.org/viewthread.php?tid=53451
-  fontadjust,
-  captionpos=t,
-  framextopmargin=2pt,framexbottommargin=2pt,abovecaptionskip=-3pt,belowcaptionskip=3pt,
+  fontadjust,%
+  captionpos=t,%
+  framextopmargin=2pt,framexbottommargin=2pt,abovecaptionskip=-3pt,belowcaptionskip=3pt,%
   xleftmargin=4em,xrightmargin=4em, % 设定listing左右的空白
   texcl=true,
   % 设定中文冲突，断行，列模式，数学环境输入，listing数字的样式
-  extendedchars=false,columns=flexible,mathescape=true
-  numbersep=-1em
+  extendedchars=false,columns=flexible,mathescape=true%
+  numbersep=-1em%
 }
 
 %% 定理环境
@@ -194,16 +197,17 @@
   {}%         Thm head spec
 \theoremstyle{plain}
   \newtheorem{algo}{\nuaa@label@algo~}[chapter]
-  \newtheorem{thm}{\nuaa@label@thm~}[chapter]
-  \newtheorem{lem}[thm]{\nuaa@label@lem~}
-  \newtheorem{prop}[thm]{\nuaa@label@prop~}
-  \newtheorem{cor}[thm]{\nuaa@label@cor~}
+
 \theoremstyle{definition}
+  \newtheorem{thm}{\nuaa@label@thm~}[chapter]
   \newtheorem{defn}{\nuaa@label@defn~}[chapter]
   \newtheorem{conj}{\nuaa@label@conj~}[chapter]
   \newtheorem{exmp}{\nuaa@label@exmp~}[chapter]
   \newtheorem{rem}{\nuaa@label@rem~}
   \newtheorem{case}{\nuaa@label@case~}
+  \newtheorem{lem}[thm]{\nuaa@label@lem~}
+  \newtheorem{prop}[thm]{\nuaa@label@prop~}
+  \newtheorem{cor}[thm]{\nuaa@label@cor~}
 \theoremstyle{break}
   \newtheorem{bthm}[thm]{\nuaa@label@thm~}
   \newtheorem{blem}[thm]{\nuaa@label@lem~}
@@ -243,7 +247,7 @@
       \vspace*{40pt}
       \renewcommand{\arraystretch}{2}
       \setlength{\tabcolsep}{0pt}
-      {
+      {%
         \begin{tabular}{cc}
           {\xiaosanhao\heiti\nuaa@label@author\quad} &
           \underline{\makebox[20em][s]{\makebox[20em][c]{\sanhao\heiti\nuaa@value@author}}} \\
@@ -268,11 +272,11 @@
 %%===========
 %% 诚信承诺书
 %%===========
-\newcommand{\declare}{
-  \thispagestyle{empty}{
+\newcommand{\declare}{%
+  \thispagestyle{empty}{%
     \begin{center}{\heiti\xiaoerhao\@nuaa\\\vspace{1em}本科毕业设计（论文）诚信承诺书}
     \end{center}
-    {
+    {%
     \linespread{1.68}
     \sihao\hspace{1.8em}
     本人郑重声明：所呈交的毕业设计（论文）（题目：\uline{\nuaa@value@zhtitle}）是本人在导师的指导下独立进行研究所取得的成果。尽本人所知，除了毕业设计（论文）中特别加以标注引用的内容外，本毕业设计（论文）不包含任何其他个人或集体已经发表或撰写的成果作品。\par}
@@ -292,7 +296,7 @@
 %%==================
 %% chinese abstract
 %%==================
-\newenvironment{abstract}[1]{
+\newenvironment{abstract}[1]{%
   \clearpage\cleardoublepage
   \newcommand{\@keywords}{#1}
   \hypersetup{pdfkeywords={\@keywords}}
@@ -300,10 +304,10 @@
   \addcontentsline{toc}{chapter}{\nuaa@abstractname}
   \chapter*{\erhao\nuaa@value@zhtitle\vskip 20pt\xiaosanhao\nuaa@abstractname}
   \setcounter{page}{1}
-}{
+}{%
   \par
   \begin{description}
-    \item[\sffamily\mdseries\xiaosanhao 关键词：] \@keywords
+    \item[\sffamily\mdseries\xiaosihao 关键词：] \@keywords
   \end{description}
 }
 
@@ -311,13 +315,13 @@
 %% english abstract
 %%==================
 \newenvironment{englishabstract}[1]
-{
+{%
   \clearpage\cleardoublepage
   \newcommand{\@keywords}{#1}
   \phantomsection
   \addcontentsline{toc}{chapter}{\nuaa@abstractnameen}
 	\chapter*{\erhao\nuaa@value@entitle\vskip 20pt\xiaosanhao Abstract}
-}{
+}{%
   \par
   \begin{description}
   \item[\xiaosanhao Keywords:] \@keywords
@@ -328,7 +332,7 @@
 
 %% thesis define
 \newcommand{\nuaathesis}{%
-  \makebox{
+  \makebox{%
     N\hspace{-0.3ex}\raisebox{-0.5ex}{U}\hspace{-0.3ex}A\mbox{$^{\hspace{-0.5ex}2}$}\hspace{0.3ex}\textsc{Thesis}}}
 
 \newcommand{\oldnuaathesis}{%
