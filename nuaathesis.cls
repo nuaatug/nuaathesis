@@ -143,6 +143,14 @@
 \renewcommand{\textfraction}{0.15}
 \renewcommand{\topfraction}{0.85}
 \renewcommand{\bottomfraction}{0.65}
+\renewcommand{\floatpagefraction}{0.60}
+
+% 定公式、图、表、算法的编号为"3-1"的形式，即分隔符由.变为短杠
+\renewcommand{\theequation}{\arabic{chapter}--\arabic{equation}}
+\renewcommand{\thefigure}{\arabic{chapter}--\arabic{figure}}
+% \renewcommand\p@subfigure{\thefigure}
+\renewcommand{\thetable}{\arabic{chapter}--\arabic{table}}
+\renewcommand{\thealgorithm}{\arabic{chapter}--\arabic{algorithm}}
 
 %% 使用enumitem宏包配制列表环境
 %% 紧凑间距
@@ -197,7 +205,6 @@
   {}%         Thm head spec
 \theoremstyle{plain}
   \newtheorem{algo}{\nuaa@label@algo~}[chapter]
-
 \theoremstyle{definition}
   \newtheorem{thm}{\nuaa@label@thm~}[chapter]
   \newtheorem{defn}{\nuaa@label@defn~}[chapter]
