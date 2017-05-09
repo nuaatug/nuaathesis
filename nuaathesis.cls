@@ -250,7 +250,15 @@
       \vspace*{32pt}
       {\verybig\nuaa@coverpagetitle} \\
       \vspace*{65pt}
-      {\erhao\heiti\nuaa@label@title\parbox[t]{10em}{\hfill\nuaa@value@zhtitle\hfill~}} \\
+      {
+        \parbox[c]{6em}{\erhao\heiti\nuaa@label@title}
+        \parbox[c]{25em}{%
+          \erhao\heiti
+          \begin{center}
+            \nuaa@value@zhtitle
+            \end{center}
+        }%
+      } \\
       \vspace*{40pt}
       \renewcommand{\arraystretch}{2}
       \setlength{\tabcolsep}{0pt}
