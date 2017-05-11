@@ -136,8 +136,8 @@
 
 %% ccaption pacakge
 \captiondelim{\ }
-\captionnamefont{\xiaosanhao\heiti}
-\captiontitlefont{\xiaosanhao\heiti}
+\captionnamefont{\wuhao\heiti}
+\captiontitlefont{\wuhao\heiti}
 
 %% Floating parameters
 \renewcommand{\textfraction}{0.15}
