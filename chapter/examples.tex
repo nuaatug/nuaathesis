@@ -11,20 +11,24 @@
 \section{表格}
 
 SJTU Thesis中的表格介绍非常详尽，但其实有非常简单的从Excel生成\LaTeX 表格代码的方式，即Excel宏——excel2latex\footnote{\url{https://www.ctan.org/pkg/excel2latex?lang=en}}。此宏非常强大，可配合xcolor包生成有底色的表格。强烈推荐大家使用，提升撰写效率。
-    \begin{table}[H]
-        \centering
-        \bicaption[tab:firstone]{指向一个表格的表目录索引}{一个颇为标准的三线表格\footnotemark[2]}{Table}{A Table}
-        \begin{tabular}{@{}llr@{}} \toprule
-            \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
-            Animal & Description & Price (\$)\\ \midrule
-            Gnat & per gram & 13.65 \\
-            & each & 0.01 \\
-            Gnu & stuffed & 92.50 \\
-            Emu & stuffed & 33.33 \\
-            Armadillo & frozen & 8.99 \\ \bottomrule
-        \end{tabular}
-    \end{table}
-    \footnotetext[2]{这个例子来自\href{http://www.ctan.org/tex-archive/macros/latex/contrib/booktabs/booktabs.pdf}{《Publication quality tables in LATEX》}(booktabs宏包的文档)。这也是一个在表格中使用脚注的例子，请留意与threeparttable实现的效果有何不同。}
+
+\par 表\ref{tab:firstone}是github用户summershrimp提供的一个\textbf{双语标题}和\textbf{在标题中使用脚注}的示例，对标题有特殊需求的同学可以参考此处的源代码：
+\begin{table}[H]
+  \centering
+  \bicaption[tab:firstone]{指向一个表格的表目录索引}{一个颇为标准的三线表格\footnotemark[2]}{Table}{A Table}
+  \begin{tabular}{@{}llr@{}} \toprule
+    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+    Animal & Description & Price (\$)\\ \midrule
+    Gnat & per gram & 13.65 \\
+    & each & 0.01 \\
+    Gnu & stuffed & 92.50 \\
+    Emu & stuffed & 33.33 \\
+    Armadillo & frozen & 8.99 \\ \bottomrule
+  \end{tabular}
+\end{table}
+\footnotetext[2]{这个例子来自\href{http://www.ctan.org/tex-archive/macros/latex/contrib/booktabs/booktabs.pdf}{《Publication quality tables in LATEX》}(booktabs宏包的文档)。这也是一个在表格中使用脚注的例子，请留意与threeparttable实现的效果有何不同。}
+
+\par \LaTeX 中表格的使用体验比Word差很多，很遗憾这是不可避免的。除了使用上文提到的excel2latex宏之外，可以在word中打好表格，然后截图插入论文也不失为一种方案。
 
 \section{图片表格指定位置插入}
 
