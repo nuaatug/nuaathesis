@@ -317,7 +317,7 @@
 }{%
   \par
   \begin{description}
-    \item[\sffamily\mdseries\xiaosihao 关键词：] \@keywords
+    \item[\sffamily\mdseries\xiaosanhao 关键词：] \@keywords
   \end{description}
 }
 
