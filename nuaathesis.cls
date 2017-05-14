@@ -64,6 +64,7 @@
 
 %% fancyhdr package
 %% 正文页眉页脚
+\pagestyle{fancy}
 \fancypagestyle{plain}{%
   \fancyhf{}
   \fancyhead[L]{\setlength{\unitlength}{1mm}
@@ -75,6 +76,8 @@
   \renewcommand{\headrulewidth}{0.7pt}
   \renewcommand{\footrulewidth}{0.7pt}
 }
+\appto\frontmatter{\pagestyle{plain}}
+\appto\mainmatter{\pagestyle{plain}}
 
 %% ctex & xeCJK package
 
