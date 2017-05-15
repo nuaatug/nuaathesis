@@ -318,7 +318,7 @@
   \chapter*{\erhao\nuaa@value@zhtitle\vskip 20pt\xiaosanhao\nuaa@abstractname}
   \setcounter{page}{1}
 }{%
-  \par
+  \vspace{5pt}
   \begin{description}
     \item[\sffamily\mdseries\xiaosanhao 关键词：] \@keywords
   \end{description}
@@ -335,7 +335,7 @@
   \addcontentsline{toc}{chapter}{\nuaa@abstractnameen}
 	\chapter*{\erhao\nuaa@value@entitle\vskip 20pt\xiaosanhao Abstract}
 }{%
-  \par
+  \vspace{5pt}
   \begin{description}
   \item[\xiaosanhao Keywords:] \@keywords
   \end{description}
