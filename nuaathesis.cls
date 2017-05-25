@@ -18,13 +18,22 @@
 
 \RequirePackage{algorithm, algorithmicx, algpseudocode} %% 算法排版相关
 \RequirePackage{amsfonts,amssymb,amsthm,bm,mathrsfs,mathtools}  %% 公式相关
-\RequirePackage[backend=biber, style=gb7714-2015]{biblatex} %% 参考文献相关
+\RequirePackage[backend=biber, style=gb7714-2015,natbib]{biblatex} %% 参考文献相关
 \RequirePackage{booktabs} %% 表格格式相关
 \RequirePackage[inline]{enumitem} %% list环境相关
 \RequirePackage{fancyhdr} %% 页眉页脚相关
 \RequirePackage{fontspec}
 \RequirePackage[perpage,bottom]{footmisc}
-\RequirePackage[top=4.05cm,bottom=2.82cm,left=2cm,right=2cm]{geometry} %% 页面大小相关
+\RequirePackage[
+  top=2.5cm,
+  bottom=2cm,
+  left=2cm,
+  right=2cm,
+  headheight=16pt,
+  %footskip=1.75cm,
+  includehead,
+  includefoot
+]{geometry} %% 页面大小相关
 \RequirePackage{graphicx} %% 插图相关
 \RequirePackage[xetex,hidelinks]{hyperref} %% 交叉引用相关
 \RequirePackage{indentfirst}  %% 首段缩进
@@ -38,6 +47,7 @@
 \RequirePackage[table]{xcolor}  %% 颜色相关
 \RequirePackage{xltxtra}
 \RequirePackage{ccaption} %% ccaption包因为特殊原因必须在longtable之后加载
+
 
 %%====================
 %% 基本设置与简单宏定义
@@ -69,7 +79,7 @@
   \fancyhf{}
   \fancyhead[L]{\setlength{\unitlength}{1mm}
     \begin{picture}(0,0)
-      \put(7.3,1.5){\includegraphics[height=0.9cm,width=6cm]{nuaa.png}}
+      \put(7.3,1.5){\includegraphics[width=6.14cm]{nuaa.png}}
     \end{picture}}
   \fancyhead[R]{\makebox[6.7cm]{\sihao 毕业设计（论文）报告纸}}
   \fancyfoot[R]{\footnotesize{-\ \thepage\ -}}
@@ -241,7 +251,7 @@
   \thispagestyle{empty}
   \begin{titlepage}
     \begin{flushright}
-      {\heiti\sanhao\nuaa@label@thesisnum\hspace{10pt}\underline{\hspace{60pt}}} \\
+      {\heiti\sanhao\nuaa@label@thesisnum\hspace{10pt}\underline{\hspace{60pt}}} \par
     \end{flushright}
     \begin{center}
       {\textbf{\erhao\kaishu\@nuaa}} \\
@@ -287,16 +297,18 @@
 %%===========
 \newcommand{\declare}{%
   \thispagestyle{empty}{%
-    \begin{center}{\heiti\xiaoerhao\@nuaa\\\vspace{1em}本科毕业设计（论文）诚信承诺书}
+    \begin{center}{\heiti\xiaoerhao\@nuaa\par\vspace{1em}本科毕业设计（论文）诚信承诺书}
     \end{center}
     {%
-    \linespread{1.68}
-    \sihao\hspace{1.8em}
-    本人郑重声明：所呈交的毕业设计（论文）（题目：\uline{\nuaa@value@zhtitle}）是本人在导师的指导下独立进行研究所取得的成果。尽本人所知，除了毕业设计（论文）中特别加以标注引用的内容外，本毕业设计（论文）不包含任何其他个人或集体已经发表或撰写的成果作品。\par}
-    ~\\
+      \linespread{1.68}
+      \sihao\hspace{1.8em}
+      本人郑重声明：所呈交的毕业设计（论文）（题目：\uline{\nuaa@value@zhtitle}）是本人在导师的指导下独立进行研究所取得的成果。尽本人所知，除了毕业设计（论文）中特别加以标注引用的内容外，本毕业设计（论文）不包含任何其他个人或集体已经发表或撰写的成果作品。
+      \par
+    }
+    \bigskip 
     \begin{flushright}
       \sihao
-        \begin{tabular}{ccr}
+        \begin{tabular}{rcr}
           作者签名： & \hspace{150pt} & \hspace{4em} 年 \hspace{1em} 月 \hspace{1em} 日 \\
           （学号）： & \hspace{150pt} & \\
         \end{tabular}
