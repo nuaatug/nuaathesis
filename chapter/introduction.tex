@@ -27,7 +27,7 @@
 切记使用\XeLaTeX 进行编译，Ctex和CJK的时代已经过去。
 
 曾经鄙人被bibtex困扰很久，直到在Arch Linux上成功编译出一次参考文献后才了解如何实现参考文献的编译。鄙人采取的方法如下：
-\begin{lstlisting}[basicstyle=\small\ttfamily, caption={手动逐次编译}, numbers=none]
+\begin{lstlisting}[basicstyle=\small\ttfamily, caption=手动逐次编译, numbers=none]
 xelatex -no-pdf .tex文件名
 biber --debug .tex文件名
 xelatex .tex文件名

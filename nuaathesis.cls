@@ -46,7 +46,10 @@
 \RequirePackage{tabularx} %% 表格相关
 \RequirePackage[table]{xcolor}  %% 颜色相关
 \RequirePackage{xltxtra}
-\RequirePackage{ccaption} %% ccaption包因为特殊原因必须在longtable之后加载
+\RequirePackage{bicaption}
+\RequirePackage{caption} %% 代替ccaption包
+\RequirePackage{subcaption} %% 配合caption进行子图注释
+\RequirePackage{hyperref} %% 网址超链接相关
 
 %%====================
 %% 基本设置与简单宏定义
@@ -137,10 +140,11 @@
 \graphicspath{{fig/}{figure/}{figures/}{logo/}{logos/}{graph/}{graphs}}
 \DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,.jpeg}
 
-%% ccaption pacakge
-\captiondelim{\ }
-\captionnamefont{\zihao{5}\heiti}
-\captiontitlefont{\zihao{5}\heiti}
+%% 图表注格式（五号黑体，空格间隔）
+
+\DeclareCaptionFont{heiticaption}{\heiti \zihao{5}}
+\captionsetup{labelsep=space}
+\captionsetup{font=heiticaption}
 
 %% Floating parameters
 \renewcommand{\textfraction}{0.15}
