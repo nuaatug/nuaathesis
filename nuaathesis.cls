@@ -9,7 +9,7 @@
 \DeclareOption{bachelor}{\nuaa@bachelortrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexbook}}
 \ProcessOptions\relax
-\LoadClass[oneside, a4paper, zihao=-4, UTF8, openright]{ctexbook}
+\LoadClass[oneside, a4paper, zihao=-4, fancyhdr, UTF8, openright]{ctexbook}
 \AtEndOfClass{\input{nuaathesis.cfg}}
 
 %%===============
@@ -18,13 +18,22 @@
 
 \RequirePackage{algorithm, algorithmicx, algpseudocode} %% 算法排版相关
 \RequirePackage{amsfonts,amssymb,amsthm,bm,mathrsfs,mathtools}  %% 公式相关
-\RequirePackage[backend=biber, style=gb7714-2015]{biblatex} %% 参考文献相关
+\RequirePackage[backend=biber, style=gb7714-2015,natbib]{biblatex} %% 参考文献相关
 \RequirePackage{booktabs} %% 表格格式相关
 \RequirePackage[inline]{enumitem} %% list环境相关
-\RequirePackage{fancyhdr} %% 页眉页脚相关
 \RequirePackage{fontspec}
 \RequirePackage[perpage,bottom]{footmisc}
-\RequirePackage[top=4.05cm,bottom=2.82cm,left=2cm,right=2cm]{geometry} %% 页面大小相关
+\RequirePackage[
+  top=2.5cm,
+  bottom=2cm,
+  left=2cm,
+  right=2cm,
+  headheight=0.75cm,
+  headsep=6pt,
+  %footskip=0.8cm,
+  includehead,
+  includefoot
+]{geometry} %% 页面大小相关
 \RequirePackage{graphicx} %% 插图相关
 \RequirePackage[xetex,hidelinks]{hyperref} %% 交叉引用相关
 \RequirePackage{indentfirst}  %% 首段缩进
@@ -64,14 +73,14 @@
 
 %% fancyhdr package
 %% 正文页眉页脚
-\pagestyle{fancy}
+%\pagestyle{fancy}
 \fancypagestyle{plain}{%
   \fancyhf{}
   \fancyhead[L]{\setlength{\unitlength}{1mm}
     \begin{picture}(0,0)
-      \put(7.3,1.5){\includegraphics[height=0.9cm,width=6cm]{nuaa.png}}
+      \put(7.3,1.5){\includegraphics[width=6cm]{nuaa.png}}
     \end{picture}}
-  \fancyhead[R]{\makebox[6.7cm]{\sihao 毕业设计（论文）报告纸}}
+  \fancyhead[R]{\makebox[6.7cm]{\zihao{4} 毕业设计（论文）报告纸}}
   \fancyfoot[R]{\footnotesize{-\ \thepage\ -}}
   \renewcommand{\headrulewidth}{0.7pt}
   \renewcommand{\footrulewidth}{0.7pt}
@@ -83,18 +92,9 @@
 
 %% 字号宏定义
 \newcommand{\verybig}{\fontsize{53pt}{82.68pt}\selectfont}
-\newcommand{\chuhao}{\Huge\selectfont}
-\newcommand{\erhao}{\LARGE\selectfont}
-\newcommand{\xiaoerhao}{\Large\selectfont}
-\newcommand{\sanhao}{\fontsize{15.75pt}{18pt}\selectfont}
-\newcommand{\xiaosanhao}{\large\selectfont}
-\newcommand{\sihao}{\fontsize{14pt}{16.8pt}\selectfont}
-\newcommand{\xiaosihao}{\normalsize\selectfont}
-\newcommand{\wuhao}{\small\selectfont}
-\newcommand{\xiaowuhao}{\footnotesize\selectfont}
 
 %% 标题名称宏定义
-\ctexset{abstractname={\xiaosanhao\heiti\nuaa@abstractname}}
+\ctexset{abstractname={\zihao{-3}\heiti\nuaa@abstractname}}
 \ctexset{contentsname={\nuaa@contentsname}}
 \ctexset{listfigurename={\nuaa@listfigurename}}
 \ctexset{listtablename={\nuaa@listtablename}}
@@ -105,20 +105,20 @@
 \renewcommand{\lstlistingname}{\nuaa@value@listingname}
 
 \ctexset{chapter={%
-	format={\centering\xiaosanhao\heiti},
-	nameformat={\xiaosanhao\heiti},
-	titleformat={\xiaosanhao\heiti},
-	beforeskip={15\p@},
-	afterskip={12\p@},
+	format={\centering\zihao{-3}\heiti},
+	nameformat={\zihao{-3}\heiti},
+	titleformat={\zihao{-3}\heiti},
+	beforeskip={29\p@},
+	afterskip={16.5\p@},
 	}
 }
 \ctexset{section={%
-	format={\sihao\heiti},
+	format={\zihao{4}\heiti},
 	afterskip={1.0ex \@plus .2ex},
 	}
 }
 \ctexset{subsection={%
-	format={\xiaosihao\heiti},
+	format={\zihao{-4}\heiti},
 	indent={0\ccwd},
 	afterskip={1.0ex \@plus .2ex},
 	}
@@ -139,8 +139,8 @@
 
 %% ccaption pacakge
 \captiondelim{\ }
-\captionnamefont{\wuhao\heiti}
-\captiontitlefont{\wuhao\heiti}
+\captionnamefont{\zihao{5}\heiti}
+\captiontitlefont{\zihao{5}\heiti}
 
 %% Floating parameters
 \renewcommand{\textfraction}{0.15}
@@ -241,43 +241,51 @@
   \thispagestyle{empty}
   \begin{titlepage}
     \begin{flushright}
-      {\heiti\sanhao\nuaa@label@thesisnum\hspace{10pt}\underline{\hspace{60pt}}} \\
+      {\heiti\zihao{4}\nuaa@label@thesisnum\hspace{10pt}\underline{\hspace{60pt}}} \par
     \end{flushright}
     \begin{center}
-      {\textbf{\erhao\kaishu\@nuaa}} \\
+      {\textbf{\zihao{2}\kaishu\@nuaa}} \\
       \vspace*{32pt}
       {\verybig\nuaa@coverpagetitle} \\
       \vspace*{65pt}
       {
-        \parbox[c]{6em}{\erhao\heiti\nuaa@label@title}
+        \parbox[c]{6em}{\zihao{2}\heiti\nuaa@label@title}
         \parbox[c]{25em}{%
-          \erhao\heiti
+          \zihao{2}\heiti
           \begin{center}
             \nuaa@value@zhtitle
             \end{center}
         }%
       } \\
       \vspace*{40pt}
-      \renewcommand{\arraystretch}{2}
+      \begingroup
+      \renewcommand{\arraystretch}{2.3}
       \setlength{\tabcolsep}{0pt}
       {%
         \begin{tabular}{cc}
-          {\xiaosanhao\heiti\nuaa@label@author\quad} &
-          \underline{\makebox[20em][s]{\makebox[20em][c]{\sanhao\heiti\nuaa@value@author}}} \\
-          {\xiaosanhao\heiti\nuaa@label@studentid\quad} &
-          \underline{\makebox[20em][s]{\makebox[20em][c]{\sanhao\heiti\nuaa@value@studentid}}} \\
-          {\xiaosanhao\heiti\nuaa@label@college\quad} &
-          \underline{\makebox[20em][s]{\makebox[20em][c]{\sanhao\heiti\nuaa@value@college}}} \\
-          {\xiaosanhao\heiti\nuaa@label@major\quad} &
-          \underline{\makebox[20em][s]{\makebox[20em][c]{\sanhao\heiti\nuaa@value@major}}} \\
-          {\xiaosanhao\heiti\nuaa@label@classid\quad} &
-          \underline{\makebox[20em][s]{\makebox[20em][c]{\sanhao\heiti\nuaa@value@classid}}} \\
-          {\xiaosanhao\heiti\nuaa@label@advisor\quad} &
-          \underline{\makebox[20em][s]{\makebox[20em][c]{\sanhao\heiti\nuaa@value@advisorname\quad\nuaa@value@advisortitle}}} \\
+          {\zihao{-3}\heiti\nuaa@label@author\quad} &
+          {\makebox[20em][s]{\makebox[20em][c]{\zihao{3}\heiti\nuaa@value@author}}} \\
+          \cline{2-2}
+          {\zihao{-3}\heiti\nuaa@label@studentid\quad} &
+          {\makebox[20em][s]{\makebox[20em][c]{\zihao{3}\heiti\nuaa@value@studentid}}} \\
+          \cline{2-2}
+          {\zihao{-3}\heiti\nuaa@label@college\quad} &
+          {\makebox[20em][s]{\makebox[20em][c]{\zihao{3}\heiti\nuaa@value@college}}} \\
+          \cline{2-2}
+          {\zihao{-3}\heiti\nuaa@label@major\quad} &
+          {\makebox[20em][s]{\makebox[20em][c]{\zihao{3}\heiti\nuaa@value@major}}} \\
+          \cline{2-2}
+          {\zihao{-3}\heiti\nuaa@label@classid\quad} &
+          {\makebox[20em][s]{\makebox[20em][c]{\zihao{3}\heiti\nuaa@value@classid}}} \\
+          \cline{2-2}
+          {\zihao{-3}\heiti\nuaa@label@advisor\quad} &
+          {\makebox[20em][s]{\makebox[20em][c]{\zihao{3}\heiti\nuaa@value@advisorname\quad\nuaa@value@advisortitle}}} \\
+          \cline{2-2}
         \end{tabular}
       }
+      \endgroup
       \vfill
-      {\sanhao\heiti\nuaa@value@applydate\par}
+      {\zihao{3}\heiti\nuaa@value@applydate\par}
     \end{center}
   \end{titlepage}
 }
@@ -287,21 +295,25 @@
 %%===========
 \newcommand{\declare}{%
   \thispagestyle{empty}{%
-    \begin{center}{\heiti\xiaoerhao\@nuaa\\\vspace{1em}本科毕业设计（论文）诚信承诺书}
+    \begingroup
+    \begin{center}{\heiti\zihao{-2}\@nuaa\par\vspace{1em}本科毕业设计（论文）诚信承诺书}
     \end{center}
     {%
-    \linespread{1.68}
-    \sihao\hspace{1.8em}
-    本人郑重声明：所呈交的毕业设计（论文）（题目：\uline{\nuaa@value@zhtitle}）是本人在导师的指导下独立进行研究所取得的成果。尽本人所知，除了毕业设计（论文）中特别加以标注引用的内容外，本毕业设计（论文）不包含任何其他个人或集体已经发表或撰写的成果作品。\par}
-    ~\\
+      \linespread{2.16}
+      \zihao{4}\hspace{1.8em}
+      本人郑重声明：所呈交的毕业设计（论文）（题目：\uline{\nuaa@value@zhtitle}）是本人在导师的指导下独立进行研究所取得的成果。尽本人所知，除了毕业设计（论文）中特别加以标注引用的内容外，本毕业设计（论文）不包含任何其他个人或集体已经发表或撰写的成果作品。
+      \par
+    }
+    \bigskip
     \begin{flushright}
-      \sihao
-        \begin{tabular}{ccr}
-          作者签名： & \hspace{150pt} & \hspace{4em} 年 \hspace{1em} 月 \hspace{1em} 日 \\
-          （学号）： & \hspace{150pt} & \\
+      \zihao{4}
+        \begin{tabular}{rcr}
+          作者签名： & \hspace{150pt} & \hspace{4em} 年 \hspace{1em} 月 \hspace{1em} 日 \\[6pt]
+          （学号）： & \hspace{150pt} & \\[6pt]
         \end{tabular}
       \end{flushright}
     \par
+    \endgroup
   }
   \clearpage
 }
@@ -315,12 +327,12 @@
   \hypersetup{pdfkeywords={\@keywords}}
   \phantomsection
   \addcontentsline{toc}{chapter}{\nuaa@abstractname}
-  \chapter*{\erhao\nuaa@value@zhtitle\vskip 20pt\xiaosanhao\nuaa@abstractname}
+  \chapter*{\zihao{2}\nuaa@value@zhtitle\vskip 20pt\zihao{-3}\nuaa@abstractname}
   \setcounter{page}{1}
 }{%
-  \vspace{5pt}
+  \par
   \begin{description}
-    \item[\sffamily\mdseries\xiaosanhao 关键词：] \@keywords
+    \item[\sffamily\mdseries\zihao{-3} 关键词：] \@keywords
   \end{description}
 }
 
@@ -333,11 +345,11 @@
   \newcommand{\@keywords}{#1}
   \phantomsection
   \addcontentsline{toc}{chapter}{\nuaa@abstractnameen}
-	\chapter*{\erhao\nuaa@value@entitle\vskip 20pt\xiaosanhao Abstract}
+	\chapter*{\zihao{2}\nuaa@value@entitle\vskip 20pt\zihao{-3} Abstract}
 }{%
-  \vspace{5pt}
+  \par
   \begin{description}
-  \item[\xiaosanhao Keywords:] \@keywords
+  \item[\zihao{-3} Keywords:] \@keywords
   \end{description}
   \newpage
 }
@@ -357,4 +369,13 @@
   \makebox{S\hspace{-0.3ex}\raisebox{-0.5ex}{E}\hspace{-0.3ex}U\hspace{0.1em}%
   \textsc{Thesix}}
 }
+
+\newcommand{\printnuaabib}{%
+  \begingroup
+  \renewcommand*{\bibfont}{\small}
+  \linespread{1}
+  \printbibliography[heading=bibintoc]
+  \endgroup
+}
+
 \endinput
