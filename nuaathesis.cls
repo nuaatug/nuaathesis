@@ -1,8 +1,8 @@
 %% class clarification %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nuaathesis}[2017/03/20 0.9a The LaTeX template for academic  degree thesis of Nanjing University of Aeronautics and Astronautics]
-\typeout{Document Class `nuaathesis' 0.9a by Jack Wang (2017/03/20)}
-\newcommand\version{v0.9a}
+\ProvidesClass{nuaathesis}[2017/06/05 0.91a The LaTeX template for academic  degree thesis of Nanjing University of Aeronautics and Astronautics]
+\typeout{Document Class `nuaathesis' 0.91a by Jack Wang (2017/03/20)}
+\newcommand\version{v0.91a}
 
 %% 学士学位论文选项、以后可以此格式拓展硕士、博士选项
 \newif\ifnuaa@bachelor\nuaa@bachelorfalse
@@ -42,6 +42,7 @@
 \RequirePackage{makecell} %% 表格相关
 \RequirePackage{multirow} %% 跨行表格相关
 \RequirePackage{rotating} %% 宽表格
+\RequirePackage{subcaption}  %% 多列图片
 \RequirePackage[titles]{tocloft}
 \RequirePackage{tabularx} %% 表格相关
 \RequirePackage[table]{xcolor}  %% 颜色相关

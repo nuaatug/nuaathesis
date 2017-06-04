@@ -13,6 +13,7 @@
 SJTU Thesis中的表格介绍非常详尽，但其实有非常简单的从Excel生成\LaTeX 表格代码的方式，即Excel宏——excel2latex\footnote{\url{https://www.ctan.org/pkg/excel2latex?lang=en}}。此宏非常强大，可配合xcolor包生成有底色的表格。强烈推荐大家使用，提升撰写效率。
 
 \par 表\ref{tab:firstone}是github用户summershrimp提供的一个\textbf{双语标题}和\textbf{在标题中使用脚注}的示例，对标题有特殊需求的同学可以参考此处的源代码：
+
 \begin{table}[H]
   \centering
   \bicaption[tab:firstone]{指向一个表格的表目录索引}{一个颇为标准的三线表格\footnotemark[2]}{Table}{A Table}
@@ -26,10 +27,34 @@ SJTU Thesis中的表格介绍非常详尽，但其实有非常简单的从Excel�
     Armadillo & frozen & 8.99 \\ \bottomrule
   \end{tabular}
 \end{table}
+
 \footnotetext[2]{这个例子来自\href{http://www.ctan.org/tex-archive/macros/latex/contrib/booktabs/booktabs.pdf}{《Publication quality tables in LATEX》}(booktabs宏包的文档)。这也是一个在表格中使用脚注的例子，请留意与threeparttable实现的效果有何不同。}
 
 \par \LaTeX 中表格的使用体验比Word差很多，很遗憾这是不可避免的。除了使用上文提到的excel2latex宏之外，可以在word中打好表格，然后截图插入论文也不失为一种方案。
 
+对于较长较大的表格，可以参考\LaTeX 笔记——lnotes2\footnote{\url{}http://dralpha.altervista.org/zh/tech/lnotes2.pdf}中的longtable（跨页表格）和sidewaystable（横向表格）等表格环境进行实现。另外可以使用\verb!p{2pt}!替代表格中的rcl，来控制表格每一列的宽度。
+
 \section{图片表格指定位置插入}
 
 图片和表格的插入默认是htbp四个选项，有时候这会让图片表格遍布整篇论文，可能会有同学非常反感这种情况，为了强制在当前位置插入图片，可以使用float宏包，然后使用H选项：\verb+\begin{figure}[H]+即可强制\TeX 在当前位置插入图片，从而避免正文和图片表格相距太远。
+
+\section{多列图片}
+由Github用户cvcore提供方案及示例代码，subcaption包和ccpation包在一起使用时，编译阶段会报错，可以强制编译得到如下的效果：
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.45\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{nuaa.png}
+  \caption{左图}
+  \label{fig:test_subfigure1}
+\end{subfigure}
+\begin{subfigure}{.45\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{nuaa.png}
+  \caption{右图}
+  \label{fig:test_subfigure2}
+\end{subfigure}
+\caption{测试图像}
+\label{fig:test_subfigure}
+\end{figure}
