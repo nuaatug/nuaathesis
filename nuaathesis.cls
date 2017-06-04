@@ -50,6 +50,10 @@
 \RequirePackage{caption} %% 代替ccaption包
 \RequirePackage{subcaption} %% 配合caption进行子图注释
 \RequirePackage{hyperref} %% 网址超链接相关
+\RequirePackage{footnote} %% 脚注相关
+\RequirePackage{hologo}
+
+
 
 %%====================
 %% 基本设置与简单宏定义
@@ -90,8 +94,6 @@
 }
 \appto\frontmatter{\pagestyle{plain}}
 \appto\mainmatter{\pagestyle{plain}}
-
-%% ctex & xeCJK package
 
 %% 字号宏定义
 \newcommand{\verybig}{\fontsize{53pt}{82.68pt}\selectfont}
@@ -145,6 +147,7 @@
 \DeclareCaptionFont{heiticaption}{\heiti \zihao{5}}
 \captionsetup{labelsep=space}
 \captionsetup{font=heiticaption}
+\makesavenoteenv{tabular} % 在图表内使用脚注
 
 %% Floating parameters
 \renewcommand{\textfraction}{0.15}
@@ -223,6 +226,7 @@
   \newtheorem{bprop}[thm]{\nuaa@label@prop~}
   \newtheorem{bcor}[thm]{\nuaa@label@cor~}
   \renewcommand{\proofname}{\bf\nuaa@label@proof}
+  
 
 %%==================
 %% nuaathesis 宏定义
