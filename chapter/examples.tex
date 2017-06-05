@@ -34,13 +34,14 @@ SJTU Thesis中的表格介绍非常详尽，但其实有非常简单的从Excel�
 
 \LaTeX 中表格的使用体验比Word差很多，很遗憾这是不可避免的。除了使用上文提到的excel2latex宏之外，可以在word中打好表格，然后截图插入论文也不失为一种方案。此外，在线表格转换工具\footnote{http://www.tablesgenerator.com}也不失为一种高效的excel表格至\LaTeX 的转换方案。
 
+对于较长较大的表格，可以参考\LaTeX 笔记——lnotes2\footnote{\url{}http://dralpha.altervista.org/zh/tech/lnotes2.pdf}中的longtable（跨页表格）和sidewaystable（横向表格）等表格环境进行实现。另外可以使用\verb!p{2pt}!替代表格中的rcl，来控制表格每一列的宽度。
+
 \section{图片表格指定位置插入}
 
 图片和表格的插入默认是htbp四个选项，有时候这会让图片表格遍布整篇论文，可能会有同学非常反感这种情况，为了强制在当前位置插入图片，可以使用float宏包，然后使用H选项：\verb+\begin{figure}[H]+即可强制\TeX 在当前位置插入图片，从而避免正文和图片表格相距太远。
 
-\section{并列子图排版示例}
-
-如果需要对两幅或多幅图片进行横向排版，建议使用subcaption包里的subfigure功能。示例如下：
+\section{多列图片}
+由Github用户cvcore提供方案及示例代码，如需对两幅或多幅图片进行横向排版，建议使用subcaption包里的subfigure功能。效果如下：
 
 \begin{figure}[H]
 \centering

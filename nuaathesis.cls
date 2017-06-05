@@ -1,8 +1,8 @@
 %% class clarification %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nuaathesis}[2017/03/20 0.9a The LaTeX template for academic  degree thesis of Nanjing University of Aeronautics and Astronautics]
-\typeout{Document Class `nuaathesis' 0.9a by Jack Wang (2017/03/20)}
-\newcommand\version{v0.9a}
+\ProvidesClass{nuaathesis}[2017/06/05 0.92 The LaTeX template for academic  degree thesis of Nanjing University of Aeronautics and Astronautics]
+\typeout{Document Class `nuaathesis' 0.92 by Jack Wang (2017/06/05)}
+\newcommand\version{v0.92}
 
 %% 学士学位论文选项、以后可以此格式拓展硕士、博士选项
 \newif\ifnuaa@bachelor\nuaa@bachelorfalse
@@ -19,7 +19,9 @@
 \RequirePackage{algorithm, algorithmicx, algpseudocode} %% 算法排版相关
 \RequirePackage{amsfonts,amssymb,amsthm,bm,mathrsfs,mathtools}  %% 公式相关
 \RequirePackage[backend=biber, style=gb7714-2015,natbib]{biblatex} %% 参考文献相关
+\RequirePackage{bicaption} %% 表格图表双标题
 \RequirePackage{booktabs} %% 表格格式相关
+\RequirePackage{caption} %% 表格图表标题相关
 \RequirePackage[inline]{enumitem} %% list环境相关
 \RequirePackage{fontspec}
 \RequirePackage[perpage,bottom]{footmisc}
@@ -35,6 +37,7 @@
   includefoot
 ]{geometry} %% 页面大小相关
 \RequirePackage{graphicx} %% 插图相关
+\RequirePackage{hologo}
 \RequirePackage[xetex,hidelinks]{hyperref} %% 交叉引用相关
 \RequirePackage{indentfirst}  %% 首段缩进
 \RequirePackage{listings} %% 代码排版相关
@@ -42,15 +45,12 @@
 \RequirePackage{makecell} %% 表格相关
 \RequirePackage{multirow} %% 跨行表格相关
 \RequirePackage{rotating} %% 宽表格
+\RequirePackage{subcaption} %% 配合caption进行子图注释
 \RequirePackage[titles]{tocloft}
 \RequirePackage{tabularx} %% 表格相关
 \RequirePackage[table]{xcolor}  %% 颜色相关
 \RequirePackage{xltxtra}
-\RequirePackage{bicaption}
-\RequirePackage{caption} %% 表格图表标题相关
-\RequirePackage{subcaption} %% 配合caption进行子图注释
 \RequirePackage{footnote} %% 脚注相关
-\RequirePackage{hologo}
 
 %%====================
 %% 基本设置与简单宏定义
