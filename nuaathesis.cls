@@ -46,7 +46,11 @@
 \RequirePackage{tabularx} %% 表格相关
 \RequirePackage[table]{xcolor}  %% 颜色相关
 \RequirePackage{xltxtra}
-\RequirePackage{ccaption} %% ccaption包因为特殊原因必须在longtable之后加载
+\RequirePackage{bicaption}
+\RequirePackage{caption} %% 表格图表标题相关
+\RequirePackage{subcaption} %% 配合caption进行子图注释
+\RequirePackage{footnote} %% 脚注相关
+\RequirePackage{hologo}
 
 %%====================
 %% 基本设置与简单宏定义
@@ -87,8 +91,6 @@
 }
 \appto\frontmatter{\pagestyle{plain}}
 \appto\mainmatter{\pagestyle{plain}}
-
-%% ctex & xeCJK package
 
 %% 字号宏定义
 \newcommand{\verybig}{\fontsize{53pt}{82.68pt}\selectfont}
@@ -137,10 +139,12 @@
 \graphicspath{{fig/}{figure/}{figures/}{logo/}{logos/}{graph/}{graphs}}
 \DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,.jpeg}
 
-%% ccaption pacakge
-\captiondelim{\ }
-\captionnamefont{\zihao{5}\heiti}
-\captiontitlefont{\zihao{5}\heiti}
+%% 图表注格式（五号黑体，空格间隔）
+
+\DeclareCaptionFont{heiticaption}{\heiti \zihao{5}}
+\captionsetup{labelsep=space}
+\captionsetup{font=heiticaption}
+\makesavenoteenv{tabular} % 在图表内使用脚注
 
 %% Floating parameters
 \renewcommand{\textfraction}{0.15}
