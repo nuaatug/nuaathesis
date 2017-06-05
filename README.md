@@ -1,7 +1,7 @@
 # nuaathesis
 南京航空航天大学(非官方)本科生学位LaTeX模板
 
-[示例文件](https://github.com/cvcore/nuaathesis/raw/developing/sample.pdf)
+[示例文件](https://github.com/jackwzh/nuaathesis/raw/developing/sample.pdf)
 
 ## 特点
 
