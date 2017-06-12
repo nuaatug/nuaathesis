@@ -74,6 +74,22 @@
 
 %% tocloft package
 \renewcommand{\cftchapleader}{\heiti\cftdotfill{\cftdotsep}}%% 目录中章后也有点
+\newcommand{\tocfont}{\zihao{-4}}
+% Apply the font command to the section titles
+\renewcommand{\cftchapfont}{\tocfont}
+\renewcommand{\cftsecfont}{\tocfont}
+\renewcommand{\cftsubsecfont}{\tocfont}
+\renewcommand{\cftsubsubsecfont}{\tocfont}
+\renewcommand{\cftfigfont}{\tocfont}
+\renewcommand{\cfttabfont}{\tocfont}
+
+% Apply it to the page numbers
+\renewcommand{\cftchappagefont}{\tocfont}
+\renewcommand{\cftsecpagefont}{\tocfont}
+\renewcommand{\cftsubsecpagefont}{\tocfont}
+\renewcommand{\cftsubsubsecpagefont}{\tocfont}
+\renewcommand{\cftfigpagefont}{\tocfont}
+\renewcommand{\cfttabpagefont}{\tocfont}
 
 %% fancyhdr package
 %% 正文页眉页脚
