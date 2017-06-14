@@ -6,7 +6,12 @@
 
 %% 学士学位论文选项、以后可以此格式拓展硕士、博士选项
 \newif\ifnuaa@bachelor\nuaa@bachelorfalse
+%% 毕业设计/毕业论文选项，根据自己任务书的类别进行设置
+\newif\ifnuaa@papertype@design\nuaa@papertype@designfalse
+\newif\ifnuaa@papertype@paper\nuaa@papertype@paperfalse
 \DeclareOption{bachelor}{\nuaa@bachelortrue}
+\DeclareOption{Design}{\nuaa@papertype@designtrue}
+\DeclareOption{Paper}{\nuaa@papertype@papertrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexbook}}
 \ProcessOptions\relax
 \LoadClass[oneside, a4paper, zihao=-4, fancyhdr, UTF8, openright]{ctexbook}
@@ -100,7 +105,7 @@
     \begin{picture}(0,0)
       \put(7.3,1.5){\includegraphics[width=6cm]{nuaa.png}}
     \end{picture}}
-  \fancyhead[R]{\makebox[6.7cm]{\zihao{4} 毕业设计（论文）报告纸}}
+  \fancyhead[R]{\makebox[6.7cm]{\zihao{4} 毕业\nuaa@value@papertype 报告纸}}
   \fancyfoot[R]{\footnotesize{-\ \thepage\ -}}
   \renewcommand{\headrulewidth}{0.7pt}
   \renewcommand{\footrulewidth}{0.7pt}
@@ -316,12 +321,12 @@
 \newcommand{\declare}{%
   \thispagestyle{empty}{%
     \begingroup
-    \begin{center}{\heiti\zihao{-2}\@nuaa\par\vspace{1em}本科毕业设计（论文）诚信承诺书}
+    \begin{center}{\heiti\zihao{-2}\@nuaa\par\vspace{1em}本科毕业\nuaa@value@papertype 诚信承诺书}
     \end{center}
     {%
       \linespread{2.16}
       \zihao{4}\hspace{1.8em}
-      本人郑重声明：所呈交的毕业设计（论文）（题目：\uline{\nuaa@value@zhtitle}）是本人在导师的指导下独立进行研究所取得的成果。尽本人所知，除了毕业设计（论文）中特别加以标注引用的内容外，本毕业设计（论文）不包含任何其他个人或集体已经发表或撰写的成果作品。
+      本人郑重声明：所呈交的毕业\nuaa@value@papertype （题目：\uline{\nuaa@value@zhtitle}）是本人在导师的指导下独立进行研究所取得的成果。尽本人所知，除了毕业\nuaa@value@papertype 中特别加以标注引用的内容外，本毕业\nuaa@value@papertype 不包含任何其他个人或集体已经发表或撰写的成果作品。
       \par
     }
     \bigskip
