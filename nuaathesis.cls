@@ -14,7 +14,7 @@
 \DeclareOption{Paper}{\nuaa@papertype@papertrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexbook}}
 \ProcessOptions\relax
-\LoadClass[oneside, a4paper, zihao=-4, fancyhdr, UTF8, openright]{ctexbook}
+\LoadClass[a4paper, zihao=-4, fancyhdr, UTF8]{ctexbook}
 \AtEndOfClass{\input{nuaathesis.cfg}}
 
 %%===============
@@ -106,7 +106,12 @@
       \put(7.3,1.5){\includegraphics[width=6cm]{nuaa.png}}
     \end{picture}}
   \fancyhead[R]{\makebox[6.7cm]{\zihao{4} 毕业\nuaa@value@papertype 报告纸}}
-  \fancyfoot[R]{\footnotesize{-\ \thepage\ -}}
+  \if@twoside
+    \fancyfoot[L]{\ifthenelse{\isodd{\value{page}}}{}{\footnotesize{-\ \thepage\ -}}}
+    \fancyfoot[R]{\ifthenelse{\isodd{\value{page}}}{\footnotesize{-\ \thepage\ -}}{}}
+  \else
+    \fancyfoot[R]{\footnotesize{-\ \thepage\ -}}
+  \fi
   \renewcommand{\headrulewidth}{0.7pt}
   \renewcommand{\footrulewidth}{0.7pt}
 }
