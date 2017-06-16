@@ -1,32 +1,31 @@
 %# -*- coding: utf-8-unix -*-
 \chapter{简介}\label{chap:intro}
 
-这是南京航空航天大学(非官方)本科生学位论文\LaTeX 模板，当前版本是\version(鄙人使用此模板完成毕设并顺利毕业后，此模板将正式升级为v1.0)。
+这是南京航空航天大学(非官方)本科生学位论文\LaTeX 模板，当前版本是\version。本模板由\nuaathesis~Group共同开发，模板文档由Old Jack撰写。
 
 本模板最早可以追溯到人人网上的一篇博客\footnote{\url{http://bit.ly/2rGOhf6}}，由黄大宁、邓欣珂、徐添豪、石坤四人共同开发完善，参考了当时东南大学的\seuthesix 模板；除此之外在Github上也可以找到一个repo\footnote{\url{https://github.com/nuaa803/nuaa-thesis}}，由Felix Ding、Jun Wang、Jackie Hou三位老师和Vevi Zhong同学共同维护，但是repo中的.cls和.sty文件是空文件。
 
-回顾人人网的模板，没有直接提供nuaa.png和nuaa.bst文件，可以使用强制编译的方法生成文件，但是缺少左上角南航字样。除此之外，由于模板使用了已经被放弃使用的CJK宏包，因此在编译\verb+\Unicode{}+命令时会出错，代码的阅读性和维护性也不如现在的ctex和xeCJK。由于上述原因，许多初次使用\LaTeX 和使用经验不多的同学在一开始就放弃了使用旧版模板进行毕业设计的书写及排版。
+回顾人人网的模板，没有直接提供nuaa.png和nuaa.bst文件，可以使用强制编译的方法生成文件，但是缺少左上角南航字样，参考文献格式也不符合标准。除此之外，旧模板使用了已经被放弃使用的CJK宏包，因此在编译\verb+\Unicode{}+命令时会出错，代码的阅读性和维护性也不如现在的ctex和xeCJK。由于上述原因，许多初次使用\LaTeX 和使用经验不多的同学，在一开始就放弃了使用旧版模板进行毕业设计的书写及排版。
 
-基于南航无可用\LaTeX 学位模板可用的现状，鄙人基于过去的\oldnuaathesis 模板、现在东南大学的\seuthesix 模板和上海交通大学的SJTU Thesis模板，和其他开发者合作进行了二次开发，基本实现了学士学位论文的模板。团队报告和硕士和博士学位论文鄙人短期内不计划开发，留给其他的、有需要、有能力的南航学子以后开发。
+基于南航无可用\LaTeX 学位模板可用的现状，\nuaathesis~Group基于旧\oldnuaathesis 模板、现东南大学的\seuthesix 模板和上海交通大学的SJTU Thesis模板，对模板进行了二次开发，基本实现了学士学位论文的模板。\nuaathesis~Group现有成员短期内不计划开发团队报告、硕士博士学位论文等其他文档的\LaTeX 模板，留给后续成员以及其他有需要、有能力的南航学子以后开发。
 
-现在\nuaathesis 模板的代码托管在Github\footnote{\url{https://github.com/jackwzh/nuaathesis}}上，如有修改建议或者其他要求欢迎在Github上开issue，鄙人会尽快回复，并酌情处理您的要求。
+现在\nuaathesis 模板的代码托管在Github\footnote{\url{https://github.com/jackwzh/nuaathesis}}上，如有修改建议或者其他要求欢迎在Github上开issue或提pull request，\nuaathesis~Group会尽快回复，并酌情处理您的要求。
 
-本模板于Windows~10平台开发，使用MiKTeX v2.9发行版，所使用的宏包均跟进到最新版本。Linux平台由github用户summershrimp\footnote{\url{https://github.com/summershrimp}}使用\TeX Live测试，macOS平台由cvcore\footnote{\url{https://github.com/cvcore}}进行了测试，目前尚未出现任何问题。本模板尚未在Windows平台使用\CTeX / \TeX Live进行测试，如出现问题，请自行Google、Bing、Baidu搜索解决方法。学会使用搜索引擎、熟练阅读外文是一个学生最基本的能力，更是一个\LaTeX 使用者得以立足和前进的根本。
+本模板基于Windows~10平台开发，使用MiKTeX v2.9发行版，所使用的宏包均跟进到最新版本。Linux平台由张一白使用\TeX Live测试，macOS平台由王成欣进行了测试，目前尚未出现任何问题。本模板尚未在Windows平台使用\CTeX / \TeX Live进行测试，如出现问题，请自行Google、Bing、Baidu搜索解决方法。学会使用搜索引擎、熟练阅读外文是一个学生最基本的能力，更是一个\LaTeX 使用者得以立足和前进的根本。
 
-鄙人非常欢迎有其他南航的\TeX 使用者加入到本模板的开发与维护当中来，不断完善模板，为南航广大学子造福！
+\nuaathesis~Group非常欢迎有其他南航的\LaTeX 使用者加入到本模板的开发与维护当中来，不断完善模板，为南航广大学子造福！
 
 \section{模板使用}
 \subsection{准备工作}
 \begin{itemize}
-  \item \TeX 发行版：Windows 系统推荐使用MiKTeX和\TeX Live这两种发行版，前者占用空间小，只在有宏包缺失情况下才进行下载，后者占用空间大，但基本无需担心宏包缺失。Linux系统(Arch系除外)推荐手动安装\TeX Live发行版，官方源中的TeXLive版本跟进较慢。OS X系统鄙人没有接触过，可以参考SJTU Thesis中的介绍。
+  \item \TeX 发行版：Windows 系统推荐使用MiKTeX和\TeX Live这两种发行版，前者占用空间小，只在有宏包缺失情况下才进行下载，后者占用空间大，但基本无需担心宏包缺失。Linux系统(Arch系除外)推荐手动安装\TeX Live发行版，官方源中的TeXLive版本跟进较慢。macOS可以参考SJTU Thesis中的介绍。
   \item \TeX 知识：本说明文档提供\TeX 使用的例子，但不能解决所有的问题，因此使用前请自行学习\TeX~\&~\LaTeX 相关知识。
 \end{itemize}
 
 \subsection{模板编译}
 
-切记使用\XeLaTeX 进行编译。
+\textbf{切记使用\XeLaTeX 进行编译。}使用\XeLaTeX 和\hologo{BibTeX}在文档中加入参考文献的流程可参考如下命令：
 
-曾经鄙人被\hologo{BibTeX} 困扰很久，直到在Arch Linux上成功编译出一次参考文献后才了解如何实现参考文献的编译。鄙人采取的方法如下：
 \begin{lstlisting}[basicstyle=\small\ttfamily, caption=手动逐次编译, numbers=none]
 xelatex -no-pdf .tex文件名
 biber --debug .tex文件名
@@ -34,9 +33,9 @@ xelatex .tex文件名
 xelatex .tex文件名
 \end{lstlisting}
 
-使用\XeLaTeX 编译可以直接用各\TeX 编辑器实现，如：TeXworks，TeXmaker，TeXStudio，Emacs\& 插件，Atom\& 插件等等，biber命令需使用Windows的cmd/Power Shell、Linux和OS S下的bash实现。Windows平台可以自行编写简单的.bat批处理文件来实现。
+使用\XeLaTeX 引擎编译可以直接通过各\LaTeX 编辑器实现，如：TeXworks，TeXmaker，TeXStudio，Emacs+插件，Atom+插件等等。biber命令需使用Windows的cmd/Power Shell、Linux和macOS下的bash实现。Windows平台可以自行编写简单的.bat批处理文件来实现。
 
-使用biber需注意：\textbf{.bib文件内的记录必须在.tex文件中引用，多余不引用的记录不要因为懒而不去除，否则将编译失败}
+使用biber需注意：\textbf{.bib文件内的文件记录必须在.tex文件中被引用，不引用的记录不要因为懒而不去除，否则将编译失败}
 
 目录内容需要编译两次才能正常显示，原因推断为早期的电脑内存不够，所以将目录的生成分成了两步来进行。
 
