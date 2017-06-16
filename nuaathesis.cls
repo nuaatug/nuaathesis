@@ -168,7 +168,7 @@
 %% 图表注格式（五号黑体，空格间隔）
 
 \DeclareCaptionFont{heiticaption}{\heiti \zihao{5}}
-\captionsetup{labelsep=space}
+\captionsetup{labelsep=quad}
 \captionsetup{font=heiticaption}
 \makesavenoteenv{tabular} % 在图表内使用脚注
 
