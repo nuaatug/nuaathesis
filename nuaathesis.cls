@@ -1,8 +1,8 @@
 %% class clarification %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nuaathesis}[2017/06/05 0.92 The LaTeX template for academic  degree thesis of Nanjing University of Aeronautics and Astronautics]
-\typeout{Document Class `nuaathesis' 0.92 by Jack Wang (2017/06/05)}
-\newcommand\version{v0.92}
+\ProvidesClass{nuaathesis}[2017/06/22 1.0 The LaTeX template for academic  degree thesis of Nanjing University of Aeronautics and Astronautics]
+\typeout{Document Class `nuaathesis' 1.0 by NUAAThesis Group (2017/06/22)}
+\newcommand\version{v1.0}
 
 %% 学士学位论文选项、以后可以此格式拓展硕士、博士选项
 \newif\ifnuaa@bachelor\nuaa@bachelorfalse
@@ -168,7 +168,7 @@
 %% 图表注格式（五号黑体，空格间隔）
 
 \DeclareCaptionFont{heiticaption}{\heiti \zihao{5}}
-\captionsetup{labelsep=space}
+\captionsetup{labelsep=quad}
 \captionsetup{font=heiticaption}
 \makesavenoteenv{tabular} % 在图表内使用脚注
 
