@@ -1,26 +1,11 @@
 \documentclass[bachelor,Paper,oneside,fontset=fandol,AutoFakeBold=true]{nuaathesis}
 
-%%======================================
-%% 此段代码用于将脚注放在页脚线下，考虑到有同学会认为当前的方式比较丑
-%% 代码来源：
-%% http://tex.stackexchange.com/questions/164367/how-to-make-footnotes-appear-at-bottom-of-the-footers-bar
-% \makeatletter
-% \renewcommand\footnoterule{%
-%   \kern91.8\p@
-%   \hrule\@width\linewidth
-%   \kern2.6\p@}
-% \makeatother
-%% 使用此种方法不要超过四条脚注，第五条及以后的脚注无法显示
-%% 使用此种方法第一行的脚注不要过长，否则会覆盖页脚的页码
-%%======================================
-
 \addbibresource{bib/sample.bib}
 
 \begin{document}
 
 \include{chapter/coverpage}             %% 封面&诚信承诺书
 \backmatter                             %% 文后无编号部分
-\include{chapter/declaration}           %% 声明
 
 \frontmatter                            %% 使用罗马数字对摘要页编号
 \include{chapter/abstract}              %% 中英文摘要

@@ -34,6 +34,6 @@ GUI方式：
 
 `figure/`：被引用图片的文件夹，其中nuaa.png为南航图标，不可删除
 
-`bib／`：存放引用文献库，bib文件可使用常见的文献管理工具（EndNote、Mendeley、Papers等）进行生成。
+`bib/`：存放引用文献库，bib文件可使用常见的文献管理工具（EndNote、Mendeley、Papers等）进行生成。
 
 `nuaathesis.cfg / nuaathesis.cls`：模版文件，用户无需改动
