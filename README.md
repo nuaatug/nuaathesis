@@ -11,15 +11,21 @@
 
 ## 快速上手
 
-请使用XeLaTeX对论文进行编译，使用biber编译生成参考文献
+请使用XeLaTeX对论文进行编译，使用biber编译生成参考文献。
 
-命令行方式：
+命令行方式1：
 
 ```
-xelatex -no-pdf sample.tex
-biber --debug sample.tex
-xelatex sample.tex
-xelatex sample.tex # 此处需要运行两遍
+xelatex -no-pdf sample
+biber --debug sample
+xelatex sample
+xelatex sample # 此处需要运行两遍
+```
+
+命令行方式2：
+
+```
+latexmk -xelatex sample
 ```
 
 GUI方式：
@@ -32,8 +38,8 @@ GUI方式：
 
 `chapter/`：存放具体各个章节的内容。
 
-`figure/`：被引用图片的文件夹，其中nuaa.png为南航图标，不可删除
+`figure/`：被引用图片的文件夹，其中nuaa.png为南航图标，不可删除。
 
 `bib/`：存放引用文献库，bib文件可使用常见的文献管理工具（EndNote、Mendeley、Papers等）进行生成。
 
-`nuaathesis.cfg / nuaathesis.cls`：模版文件，用户无需改动
+`nuaathesis.cfg` / `nuaathesis.cls`：模版文件，用户无需改动。
