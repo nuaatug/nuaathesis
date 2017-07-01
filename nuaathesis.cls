@@ -103,7 +103,7 @@
   \fancyhf{}
   \fancyhead[L]{\setlength{\unitlength}{1mm}
     \begin{picture}(0,0)
-      \put(7.3,1.5){\includegraphics[width=6cm]{nuaa.png}}
+      \put(7.3,1.5){\includegraphics[width=6cm]{nuaa.pdf}}
     \end{picture}}
   \fancyhead[R]{\makebox[6.7cm]{\zihao{4} 毕业\nuaa@value@papertype 报告纸}}
   \if@twoside
