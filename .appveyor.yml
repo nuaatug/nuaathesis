@@ -1,0 +1,35 @@
+image: Visual Studio 2017
+
+clone_depth: 5
+
+environment:
+  Path: '%Path%;C:\texlive\bin\win32'
+
+install:
+  # install Chinese Simplified fonts
+  - ps: Set-Service BITS -StartupType Automatic; Set-Service wuauserv -StartupType Automatic
+  - ps: Start-Service BITS; Start-Service wuauserv
+  - ps: Import-Module Dism; Get-WindowsCapability -online | where { $_.Name -match "Font" -and $_.Name -match "Hans" } | Add-WindowsCapability -online
+
+  # get online installer
+  - curl -fsSL -o install-tl.zip "http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip"
+  # unzip
+  - 7z x install-tl.zip -y
+
+  # install basic texlive components
+  #
+  # step 1: copy the profile to an absolute path
+  - mkdir C:\texlive && copy .ci\texlive-windows.profile C:\texlive\texlive.profile
+  # step 2: rename the install directory to a fixed name
+  - ps: dir | where { $_ -match "$install-tl" -and $_ -notmatch "install-tl.zip" } | Rename-Item -NewName "install-tl"
+  # step 3: invoke installer in CMD instead of PS
+  - echo "" | install-tl\install-tl-windows.bat -profile C:\texlive\texlive.profile
+
+  # install everything else
+  - ps: tlmgr install (Get-Content .\.ci\texlive.pkgs | where { $_ -notmatch "(^\s*#)|(^\s*$)" })
+
+build_script:
+  - echo | build.bat
+
+artifacts:
+  - path: '*.pdf'

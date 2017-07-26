@@ -1,0 +1,26 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/nuaathesis
+    docker:
+      - image: base/archlinux:latest
+    steps:
+      - run:
+          name: 'Install texlive'
+          command: 'pacman -Syu --needed --noconfirm git openssh biber cabextract texlive-bibtexextra texlive-langchinese texlive-latexextra texlive-science'
+      - run:
+          # I have no idea why these fonts will fail if installed with previous command
+          name: 'Install texlive-fontsextra'
+          command: 'pacman -Syu --needed --noconfirm texlive-fontsextra'
+
+      - checkout
+      - run:
+          name: 'Build texdoc'
+          command: 'source /etc/profile.d/perlbin.sh && (echo | ./build.sh)'
+      - run:
+          name: 'Prepare artifacts'
+          command: |
+            mkdir -p /tmp/build
+            cp *.pdf /tmp/build
+      - store_artifacts:
+          path: /tmp/build

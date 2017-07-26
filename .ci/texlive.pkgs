@@ -1,0 +1,31 @@
+# texlive package list, to be installed by tlmgr
+
+collection-bibtexextra
+collection-fontsrecommended
+collection-mathscience
+collection-latexrecommended
+collection-metapost
+collection-pictures
+collection-xetex
+collection-langchinese
+
+# collection-latexextra
+environ
+trimspaces
+xstring
+enumitem
+footmisc
+makecell
+multirow
+tocloft
+fontaxes
+soul
+
+# collection-plaingeneric
+ulem
+
+# collection-fontsextra
+newtx
+newpx
+
+latexmk

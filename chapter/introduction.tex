@@ -26,12 +26,14 @@
 
 \textbf{切记使用\XeLaTeX 进行编译。}使用\XeLaTeX 和\hologo{BibTeX}在文档中加入参考文献的流程可参考如下命令：
 
+\iffalse
 \begin{lstlisting}[basicstyle=\small\ttfamily, caption=手动逐次编译, numbers=none]
 xelatex -no-pdf .tex文件名
 biber --debug .tex文件名
 xelatex .tex文件名
 xelatex .tex文件名
 \end{lstlisting}
+\fi
 
 使用\XeLaTeX 引擎编译可以直接通过各\LaTeX 编辑器实现，如：TeXworks，TeXmaker，TeXStudio，Emacs+插件，Atom+插件等等。biber命令需使用Windows的cmd/Power Shell、Linux和macOS下的bash实现。Windows平台可以自行编写简单的.bat批处理文件来实现。
 

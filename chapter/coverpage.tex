@@ -1,14 +1,24 @@
 %# -*- coding: utf-8-unix -*-
 
-\zhtitle{\nuaathesis 示例文档} %% 论文中文标题
-\entitle{\nuaathesis~Tutorial} %% 论文英文标题
-\author{\nuaathesis~Group} %% 学生姓名
-\studentid{012345678} %% 学号
-\college{\TeX 学院} %% 学院
-\major{\LaTeX} %% 专业
-\classid{0123456} %% 班级
-\advisorname{Donald Knuth} %% 指导教师姓名
-\advisortitle{教授} %% 指导教师称谓
-\applydate{二〇一七年六月} %% 日期
-\makecover %% 生成封面页
-\declare  %% 生成诚信承诺书页
+\nuaasetup{
+  title = {\nuaathesis 示例文档},
+  author = {\nuaathesis~Group},
+  studentid = {012345678},
+  college = {\TeX 学院},
+  major = {\LaTeX},
+  classid = {0123456},
+  advisors = {Donald Knuth\quad 大师},
+  libraryclassid = {TP371},
+  subjectclassid = {080605},
+  thesisid = {1028704 11-1001},
+  majorsubject = {学位论文排版},
+  researchfield = {排版引用},
+}
+
+\nuaasetupEn{
+  college = {College of \TeX},
+  title = {\nuaathesis~Tutorial},
+  majorsubject = {Thesis Typesetting},
+  author = {\nuaathesis~Group},
+  advisors = {Prof.~Donald Knuth},
+}
