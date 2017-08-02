@@ -1,0 +1,77 @@
+%%
+%% ---------------------------------------------------------------
+%% biblatex-gb7714-2015 --- A biblatex implementation of the
+%% GBT7714-2015 citation style,numerical sequence
+%% Maintained by huzhenzhen
+%% history:
+%% 2016/05/20 v1.0
+%% 2016/10/23 v1.0a
+%% 2016/11/11 v1.0b
+%% 2016/11/14 v1.0c
+%% 2016/11/24 v1.0d
+%% 2016/12/07 v1.0e
+%% 2017/02/26 v1.0g
+%% 2017/04/11 v1.0h
+%% E-mail: hzzmail@163.com
+%% Released under the LaTeX Project Public License v1.3c or later
+%% ---------------------------------------------------------------
+%%
+\ProvidesFile{gb7714-2015.cbx}[2017/04/11 v1.0h biblatex citation style]
+
+\RequireCitationStyle{numeric-comp}
+%\RequireCitationStyle{numeric}
+
+\ExecuteBibliographyOptions{
+  autocite  = superscript ,
+  autopunct = true       ,
+  sorting   = none        ,
+}
+
+%\DeclareCiteCommand{\cite}[\mkbibparens]{⟨precode⟩}{⟨loopcode⟩}{⟨sepcode⟩}{⟨postcode⟩}
+%
+\DeclareCiteCommand{\cite}[\mkbibsuperscript]
+  {[\usebibmacro{cite:init}%直接添加方括号
+   \usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{cite:comp}}
+  {}
+  {\usebibmacro{cite:dump}%
+   \usebibmacro{postnote}]}
+
+%\DeclareCiteCommand{\parencite}[\mkbibsuperscript]%\mkbibbrackets,仍然用上标
+%  {[\usebibmacro{cite:init}%
+%   \usebibmacro{prenote}}
+%  {\usebibmacro{citeindex}%
+%   \usebibmacro{cite:comp}}
+%  {}
+%  {\usebibmacro{cite:dump}%
+%   \usebibmacro{postnote}]}
+
+\newbibmacro*{postpages}{%
+  \iffieldundef{postnote}
+    {\printfield{pages}}
+    {\printfield{postnote}}}
+
+%修改括号外带页码的引用格式
+\DeclareFieldFormat{postnote}{#1}
+
+\DeclareCiteCommand{\pagescite}[\mkbibsuperscript]%\mkbibbrackets,仍然用上标
+  {[\usebibmacro{cite:init}%
+   \usebibmacro{prenote}%
+   }
+  {\usebibmacro{citeindex}%
+   \usebibmacro{cite:comp}}
+  {}
+  {\usebibmacro{cite:dump}]%
+   \usebibmacro{postpages}}
+
+%增加一个命令yearpagescite为与ay样式兼容，命令等同于\pagescite
+\DeclareCiteCommand{\yearpagescite}[\mkbibsuperscript]%\mkbibbrackets,仍然用上标
+  {[\usebibmacro{cite:init}%
+   \usebibmacro{prenote}%
+   }
+  {\usebibmacro{citeindex}%
+   \usebibmacro{cite:comp}}
+  {}
+  {\usebibmacro{cite:dump}]%
+   \usebibmacro{postpages}}
