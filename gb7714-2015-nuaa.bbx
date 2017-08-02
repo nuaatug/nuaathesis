@@ -1,0 +1,1812 @@
+﻿%%
+%% ---------------------------------------------------------------
+%% biblatex-gb7714-2015 --- A biblatex implementation of the
+%% GBT7714-2015  bibliography style,numerical sequence
+%% Maintained by huzhenzhen
+%% history:
+%% 2016/05/20 v1.0
+%% 2016/10/23 v1.0a
+%% 2016/11/11 v1.0b
+%% 2016/11/14 v1.0c
+%% 2016/11/24 v1.0d
+%% 2016/12/07 v1.0e
+%% 2016/12/31 v1.0f
+%% 2017/02/26 v1.0g
+%% 2017/04/11 v1.0h
+%% E-mail: hzzmail@163.com
+%% Released under the LaTeX Project Public License v1.3c or later
+%% ---------------------------------------------------------------
+%%
+\ProvidesFile{gb7714-2015.bbx}[2017/04/11 v1.0h biblatex bibliography style]
+
+
+%=====================================================================
+%=====================================================================
+%加载标准样式
+%=====================================================================
+\RequireBibliographyStyle{numeric-comp}%Load the standard style to avoid copy-pasting unnecessary material
+\RequireBibliographyStyle{standard}
+\RequirePackage{xstring}%为兼容texlive2015的biblatex3.0不加载xstring包的问题
+
+
+%=====================================================================
+%=====================================================================
+%增加一些功能函数
+%=====================================================================
+%版本判断，根据biblatex更新历史可知，版本3.3开始使用新的姓名机制
+\providetoggle{iftexlivesix}
+%所以当版本大于3.2开始，就用设置\toggletrue{iftexlivesix}
+\def\numparserta#1.#2\relax{#1}%注意relax的重要性
+\def\numparsertb#1.#2\relax{#2}
+\def\numinteger{\expandafter\numparserta\abx@version\relax}
+\def\numdigital{\expandafter\numparsertb\abx@version\relax}
+\ifnumcomp{\numdigital}{>}{2}{\toggletrue{iftexlivesix}}{\togglefalse{iftexlivesix}}
+
+%定义判断中文字符的函数，用于判断作者等信息是否由中文字符构成
+%2E00-2E7F 追加标点
+%2E80-2EFF cjk部首补充
+%2FF0-2FFF 表意文字描述符
+%3000-303F cjk符号和标点
+%3300-33FF cjk兼容
+%3400-4DBF cjk统一表意符号扩展
+%4E00-9FBF cjk统一表意符号
+%中文范围4E00-9FA5
+\providetoggle{ifCJKforgbt}
+\def\testCJKfirstchar#1#2&{%
+\ifnumgreater{`#1}{"2E7F}{\toggletrue{ifCJKforgbt}}{\togglefalse{ifCJKforgbt}}%
+}%
+
+%利用edef展开或xstring抽取第一个字符判断
+%现在采用xstring方法，避免抽取的是编组符号
+\def\testCJKfirst#1{%
+%\edef\tempa{#1}%
+\exploregroups%
+\StrChar{#1}{1}[\tempa]%
+\expandafter\testCJKfirstchar\tempa&}
+
+
+%判断是否是标准
+%\providetoggle{ifnoteeqstandard}
+%\def\testifnoteeqstd{%
+%\iffieldundef{note}{\togglefalse{ifnoteeqstandard}}%判断一下，是否是标准
+%        {\def\comparetmp{standard}\edef\comparetmpb{\thefield{note}}%
+%        \ifx\comparetmp\comparetmpb%
+%        \toggletrue{ifnoteeqstandard}%
+%        \else%
+%        \togglefalse{ifnoteeqstandard}%
+%        \fi}}
+%\iffieldequalstr{note}{standard}{true}{false} %可以利用这一函数代替
+
+%用于解析连续出版物，2个卷期的情况
+\def\multivolumeparsetoparts#1/#2{\def\multivolumefirst{#1}\def\multivolumesecond{#2}}
+%\def\multinumberparsetoparts#1/#2{\def\multinumberfirst{#1}\def\multinumbersecond{#2}}
+
+%这里利用李志奇的范围数据解析函数，修改后用来处理卷volume的范围。
+%他的这个函数是通用的，只能在使用数据前使用，如果多次使用前一次得到的数据就会被冲掉
+%这里的范围起止判断符号还是用-，而不是与date相同的/，因为有合期期刊的问题，需要用到/符号
+\def\gbt@parse@range#1{%
+    \edef\gbt@tmpa{#1}%
+    \expandafter\gbt@parse@rangei\gbt@tmpa-\@empty}
+\def\gbt@parse@rangei#1-#2\@empty{%
+    \global\def\gbt@range@first{#1}%
+    \def\gbt@tmpa{#2}%
+    \ifx\gbt@tmpa\@empty%
+        \global\def\gbt@range@second{}%
+    \else%
+        \gbt@parse@rangeii#2\@empty%
+    \fi}
+\def\gbt@parse@rangeii#1-#2\@empty{%
+    \def\gbt@tmpa{#2}%
+    \ifx\gbt@tmpa\@empty%
+        \global\def\gbt@range@second{#1}%
+    \else%
+        \gbt@parse@rangeii#2\@empty%
+    \fi}
+
+%这里写的number的解析函数，与上面的卷解析函数是类似的。
+\def\multinumberparser#1{%
+    \edef\gbnumbertmp{#1}%
+    \expandafter\multinumberparsetoparts\gbnumbertmp-\@empty}
+\def\multinumberparsetoparts#1-#2\@empty{%
+    \def\multinumberfirst{#1}%
+    \def\gbnumbertmp{#2}%
+    \ifx\gbnumbertmp\@empty%
+        \def\multinumbersecond{}%
+    \else%
+        \multinumberparsetopartsb#2\@empty%
+    \fi}
+\def\multinumberparsetopartsb#1-#2\@empty{%
+    \def\gbnumbertmp{#2}%
+    \ifx\gbnumbertmp\@empty%
+        \def\multinumbersecond{#1}%
+    \else%
+        \multinumberparsetopartsb#2\@empty%
+    \fi}
+
+
+%=====================================================================
+%=====================================================================
+%设置宏包选项
+%=====================================================================
+
+\iftoggle{iftexlivesix}{% Alter settings that carry through from biblatex
+%biblatex3.3版后(比如texlive2016中的3.4版)的使用方式
+
+%增加标签对齐选项，right是默认的右对齐，left是左对齐，gb7714-2015是项对齐方式
+\DeclareBibliographyOption[string]{align}[right]{%
+\ifstrequal{#1}{left}{\setalignleft}{}
+\ifstrequal{#1}{gb7714-2015}{\setaligngbstyle}{}
+}
+
+%增加一个出版项自动处理控制选项，当true时使用出版者不详等信息补充缺失的出版信息。
+\newtoggle{bbx:gbpub}
+\DeclareBibliographyOption[boolean]{gbpub}[true]{%
+%\settoggle{bbx:gbpub}{#1} %或采用下面这一句
+  \ifstrequal{#1}{false}{\togglefalse{bbx:gbpub}}{\toggletrue{bbx:gbpub}}}
+\ExecuteBibliographyOptions{gbpub}
+
+%增加一个处理佚名或noauthor的控制选项
+%因为在顺序编码制中，不需要使用，这里也增加，为了与作者年制的兼容性考虑。
+\DeclareBibliographyOption[boolean]{gbnoauthor}[true]{}%
+
+\ExecuteBibliographyOptions{
+  sorting=none,
+  useprefix=true,  %名字的信息包括前缀
+  %firstinits=true,    %名字有缩写，参考3.1.2.3 Internal
+  giveninits=true,
+  date         = year,  %日期仅写到年
+  maxnames     = 3 ,    %设置名字最大数量
+  minnames     = 3       %设置缩减后的名字最小数量
+  %uniquename   = init
+}
+}
+{%biblatex3.3版前(比如texlive2015中的3.0版)的使用方式
+%增加标签对齐选项，right是默认的右对齐，left是左对齐，gb7714-2015无效，仍然为右对齐模式，因为舍弃了list类环境后出错。
+\DeclareBibliographyOption{align}[right]{%texlive2015中的3.0版中的DeclareBibliographyOption选项没有类型说明
+\ifstrequal{#1}{right}{}{}
+\ifstrequal{#1}{left}{\setalignleft}{}
+\ifstrequal{#1}{gb7714-2015}{}{}
+}
+
+%增加一个出版项自动处理控制选项，当true时使用出版者不详等信息补充缺失的出版信息。
+\newtoggle{bbx:gbpub}
+\DeclareBibliographyOption{gbpub}[true]{%
+%\settoggle{bbx:gbpub}{#1} %或采用下面这一句
+  \ifstrequal{#1}{false}{\togglefalse{bbx:gbpub}}{\toggletrue{bbx:gbpub}}}
+\ExecuteBibliographyOptions{gbpub}
+
+%增加一个处理佚名或noauthor的控制选项
+%因为在顺序编码制中，不需要使用，这里也增加，为了与作者年制的兼容性考虑。
+\DeclareBibliographyOption{gbnoauthor}[true]{}%
+
+\ExecuteBibliographyOptions{
+  sorting=none,
+  useprefix=true,  %名字的信息包括前缀
+  firstinits=true,    %名字有缩写，参考3.1.2.3 Internal
+  %giveninits=true,
+  date         = year,  %日期仅写到年
+  maxnames     = 3 ,    %设置名字最大数量
+  minnames     = 3       %设置缩减后的名字最小数量
+  %uniquename   = init
+}
+}
+
+
+%=====================================================================
+%=====================================================================
+%设置本地化字符串
+%=====================================================================
+%新建一个当地化字符串，用来记录“等”字符
+\NewBibliographyString{andotherscn}
+\NewBibliographyString{noaddress}
+\NewBibliographyString{nopublisher}
+
+%直接利用当地化格式english进行修改一些中文的格式
+%具体可以修改哪些，参考english.lbx文件
+%当然也可以增加比如上面定义的andotherscn
+%注意:在lbx文件和bbx文件中定义本地字符串的不同语法，两个参数和一个参数的区别
+\DefineBibliographyStrings{english}{
+bibliography     = {参考文献},
+references       = {参考文献},
+%bytranslator= {\addcomma\ 译\adddot}, %将trans. by 改成 译
+bytranslator= {\addcomma\ 译},%\addperiod
+and         = {\addcomma},%将第2和3人名见的and符号改成 逗号，用\finalnamedelim命令也可以定义，参见3.9.1节
+%andothers   = {et al.},        %将超过3个人名的省略，et al.改成为 等
+andotherscn   = {等},        %将超过3个人名的省略，et al.改成为 等
+noaddress = {[S.l.]},
+nopublisher = {[s.n.]},
+backrefpage      = {引用页:},
+backrefpages     = {引用页:},
+}
+
+
+%=====================================================================
+%=====================================================================
+%动态数据修改，修改输入的源文件数据，用于中文判断等
+%=====================================================================
+%修改输入的源文件数据，用于中文判断等
+%首先把作者和译者信息准确的记录到userf，usere中，用于后面判断是否是cjk字符。
+%注意\DeclareSourcemap命令只能出现一次
+\DeclareSourcemap{
+\maps[datatype=bibtex]{%增加文献标识符如[M],[J]等，下面首先生成这一信息
+        \map{%使用下面biber动态修改bbl文件的方法是正确的
+            %\perdatasource{examples.bib}
+            \pertype{article}
+            \step[fieldset=usera, fieldvalue={J}]
+            }
+        \map{
+            \pertype{periodical}
+            \step[fieldset=usera, fieldvalue={J}]
+            \step[fieldsource=author] %有时会把author和editor混淆，这里处理后就没有这个问题
+            \step[fieldset=editor, origfieldval]
+            }
+        \map{
+            \pertype{newspaper}%增加一个新闻报纸的类型newspaper
+            \step[fieldset=usera, fieldvalue={N}]%因为没有专门的驱动，这句的目的是定义一个usera域，方便映射为article后判断
+            \step[fieldset=note, fieldvalue=news]
+            }
+        \map{
+            \pertype{book}
+            \pertype{inbook}
+            \step[fieldset=usera, fieldvalue={M}]
+            \step[fieldsource=version] %有时会把version和edition混淆，这里处理后就没有这个问题，可以直接用version
+            \step[fieldset=edition, origfieldval]
+            }
+        \map{
+            \pertype{standard}%兼容老的standard类型
+            \step[fieldset=usera, fieldvalue={M}]%因为没有专门的驱动，这句的目的是定义一个usera域，方便映射为book和inbook后判断
+            \step[fieldset=note, fieldvalue=standard]
+            }
+        \map{
+            \pertype{patent}
+            \step[fieldset=usera, fieldvalue={P}]
+            }
+        \map{
+            \pertype{inproceedings}
+            \pertype{conference}%兼容老的conference类型
+            \step[fieldset=usera, fieldvalue={C}]
+            \step[fieldsource=institution] %有时会把publisher和institution混淆，这里处理后就没有这个问题
+            \step[fieldset=publisher, origfieldval]
+            \step[fieldsource=editor] %
+            \step[fieldset=bookauthor, origfieldval]
+            }
+        \map{
+            \pertype{proceedings}
+            \step[fieldset=usera, fieldvalue={C}]
+            \step[fieldsource=institution] %
+            \step[fieldset=publisher, origfieldval]
+            \step[fieldsource=editor] %有的时候可能只填写了编者，没有author，把它复制一下
+            \step[fieldset=author, origfieldval]
+            }
+        \map{
+            \pertype{report}
+            \pertype{techreport}%兼容老的techreport类型
+            \step[fieldset=usera, fieldvalue={R}]
+            \step[fieldsource=publisher] %有时会把publisher和institution混淆，这里处理后就没有这个问题
+            \step[fieldset=institution, origfieldval]
+            }
+        \map{
+            \pertype{thesis}
+            \pertype{mastersthesis}%兼容老的mastersthesis和phdthesis类型
+            \pertype{phdthesis}
+            \step[fieldset=usera, fieldvalue={D}]
+            }
+        \map{
+            \pertype{online}
+            \pertype{electronic}%兼容老的electronic类型
+            \pertype{www}%兼容老的www类型
+            \step[fieldset=usera, fieldvalue={EB}]
+            }
+        \map{
+            \pertype{manual}
+            \step[fieldset=usera, fieldvalue={A}]
+            \step[fieldsource=edition] %有时会把version和edition混淆，这里处理后就没有这个问题，可以直接用version
+            \step[fieldset=version, origfieldval]
+            \step[fieldsource=organization]%因为用的report的驱动，所以需要institution域，也把organization转成它，这样增大兼容性
+            \step[fieldset=institution, origfieldval]
+            }
+        \map{
+            \pertype{incollection}
+            \step[fieldset=usera, fieldvalue={G}]
+            }
+        \map{
+            \pertype{collection}
+            \step[fieldset=usera, fieldvalue={G}]
+            \step[fieldsource=editor] %%有的时候可能只填写了编者，没有author，把它复制一下
+            \step[fieldset=author, origfieldval]
+            }
+        \map{
+            \pertype{unpublished}
+            \step[fieldset=usera, fieldvalue={Z}]
+            }
+        \map{
+            \step[fieldsource=author]
+            \step[fieldset=userf, origfieldval]
+            \step[fieldsource=translator]
+            \step[fieldset=usere, origfieldval]
+            \step[fieldsource=year]
+            \step[fieldset=date, origfieldval]
+            }
+        \map{%将entrykey放入keywords中用于后期的使用
+            \step[fieldsource=entrykey]
+            \step[fieldset=keywords, origfieldval]
+            }
+        \map[overwrite]{%这里还必须有overwrite，怎么之前会觉得没有问题呢，可能是之前版本拷错了，还是之前是texlive2015变16后biber有了变化(2016-1207修改正确)
+            \step[fieldsource=note, final]%将note域信息复制给keywords，用于输出时容易区分标准和报纸
+            \step[fieldset=keywords, fieldvalue={,}, append]
+            \step[fieldset=keywords, origfieldval, append]
+            }
+}
+}
+
+\iftoggle{iftexlivesix}{
+    \DeclareStyleSourcemap{
+        \maps[datatype=bibtex]{
+    %        \map{%尝试未定义数据模型的newspaper类型映射为article，newspaper完全是针对gb7714的新类型，在biblatex中完全没有定义
+    %             %但从实践看，并没有什么影响，映射过来就可以了。
+    %        \step[typesource=newspaper, typetarget=article, final]
+    %        }
+            \map{%尝试未定义数据模型的standard类型映射为book，standard类型在blx-dm中有出现，但仅定义了类型，域和约束等都没有定义
+            \step[fieldsource=booktitle,final]%当存在booktitle域是映射为inbook
+            \step[typesource=standard, typetarget=inbook, final]
+            }
+            \map{%尝试未定义数据模型的standard类型映射为book，standard类型在blx-dm中有出现，但仅定义了类型，域和约束等都没有定义
+            \step[typesource=standard, typetarget=book, final]%当不存在booktitle域是映射为book
+            }
+            \map{%先于标准样式的driver层映射，将其先映射过来，并取消type设置
+            \step[typesource=mastersthesis, typetarget=thesis, final]
+            %\step[fieldset=type, fieldvalue=mathesis]
+            }
+            \map{%先于标准样式的driver层映射，将其先映射过来，并取消type设置
+            \step[typesource=phdthesis, typetarget=thesis, final]
+            %\step[fieldset=type, fieldvalue=phdthesis]
+            }
+            \map{%先于标准样式的driver层映射，将其先映射过来，并取消type设置
+            \step[typesource=techreport, typetarget=report, final]
+            %\step[fieldset=type, fieldvalue=techreport]
+            }
+            \map[overwrite, foreach={title,booktitle,journaltitle,journal,publisher,address,location,institution,organization}]{
+                \step[fieldsource=\regexp{$MAPLOOP}, match=\regexp{([^\\])\#}, replace=\regexp{$1\\\#}]
+            }
+            \map[overwrite, foreach={title,booktitle,journaltitle,journal,publisher,address,location,institution,organization}]{
+                \step[fieldsource=\regexp{$MAPLOOP}, match=\regexp{([^\\])\%}, replace=\regexp{$1\\\%}]
+            }
+            \map[overwrite, foreach={title,booktitle,journaltitle,journal,publisher,%
+            address,location,institution,organization}]{
+                \step[fieldsource=\regexp{$MAPLOOP}, match=\regexp{([^\\])\x26}, replace=\regexp{$1\\\x26}]
+            }
+        }
+    }
+}{
+    \DeclareStyleSourcemap{
+        \maps[datatype=bibtex]{
+    %        \map{%尝试未定义数据模型的newspaper类型映射为article，newspaper完全是针对gb7714的新类型，在biblatex中完全没有定义
+    %             %但从实践看，并没有什么影响，映射过来就可以了。
+    %        \step[typesource=newspaper, typetarget=article, final]
+    %        }
+            \map{%尝试未定义数据模型的standard类型映射为book，standard类型在blx-dm中有出现，但仅定义了类型，域和约束等都没有定义
+            \step[fieldsource=booktitle,final]%当存在booktitle域是映射为inbook
+            \step[typesource=standard, typetarget=inbook, final]
+            }
+            \map{%尝试未定义数据模型的standard类型映射为book，standard类型在blx-dm中有出现，但仅定义了类型，域和约束等都没有定义
+            \step[typesource=standard, typetarget=book, final]%当不存在booktitle域是映射为book
+            }
+            \map{%先于标准样式的driver层映射，将其先映射过来，并取消type设置
+            \step[typesource=mastersthesis, typetarget=thesis, final]
+            %\step[fieldset=type, fieldvalue=mathesis]
+            }
+            \map{%先于标准样式的driver层映射，将其先映射过来，并取消type设置
+            \step[typesource=phdthesis, typetarget=thesis, final]
+            %\step[fieldset=type, fieldvalue=phdthesis]
+            }
+            \map{%先于标准样式的driver层映射，将其先映射过来，并取消type设置
+            \step[typesource=techreport, typetarget=report, final]
+            %\step[fieldset=type, fieldvalue=techreport]
+            }
+            \map[overwrite]{%title,booktitle,journaltitle,journal,publisher,address,location,institution,organization
+            \step[fieldsource={title}, match=\regexp{([^\\])\x26}, replace=\regexp{$1\\\x26}]
+            }
+            \map[overwrite]{
+            \step[fieldsource={booktitle}, match=\regexp{([^\\])\x26}, replace=\regexp{$1\\\x26}]
+            }
+            \map[overwrite]{
+            \step[fieldsource={journaltitle}, match=\regexp{([^\\])\x26}, replace=\regexp{$1\\\x26}]
+            }
+            \map[overwrite]{
+            \step[fieldsource={journal}, match=\regexp{([^\\])\x26}, replace=\regexp{$1\\\x26}]
+            }
+            \map[overwrite]{
+            \step[fieldsource={publisher}, match=\regexp{([^\\])\x26}, replace=\regexp{$1\\\x26}]
+            }
+            \map[overwrite]{
+            \step[fieldsource={address}, match=\regexp{([^\\])\x26}, replace=\regexp{$1\\\x26}]
+            }
+            \map[overwrite]{
+            \step[fieldsource={location}, match=\regexp{([^\\])\x26}, replace=\regexp{$1\\\x26}]
+            }
+            \map[overwrite]{
+            \step[fieldsource={institution}, match=\regexp{([^\\])\x26}, replace=\regexp{$1\\\x26}]
+            }
+            \map[overwrite]{
+            \step[fieldsource={booktitle}, match=\regexp{([^\\])\#}, replace=\regexp{$1\\\#}]
+            }
+            \map[overwrite]{
+            \step[fieldsource={booktitle}, match=\regexp{([^\\])\%}, replace=\regexp{$1\\\%}]
+            }
+        }
+    }
+}
+
+\DeclareBibliographyAlias{newspaper}{article}%定义驱动别名，尝试以替代驱动层映射，实践表明是可行的。
+
+
+%=====================================================================
+%=====================================================================
+%参考文献表环境
+%=====================================================================
+%默认的参考文献列表格式，放这里作为参考
+%\defbibenvironment{bibliography}
+
+%修改序号标签格式为左对齐,注意各参考文献内容还是对齐的，
+%这样就会使得序号标签与参考文献内容的间隔增大，这个问题是没有办法解决的
+%因为采用list做具有一定宽度的序号标签，\labelwidth只能设置一个，且是最宽的标签的宽度
+%但总的来说参考文献内容对齐是合理和漂亮的，
+%而标签则只能对齐一个方向，要么左对齐要么右对齐，看个人选择了。
+%\DeclareFieldFormat{shorthandwidth}{\mkbibbrackets{#1}} %源来自numeric.BBX
+%\DeclareFieldFormat{labelnumberwidth}{\ttfamily\mkbibbrackets{#1}\hfill}
+%\iftoggle{alignleft}{\DeclareFieldFormat{labelnumberwidth}{\mkbibbrackets{#1}\hfill}}{}%这种方式无效是应为加载时就已经展开了。
+%修改序号标签格式为左对齐
+\def\setalignleft{\DeclareFieldFormat{labelnumberwidth}{\mkbibbrackets{##1}\hfill}}
+
+%修改序号标签格式为以各条参文献为基础进行对齐的方式
+\def\setaligngbstyle{%
+\def\blx@bibitem##1{%
+  \blx@ifdata{##1}
+    {\begingroup
+     \blx@getdata{##1}%
+     \blx@bibcheck
+     \iftoggle{blx@skipentry}{}{%
+       \blx@setdefaultrefcontext{##1}%
+       \global\let\blx@noitem\@empty
+       \blx@setoptions@type\abx@field@entrytype
+       \blx@setoptions@entry
+       \blx@thelabelnumber
+       \addtocounter{instcount}\@ne
+       \blx@initsep
+       \blx@namesep
+       \csuse{blx@item@\blx@theenv}\relax
+%       \blx@initsep   %移动到上面去，恢复bibnamesep等的作用机制
+%       \blx@namesep
+       \csuse{blx@hook@bibitem}%
+       \blx@execute
+       \blx@initunit
+       \blx@anchor
+       \blx@beglangbib
+       \bibsentence
+       \blx@pagetracker
+       \blx@driver\abx@field@entrytype
+       \blx@postpunct
+       \blx@endlangbib}%
+     \par\endgroup}%这里增加了一个\par
+    {}}
+\newlength{\lengthid}
+\newlength{\lengthlw}
+\newcommand{\itemcmd}{%
+\settowidth{\lengthid}{[\printfield{labelnumber}]}
+\addtolength{\lengthid}{\biblabelsep}
+\setlength{\lengthlw}{\textwidth}
+\addtolength{\lengthlw}{-\lengthid}
+\addvspace{\bibitemsep}%恢复\bibitemsep的作用
+%\parshape 2 0em \textwidth \lengthid \lengthlw
+\hangindent\lengthid
+[\printfield{labelnumber}]\hspace{\biblabelsep}}
+\defbibenvironment{bibliography}
+{\begingroup\setlength{\parindent}{0em}}
+{\endgroup}
+{\itemcmd}}
+
+
+%=====================================================================
+%=====================================================================
+%设置单元或块等的标点
+%=====================================================================
+%\renewrobustcmd*{\bibinitperiod}{\adddot} %来源biblatex2.STY
+\renewrobustcmd*{\bibinitperiod}{}%将名字简写后的点去掉
+%\newcommand*{\revsdnamepunct}{\addcomma}  %来源biblatex.def
+\renewcommand*{\revsdnamepunct}{}
+%\newcommand*{\subtitlepunct}{\newunitpunct} %修改标题和其它标题信息间的标点
+\renewcommand*{\subtitlepunct}{\addcolon\space} %来源biblatex.def，
+%关于双语言或多语言的参考文献，可以参考3.11.5 Entry Sets，4.11.1 Entry Sets
+%这里调整一下两种语言参考文献的间隔
+%\renewcommand*{\entrysetpunct}{\addsemicolon\space}%源来自biblatex.def
+\renewcommand*{\entrysetpunct}{\adddot\newline\nobreak}%%双语之间用newline替换par(20170411 v1.0h)，避免采用gb7714-2015的项对齐方式第二语言间分段导致没有缩进
+%页码引用格式的修改
+%\newcommand*{\bibpagespunct}{\addcomma\space}
+\renewcommand*{\bibpagespunct}{\addcolon\space}%修改为用冒号
+
+
+%=====================================================================
+%=====================================================================
+%修改域的格式，重定义域的输出宏
+%=====================================================================
+%新增文献类型标识符的格式
+%\DeclareFieldFormat{gbtypeflag}{\nobreak\mkbibbrackets{\nobreak#1}\nobreak}
+\DeclareFieldFormat{gbtypeflag}{%
+\iftoggle{bbx:url}{\iffieldundef{url}%当存在url时，增加一个OL标识符
+{\nobreak\printtext{[}\nobreak#1\nobreak\printtext{]}}%
+{\nobreak\printtext{[}\nobreak#1\nobreak\printtext{\texttt{/}OL]}}%
+}{\nobreak\printtext{[}\nobreak#1\nobreak\printtext{]}}}
+
+%\DeclareFieldFormat{gbtypeflag}{%
+%\iffieldundef{url}%当存在url时，增加一个OL标识符
+%{\printtext{\nobreak[\nobreak}#1\printtext{]\nobreak}}%
+%{\printtext{\nobreak[\nobreak}#1\printtext{\texttt{/}OL]\nobreak}}%
+%}
+%\DeclareFieldFormat{gbtypeflag}{%
+%\iffieldundef{url}%当存在url时，增加一个OL标识符
+%{\nobreak[\nobreak#1]\nobreak}%
+%{\nobreak[\nobreak#1\texttt{/}OL]\nobreak}%
+%}
+%\DeclareFieldFormat{gbtypeflag}{%
+%\iffieldundef{url}%当存在url时，增加一个OL标识符
+%{\printtext{\mkbibbrackets{#1}}}%\nopunct
+%{\printtext{\mkbibbrackets{#1\texttt{/}OL}}}%
+%}
+\DeclareFieldFormat{gbtypeflagn}{%用于报纸newspaper
+\iftoggle{bbx:url}{\iffieldundef{url}%当存在url时，增加一个OL标识符
+{\nobreak\printtext{[}\nobreak N\printtext{]}\nobreak}%
+{\nobreak\printtext{[}\nobreak N\printtext{\texttt{/}OL]}\nobreak}%
+}{\nobreak\printtext{[}\nobreak N\printtext{]}\nobreak}}
+
+\DeclareFieldFormat{gbtypeflags}{%用于标准standard
+\iftoggle{bbx:url}{\iffieldundef{url}%当存在url时，增加一个OL标识符
+{\nobreak\printtext{[}\nobreak S\printtext{]}\nobreak}%
+{\nobreak\printtext{[}\nobreak S\printtext{\texttt{/}OL]}\nobreak}%
+}{\nobreak\printtext{[}\nobreak S\printtext{]}\nobreak}}
+
+%重设title的输出格式，不加emph，原格式来自biblatex.def文件
+%\DeclareFieldFormat{journaltitle}{\mkbibemph{#1}}
+%\DeclareFieldFormat{issuetitle}{\mkbibemph{#1}}
+%\DeclareFieldFormat{maintitle}{\mkbibemph{#1}}
+%\DeclareFieldFormat{title}{\mkbibemph{#1}}
+%\DeclareFieldFormat{booktitle}{\mkbibemph{#1}}
+\DeclareFieldFormat{title}{#1\adddot\addthinspace}%
+\DeclareFieldFormat{journaltitle}{#1\isdot}
+\DeclareFieldFormat{issuetitle}{#1}
+\DeclareFieldFormat{maintitle}{#1}
+\DeclareFieldFormat{booktitle}{#1}
+%\DeclareFieldFormat[article,inbook,incollection,inproceedings,patent,thesis,unpublished]
+%  {title}{\mkbibquote{#1\isdot}}
+\DeclareFieldFormat%将期刊等文献的标题中原来带的引号去掉
+  [article,patent,thesis,unpublished]
+  {title}{#1\adddot\addthinspace}%
+\DeclareFieldFormat%将期刊等文献的标题中原来带的引号去掉
+  [inbook,incollection,inproceedings]
+  {title}{#1\nopunct\unspace}%
+
+%url相关输出，源来自biblatex.def
+%\DeclareFieldFormat{url}{\mkbibacro{URL}\addcolon\space\url{#1}}
+\DeclareFieldFormat{url}{\url{#1}} %url域修改如本行
+%\DeclareFieldFormat{urldate}{\mkbibparens{\bibstring{urlseen}\space#1}}
+
+%重设标题格式，将其修改为首字母大写
+%\DeclareFieldFormat{titlecase}{#1}
+\DeclareFieldFormat{titlecase}{\MakeCapital#1}
+
+%\DeclareFieldFormat{pages}{\mkpageprefix[bookpagination]{#1}}
+\DeclareFieldFormat{pages}{#1}%去掉前面引导页码的pp.等字符
+
+%修改译者位置格式，bytranslator+others原格式来自biblatex.def文件
+\renewbibmacro*{bytranslator+others}{%
+  \ifnameundef{translator}
+    {}
+    {%\usebibmacro{bytranslator+othersstrg}
+     %\setunit{\addspace}%
+     \printnames[bytranslator]{translator}%
+     \clearname{translator}%
+     \usebibmacro{bytranslator+othersstrg}%“译”的位置换到下面来，即放到译者后面。
+     \setunit*{\addspace}%
+     \newunit}%
+  \usebibmacro{withothers}}
+
+%下面一段没有作用，但从中可以看到当地化字符串格式的引用前的代码处理
+%比如生成cotranslator等用于调用cotranslator所代表的当地化字符串
+%\renewbibmacro*{bytranslator+othersstrg}{%
+
+%判断作者或译者是否中文，若中文用字符等，否则用etcl。
+\renewbibmacro*{name:andothers}{%
+  \ifboolexpr{%
+    test {\ifnumequal{\value{listcount}}{\value{liststop}}}
+    and
+    test \ifmorenames
+  }%
+    {%这里做一个判断是在处理author还是translator用于两者是不同语言的情况
+    \ifcurrentname{translator}{\testCJKfirst{\thefield{usere}}}{\testCJKfirst{\thefield{userf}}}%
+    %这句判断如果放到\andothersdelim后面会在等或etc.前增加一个空格，所以放前面
+    \ifnumgreater{\value{liststop}}{1}%
+       {\finalandcomma}%
+       {\finalandcomma}%biblatex作者要区别单作者加等的情况，这里为符合gbt7714-2015第7.2节的要求加上了逗号。
+\andothersdelim\iftoggle{ifCJKforgbt}{\bibstring{andotherscn}}{\bibstring{andothers}}%
+%\andothersdelim\bibstring{andotherscn}
+}%
+{}}
+
+%重设title的输出，将文献类型标识符输出出去，原输出来自biblatex.def文件
+\renewbibmacro*{title}{%
+  \ifboolexpr{%
+    test{\iffieldundef{title}}%
+    and%
+    test{\iffieldundef{subtitle}}%
+  }%
+    {}%
+    {\printtext[title]{%
+       \printfield[titlecase]{title}%
+       \ifboolexpr{test {\iffieldundef{subtitle}}}%这里增加了对子标题的判断，解决不判断多一个点的问题
+       {}{\setunit{\subtitlepunct}%
+       \printfield[titlecase]{subtitle}}%
+       \iffieldundef{titleaddon}{}%判断一下titleaddon，否则直接加可能多一个空格
+        {\setunit{\subtitlepunct}\printfield{titleaddon}}%
+         \iffieldundef{note}{\printfield[gbtypeflag]{usera}}%在标题后直接给出文献标识字母，判断一下，是否是报纸和标准
+        {\iffieldequalstr{note}{standard}{\printfield[gbtypeflags]{usera}}%判断是否为标准
+                                         {\iffieldequalstr{note}{news}{\printfield[gbtypeflagn]{usera}}%判断是否为报纸
+                                                                      {\printfield[gbtypeflag]{usera}}}%其它
+%        \def\comparetmp{news}\def\comparetmpa{standard}\edef\comparetmpb{\thefield{note}}%
+%        \ifx\comparetmp\comparetmpb%判断是否为报纸
+%        \printfield[gbtypeflagn]{usera}%
+%        \else%
+%            \ifx\comparetmpa\comparetmpb%判断是否为标准
+%            \printfield[gbtypeflags]{usera}%
+%            \else%
+%            \printfield[gbtypeflag]{usera}%
+%            \fi%
+%        \fi%
+        }%
+     %\iffieldundef{booktitle}{\newunit}{}%当title是析出时，不要标点
+     %\newunit
+     }%
+}%
+}
+
+\iftoggle{iftexlivesix}%姓名的格式处理
+{%biblatex3.3版后(比如texlive2016中的3.4版)的使用方式
+\renewbibmacro*{name:given-family}[4]{%利用family-given定义given-family
+  \ifuseprefix
+    {\usebibmacro{name:delim}{#3#1}%
+     \usebibmacro{name:hook}{#3#1}%
+     \ifdefvoid{#3}{}{%
+       \ifcapital
+         {\mkbibnameprefix{\MakeCapital{#3}}\isdot}
+         {\mkbibnameprefix{#3}\isdot}%
+       \ifprefchar{}{\bibnamedelimc}}%
+     \ifdefvoid{#2}{\mkbibnamefamily{\MakeCapital{#1}}}{\mkbibnamefamily{\MakeUppercase{#1}}}\isdot
+     \ifdefvoid{#2}{}{\revsdnamepunct\bibnamedelimd\mkbibnamegiven{\MakeUppercase{#2}}\isdot}%\MakeCapital
+     \ifdefvoid{#4}{}{\bibnamedelimd\mkbibnamesuffix{#4}\isdot}}
+    {\usebibmacro{name:delim}{#1}%
+     \usebibmacro{name:hook}{#1}%
+     \ifdefvoid{#2}{\mkbibnamefamily{\MakeCapital{#1}}}{\mkbibnamefamily{\MakeUppercase{#1}}}\isdot
+     %
+     \ifboolexpe{%
+       test {\ifdefvoid{#2}}
+       and
+       test {\ifdefvoid{#3}}}
+       {}
+       {\revsdnamepunct}%
+     \ifdefvoid{#2}{}{\bibnamedelimd\mkbibnamegiven{\MakeUppercase{#2}}\isdot}%\MakeCapital
+     \ifdefvoid{#3}{}{\bibnamedelimd\mkbibnameprefix{#3}\isdot}
+     \ifdefvoid{#4}{}{\bibnamedelimd\mkbibnamesuffix{#4}\isdot}}}
+}
+{%biblatex3.3版前(比如texlive2015中的3.0版)的使用方式
+\renewbibmacro*{name:first-last}[4]{%
+  \ifuseprefix
+    {\usebibmacro{name:delim}{#3#1}%
+     \usebibmacro{name:hook}{#3#1}%
+     \ifblank{#3}{}{%
+       \ifcapital
+         {\mkbibnameprefix{\MakeCapital{#3}}\isdot}
+         {\mkbibnameprefix{#3}\isdot}%
+       \ifpunctmark{'}{}{\bibnamedelimc}}%
+     %\mkbibnamelast{#1}\isdot
+     \ifblank{#2}{\MakeCapital#1}{\mkbibnamelast{\MakeUppercase{#1}}}\isdot%\MakeUppercase %\mkbibnamelast{\MakeUppercase{#1}} %\MakeSentenceCase
+     %注意上一句\MakeCapital后面如果再跟一个{}包含#1，则没有效果，可能是包在里面少了一层展开
+     %因为机构名通常包括在{}内，所以要多展开一次才行，所以这里去掉#1外面的{}
+     %\mkbibnamelast{\MakeUppercase{#1}}\isdot
+     %\ifblank{#4}{}{\bibnamedelimd\mkbibnameaffix{#4}\isdot}%这句放到后面
+     \ifblank{#2}{}{\revsdnamepunct\bibnamedelimd\mkbibnamefirst{\MakeUppercase{#2}}\isdot}%
+     \ifblank{#4}{}{\addcomma\addspace\bibnamedelimd\mkbibnameaffix{#4}\isdot}}
+    {\usebibmacro{name:delim}{#1}%
+     \usebibmacro{name:hook}{#1}%
+     %\mkbibnamelast{#1}\isdot  %3.9.1 Generic Commands and Hooks，对姓重新处理，如下句: %\mkbibnamelast{\MakeUppercase{#1}}
+     \ifblank{#2}{\MakeCapital#1}{\mkbibnamelast{\MakeUppercase{#1}}}\isdot  %大写，参考4.6.4 Miscellaneous Commands，\MakeUppercase %\MakeSentenceCase
+     %\mkbibnamelast{\MakeUppercase{#1}}\isdot
+     %\ifblank{#4}{}{\bibnamedelimd\mkbibnameaffix{#4}\isdot}%这句放到后面
+     \ifblank{#2#3}{}{\revsdnamepunct}%
+     \ifblank{#2}{}{\bibnamedelimd\mkbibnamefirst{\MakeUppercase{#2}}\isdot}%
+     \ifblank{#3}{}{\bibnamedelimd\mkbibnameprefix{#3}\isdot}%
+     \addcomma\addspace%
+     \ifblank{#4}{}{\addcomma\addspace\bibnamedelimd\mkbibnameaffix{#4}\isdot}%
+     }}
+
+\renewbibmacro*{name:last-first}[4]{%
+  \ifuseprefix
+    {\usebibmacro{name:delim}{#3#1}%
+     \usebibmacro{name:hook}{#3#1}%
+     \ifblank{#3}{}{%
+       \ifcapital
+         {\mkbibnameprefix{\MakeCapital{#3}}\isdot}
+         {\mkbibnameprefix{#3}\isdot}%
+       \ifpunctmark{'}{}{\bibnamedelimc}}%
+     %\mkbibnamelast{#1}\isdot
+     \ifblank{#2}{\MakeCapital#1}{\mkbibnamelast{\MakeUppercase{#1}}}\isdot%\MakeUppercase %\mkbibnamelast{\MakeUppercase{#1}} %\MakeSentenceCase
+     %注意上一句\MakeCapital后面如果再跟一个{}包含#1，则没有效果，可能是包在里面少了一层展开
+     %因为机构名通常包括在{}内，所以要多展开一次才行，所以这里去掉#1外面的{}
+     %\mkbibnamelast{\MakeUppercase{#1}}\isdot
+     %\ifblank{#4}{}{\bibnamedelimd\mkbibnameaffix{#4}\isdot}%这句放到后面
+     \ifblank{#2}{}{\revsdnamepunct\bibnamedelimd\mkbibnamefirst{\MakeUppercase{#2}}\isdot}%
+     \ifblank{#4}{}{\addcomma\addspace\bibnamedelimd\mkbibnameaffix{#4}\isdot}}
+    {\usebibmacro{name:delim}{#1}%
+     \usebibmacro{name:hook}{#1}%
+     %\mkbibnamelast{#1}\isdot  %3.9.1 Generic Commands and Hooks，对姓重新处理，如下句: %\mkbibnamelast{\MakeUppercase{#1}}
+     \ifblank{#2}{\MakeCapital#1}{\mkbibnamelast{\MakeUppercase{#1}}}\isdot  %大写，参考4.6.4 Miscellaneous Commands，\MakeUppercase %\MakeSentenceCase
+     %\mkbibnamelast{\MakeUppercase{#1}}\isdot
+     %\ifblank{#4}{}{\bibnamedelimd\mkbibnameaffix{#4}\isdot}%这句放到后面
+     \ifblank{#2#3}{}{\revsdnamepunct}%
+     \ifblank{#2}{}{\bibnamedelimd\mkbibnamefirst{\MakeUppercase{#2}}\isdot}%
+     \ifblank{#3}{}{\bibnamedelimd\mkbibnameprefix{#3}\isdot}%
+     \addcomma\addspace%
+     \ifblank{#4}{}{\addcomma\addspace\bibnamedelimd\mkbibnameaffix{#4}\isdot}%
+     }}
+}
+
+\renewbibmacro*{url+urldate}{%
+  %\usebibmacro{url}%%更换url的位置，放到下面
+  \iffieldundef{urlyear}%
+    {}{%\setunit*{\addspace}%
+    \usebibmacro{urldate}}%
+     \setunit{\addperiod\addspace}%
+     \usebibmacro{url}}
+
+\renewbibmacro*{url}{\printfield{url}}
+%\newbibmacro*{urldate}{\printurldate} %引用时间修改如下一行，即带方括号
+\renewbibmacro*{urldate}{%
+\addspace\printtext{[}\printfield{urlyear}%
+\iffieldundef{urlmonth}{}{\bibrangedash\printfield{urlmonth}}%
+\iffieldundef{urlday}{}{\bibrangedash\printfield{urlday}}\printtext{]}}
+
+\newbibmacro*{newsdate}{%%新增加一个新闻日期
+\iffieldundef{year}{}{\printfield{year}%
+\iffieldundef{month}{}{\bibrangedash\printtext{\thefield{month}}%
+\iffieldundef{day}{}{\bibrangedash\printfield{day}}}}%
+}
+
+\newbibmacro*{modifydate}{%新增加一个带括号的日期，用于表示电子资源的更新和修改日期，而公告日期则按日期格式
+\iffieldundef{year}{%
+\iffieldundef{endyear}{%
+\iffieldundef{eventyear}{}{\printtext{\mkbibparens{\printtext{\printfield{eventyear}}%
+\iffieldundef{eventmonth}{}{\bibrangedash\thefield{eventmonth}}%
+\iffieldundef{eventday}{}{\bibrangedash\printfield{eventday}}}}%
+}%
+}{%
+\iffieldundef{endyear}{}{\printtext{\mkbibparens{\printtext{\printfield{endyear}}%
+\iffieldundef{endmonth}{}{\bibrangedash\thefield{endmonth}}%
+\iffieldundef{endday}{}{\bibrangedash\printfield{endday}}}}%
+}%
+}}{%
+\iffieldundef{year}{}{\printtext{\mkbibparens{\printtext{\printfield{year}}%
+\iffieldundef{month}{}{\bibrangedash\thefield{month}}%
+\iffieldundef{day}{}{\bibrangedash\printfield{day}}}}%
+}}%
+}%
+
+%调整doi+eprint+url格式，源来自standard.bbx
+%因为页码后面直接跟引用日期，没有标点所以去掉其中的标点。
+\renewbibmacro*{doi+eprint+url}{%
+%  \iftoggle{bbx:doi}%把doi的位置放到url后面
+%    {\printfield{doi}}
+%    {}%
+  %\newunit\newblock
+  \iftoggle{bbx:eprint}
+    {\usebibmacro{eprint}}
+    {}%
+  %\newunit\newblock
+  \iftoggle{bbx:url}
+    {\usebibmacro{url+urldate}}
+    {}
+  \newunit\newblock
+  \iftoggle{bbx:doi}
+    {\printfield{doi}}
+    {}}
+
+\renewbibmacro*{chapter+pages}{%
+  \printfield{chapter}%
+  \iffieldundef{pages}{}{%这里增加一个判断，当没有页码时就不输出
+  \setunit{\bibpagespunct}%
+  \printfield{pages}}%
+  %\newunit %这里的标点去掉
+}
+
+%出版社和地址的处理
+%当没有出版社地址时，直接判断title的信息是否是中文，若为中文，则写出版地不详，否则用英文的字符表示。
+%事实上title对于每个文献来说是必须的，所以用它判断是最快的，而且一般标题和出版社的语言是一样的。
+%新增一个样式用于输出连续出版物的地址，单位，时间，%类似\newbibmacro*{publisher+location+date}
+\newbibmacro*{location+institution+date}{%
+\iftoggle{bbx:gbpub}%
+{\testCJKfirst{\thefield{title}}
+\iflistundef{location}{\iftoggle{ifCJKforgbt}{\printtext{[出版地不详]}}{\printtext{[S.l.\adddot]}}}%
+  {\printlist{location}}%
+%  \iflistundef{institution}
+%    {\setunit*{\addcomma\space}}
+%    {\setunit*{\addcolon\space}}%
+%  \printlist{institution}%
+%  \setunit*{\addcomma\space}%
+\addcolon\addspace%
+\iflistundef{institution}{%
+\iftoggle{ifCJKforgbt}{\printtext{[出版者不详]}}{\printtext{\mkbibbrackets{s.n.}}}}% \bibstring{nopublisher}%[s.n.\adddot]
+{\printlist{institution}}%
+\setunit{\addcomma\addspace}%
+  %\usebibmacro{date}%
+  \printfield{year}%
+  \bibrangedash%
+  \iffieldundef{endyear}{}{\printfield{endyear}}%
+  \newunit}%
+{  \printlist{location}%
+  \iflistundef{institution}%
+    {\setunit*{\addcomma\space}}
+    {\setunit*{\addcolon\space}}%
+  \printlist{institution}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}%
+  \newunit}%
+}
+
+
+\renewbibmacro*{publisher+location+date}{%
+\iftoggle{bbx:gbpub}%
+{\testCJKfirst{\thefield{title}}%
+%\testifnoteeqstd%
+\iflistundef{location}{%\adddot
+\iffieldequalstr{note}{standard}{}{%从gbt7714-2015标准低19页看到，标准存在出版项时输出，没有时完全省略。
+%\iftoggle{ifnoteeqstandard}{}{%}替换为上一句，尽可能用biblatex提供的函数
+\iftoggle{ifCJKforgbt}{\printtext{[出版地不详]}\addcolon\addspace}{\printtext{[S.l.\adddot]}\addcolon\addspace}%
+}}%  \bibstring{noaddress}
+{\printlist{location}\addcolon\addspace}%
+%\addcolon\addspace%
+\iflistundef{publisher}{%
+\iffieldequalstr{note}{standard}{}{%
+%\iftoggle{ifnoteeqstandard}{}{%}替换为上一句，尽可能用biblatex提供的函数
+\iftoggle{ifCJKforgbt}{\printtext{[出版者不详]}\setunit{\adddot\addspace}\setunit*{\addcomma\addspace}}%
+{\printtext{\mkbibbrackets{s.n.}}\setunit{\adddot\addspace}\setunit*{\addcomma\addspace}}%
+}}%
+{\printlist{publisher}\setunit*{\addcomma\addspace}}%
+%\addcomma\addspace%
+\usebibmacro{date}%
+%\newunit %去掉这个标点
+}%
+{\printlist{location}%
+  \iflistundef{publisher}
+    {\setunit*{\addcomma\space}}
+    {\setunit*{\addcolon\space}}%
+  \printlist{publisher}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}%
+  %\newunit
+  }%
+}
+
+%对edition版本信息做出修改，源来自biblatex.DEF
+\DeclareFieldFormat{edition}{%
+\testCJKfirst{\thefield{title}}%
+\iftoggle{ifCJKforgbt}%
+{\ifinteger{#1}%
+{\printtext{#1版}}%
+{#1\isdot}}%
+{\ifinteger{#1}%
+{\mkbibordedition{#1}~\bibstring{edition}}%
+{#1\isdot}}}
+
+%对version的版本信息做出修改，源来自biblatex.DEF
+\DeclareFieldFormat{version}{%
+\testCJKfirst{\thefield{title}}%
+\ifinteger{#1}%
+{\iftoggle{ifCJKforgbt}{\printtext{#1版}}%
+{\mkbibordedition{#1}~\bibstring{version}}}%
+{#1\isdot}}
+
+%调整期刊名的格式，源来自standard.bbx
+\renewbibmacro*{journal+issuetitle}{%
+  \usebibmacro{journal}%
+  %\setunit*{\addspace}%
+  \setunit*{\addcomma\addspace}%修改为增加一个逗号
+  \iffieldundef{series}
+    {}
+    {\newunit
+     \printfield{series}%
+     \setunit{\addspace}}%
+  %\usebibmacro{volume+number+eid}%
+  %\setunit{\addspace}%
+  \usebibmacro{issue+date}%
+  %\setunit{\addcolon\space}%
+  \iffieldundef{volume}{}{\setunit{\addcomma\space}}%
+  %换成逗号和空格
+  \usebibmacro{issue}%
+  \usebibmacro{volume+number+eid}%把卷期放到年份后面
+  %\newunit
+  }
+
+%调整期刊年份的格式，去掉括号
+\renewbibmacro*{issue+date}{%
+  \printtext{%去掉了[parens]
+    \iffieldundef{issue}
+      {%\usebibmacro{date}
+        \iffieldundef{note}{\usebibmacro{date}}%判断一下，是否是报纸
+        {\iffieldequalstr{note}{news}{\usebibmacro{newsdate}}%判断是否为报纸
+                                     {\usebibmacro{date}}%
+%        \def\comparetmp{news}\edef\comparetmpb{\thefield{note}}%
+%        \ifx\comparetmp\comparetmpb%
+%        \usebibmacro{newsdate}%
+%        \else%
+%        \usebibmacro{date}%
+%        \fi
+      }}%
+      {\printfield{issue}%
+       \setunit*{\addspace}%
+       %\usebibmacro{date}
+         \iffieldundef{note}{\usebibmacro{date}}%判断一下，是否是报纸
+        {\iffieldequalstr{note}{news}{\usebibmacro{newsdate}}%判断是否为报纸
+                                     {\usebibmacro{date}}%
+%        \def\comparetmp{news}\edef\comparetmpb{\thefield{note}}%
+%        \ifx\comparetmp\comparetmpb%
+%        \usebibmacro{newsdate}%
+%        \else%
+%        \usebibmacro{date}%
+%        \fi
+        }}}%
+  %\newunit
+  }
+
+%调整期刊卷和期的格式，源来自standard.bbx
+\renewbibmacro*{volume+number+eid}{%
+%\ifnumerals{\thefield{volume}}{htruei}{hfalsei}
+  \printfield{volume}%
+  %\setunit*{\adddot}%去掉点号
+  %\printfield{number}%
+  \iffieldundef{number}{}{\printtext{\mkbibparens{\printfield{number}}}}%增加一个圆括号
+  \iffieldundef{eid}{}{%
+  \setunit{\addcomma\space}%
+  \printfield{eid}}}
+
+%调整页码前的标点和去掉期刊文章等页码后面的标点，源来自standard.bbx
+\renewbibmacro*{note+pages}{%
+  %\printfield{note}%不要note，note用来判断是否是报纸newspaper
+  \iffieldundef{pages}{}{
+  \setunit{\bibpagespunct}%
+  \printfield{pages}}%
+  %\newunit
+  }
+
+%修改析出文献的文集的标题与附加标题间的符号
+\renewbibmacro*{booktitle}{%
+  \ifboolexpr{
+    test {\iffieldundef{booktitle}}
+    and
+    test {\iffieldundef{booksubtitle}}
+  }
+    {}
+    {\printtext[booktitle]{%
+       \printfield[titlecase]{booktitle}%
+       \setunit{\subtitlepunct}%
+       \printfield[titlecase]{booksubtitle}}%
+     \newunit%标点换成下一句
+     \setunit{\subtitlepunct}}%
+  \printfield{booktitleaddon}}
+
+%编者的符号修改一下，源来自biblatex.DEF
+\renewbibmacro*{editor}{%
+  \ifboolexpr{
+    test \ifuseeditor
+    and
+    not test {\ifnameundef{editor}}
+  }
+    {\printnames{editor}%
+    \iffieldundef{editortype}%增加一个类型判断，用于存在editortype的情况
+    {\setunit\addspace}%当没有editortype时，直接用句点
+    {\setunit{\addcomma\space}%
+     \usebibmacro{editorstrg}}%
+     \clearname{editor}}
+    {}}
+
+%编者类型做一修改，源来自biblatex.DEF
+\renewbibmacro*{editorstrg}{%
+  \printtext[editortype]{%
+    \iffieldundef{editortype}
+      {
+%      \ifboolexpr{ %这一段去掉
+%         test {\ifnumgreater{\value{editor}}{1}}
+%         or
+%         test {\ifandothers{editor}}
+%       }
+%         {\bibstring{editors}}
+%         {\bibstring{editor}}
+         }
+      {\ifbibxstring{\thefield{editortype}}
+         {\ifboolexpr{
+            test {\ifnumgreater{\value{editor}}{1}}
+            or
+            test {\ifandothers{editor}}
+          }
+            {\bibstring{\thefield{editortype}s}}
+            {\bibstring{\thefield{editortype}}}}
+         {\thefield{editortype}}}}}
+
+%修改期刊的标题，源来自biblatex.DEF
+\renewbibmacro*{periodical}{%
+  \iffieldundef{title}
+    {}
+    {\printtext[title]{%
+       \printfield[titlecase]{title}%
+       %\setunit{\subtitlepunct}%
+       \ifboolexpr{test {\iffieldundef{subtitle}}}%这里增加了对子标题的判断，解决不判断多一个点的问题
+       {}{\setunit{\subtitlepunct}
+       \printfield[titlecase]{subtitle}}%
+       %
+       \iffieldundef{usera}{}{%在标题后直接给出文献标识字母
+        \printfield[gbtypeflag]{usera}}
+       }%把编组结束移到这里
+       }%
+       }
+
+%期刊的标题做修改，源来自standard.BBX
+\renewbibmacro*{title+issuetitle}{%
+  \usebibmacro{periodical}%
+  %\setunit*{\addspace}%
+  \setunit*{\adddot\addspace}%标点修改为句点
+  \iffieldundef{series}
+    {}
+    {\newunit
+     \printfield{series}%
+     \setunit{\addspace}}%
+  \usebibmacro{periodical+issue}%将issue调整到上面来，并修改
+\iffieldundef{number}{}{%%进一步处理有范围的数字
+  \multinumberparser{\thefield{number}}}%
+  \iffieldundef{volume}%
+  {\printfield{year}%
+  \printtext{\mkbibparens{\multinumberfirst}}%
+  \bibrangedash%
+  \iffieldundef{endyear}{}{\printfield{endyear}\printtext{\mkbibparens{\multinumbersecond}}}%
+  }%
+  {\gbt@parse@range{\thefield{volume}}%
+  \printfield{year}%
+  \setunit{\addcomma\space}%将冒号修改为逗号
+  \printtext{\gbt@range@first}%
+  \printtext{\mkbibparens{\multinumberfirst}}%
+  \bibrangedash%
+  \iffieldundef{endyear}{}{%
+  \printfield{endyear}%
+  \setunit{\addcomma\space}%将冒号修改为逗号
+  \printtext{\gbt@range@second}%
+  \printtext{\mkbibparens{\multinumbersecond}}}%
+  }%
+  \setunit{\addcomma\space}%
+  \printfield{eid}%
+  \setunit{\addspace}%
+  %\usebibmacro{issue+date}%
+  %\setunit{\addcolon\space}%
+  \usebibmacro{issue}%
+  \newunit}
+
+%新增一个样式用于调整期刊年份的格式，只打印年份
+\newbibmacro*{periodical+issue}{%
+  \printtext{%去掉了[parens]
+    \iffieldundef{issue}
+      {%\usebibmacro{date}%修改为下一句
+      }%
+      {\printfield{issue}%
+       \setunit*{\addspace}%
+       %\usebibmacro{date}%修改为下一句
+       }%
+       }%
+  %\newunit
+}
+
+%重设专利title的输出，将文献类型标识符输出出去，原输出来自biblatex.def文件
+\newbibmacro*{patenttitle}{%
+  \ifboolexpr{%
+    test{\iffieldundef{title}}%
+    and%
+    test{\iffieldundef{subtitle}}%
+  }%
+    {}%
+    {\printtext[title]{%
+       \printfield[titlecase]{title}%
+       \ifboolexpr{test {\iffieldundef{subtitle}}}%这里增加了对子标题的判断，解决不判断多一个点的问题
+       {}{\setunit{\subtitlepunct}%
+       \printfield[titlecase]{subtitle}}%
+       \iffieldundef{titleaddon}{}%判断一下titleaddon，否则直接加可能多一个空格
+        {\setunit{\subtitlepunct}\printfield{titleaddon}}%
+        \setunit{\subtitlepunct}\printfield{number}%写专利号
+         \printfield[gbtypeflag]{usera}%
+     %\iffieldundef{booktitle}{\newunit}{}%当title是析出时，不要标点
+     %\newunit
+     }%
+}%
+}
+
+%修改了一个institution+location+date用于report等的，当没有institution时不处理。
+\renewbibmacro*{institution+location+date}{%
+  \printlist{location}%
+  \iflistundef{institution}
+    {\setunit*{\addcomma\space}}
+    {\setunit*{\addcolon\space}}%
+  \printlist{institution}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}%
+  %\usebibmacro{modifydate}%
+  %\newunit
+  }
+
+
+%=====================================================================
+%=====================================================================
+%设置驱动格式
+%=====================================================================
+%book条目类的驱动，源来自standard.bbx文件
+  \DeclareBibliographyDriver{book}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+\usebibmacro{author/editor+others/translator+others}%
+\ifnameundef{author}{%这一段用于去除作者不存在时多出的标点
+\ifnameundef{editor}{%
+\ifnameundef{translator}{\relax}%
+{\setunit{\labelnamepunct}\newblock}}%
+{\setunit{\labelnamepunct}\newblock}}%
+{\setunit{\labelnamepunct}\newblock}%这个注释去除标题前空格
+\usebibmacro{maintitle+title}%
+\newunit
+\printlist{language}%
+\newunit\newblock%
+\usebibmacro{byauthor}%
+\newunit\newblock%
+\usebibmacro{byeditor+others}%
+\newunit\newblock%
+\printfield{edition}%
+\newunit%
+\iffieldundef{maintitle}%
+{\printfield{volume}%
+\printfield{part}}%
+{}%
+\newunit%
+\printfield{volumes}%
+\newunit\newblock%
+\usebibmacro{series+number}%
+\newunit\newblock%
+%\printfield{note}%
+%\newunit\newblock%
+\usebibmacro{publisher+location+date}%
+%\newunit\newblock %这里标点去掉
+\usebibmacro{chapter+pages}%
+\usebibmacro{doi+eprint+url}%从下面移动到上面来，因为gbt2015的url需直接放在页码后面。
+  \newunit\newblock%
+  %\newunit
+  \printfield{pagetotal}%
+  \newunit\newblock%
+  \iftoggle{bbx:isbn}
+    {\printfield{isbn}}
+    {}%
+  \newunit\newblock
+  %\usebibmacro{doi+eprint+url}%
+  %\newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%期刊文章，连续出版物中的析出文献的格式
+  \DeclareBibliographyDriver{article}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{bytranslator+others}%
+  \newunit\newblock
+  \printfield{version}%
+  \newunit\newblock
+  %\usebibmacro{in:}% 不使用in来表示期刊等连续出版物
+  \usebibmacro{journal+issuetitle}%
+  %\newunit
+%  \usebibmacro{byeditor+others}%
+%  \newunit
+  \usebibmacro{note+pages}%
+  \usebibmacro{doi+eprint+url}%从后面移上来，调整url和页码之间的位置
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{issn}}
+    {}%
+  \newunit\newblock
+  %\usebibmacro{doi+eprint+url}%
+  %\newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%专著中的析出文献的格式修改，源来自standard.bbx
+\DeclareBibliographyDriver{inbook}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+\ifnameundef{author}{%这一段用于去除作者不存在时多出的标点
+\ifnameundef{editor}{%
+\ifnameundef{translator}{\relax}%
+{\setunit{\labelnamepunct}\newblock}}%
+{\setunit{\labelnamepunct}\newblock}}%
+{\setunit{\labelnamepunct}\newblock}%
+%\setunit{\labelnamepunct}\newblock
+\usebibmacro{title}%
+%\nopunct
+%\iffieldundef{booktitle}{\adddot\addspace}{%兼容standard时，如果standard没有booktitle的应转换为book类，因为都转成inbook类，所以这里做如下处理
+%\printtext{\texttt{//}\addnbthinspace}%%\texttt{//}
+\usebibmacro{bybookauthor}%
+\ifnameundef{bookauthor}{\newblock}{\newunit\newblock}%替换下一句
+%\newunit\newblock
+\usebibmacro{maintitle+booktitle}%}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \printfield{edition}%
+  \newunit
+  \iffieldundef{maintitle}
+    {\printfield{volume}%
+     \printfield{part}}
+    {}%
+  \newunit
+  \printfield{volumes}%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+  \newunit\newblock
+  %\printfield{note}%
+  %\newunit\newblock
+  \usebibmacro{publisher+location+date}%
+%\newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \usebibmacro{doi+eprint+url}%移到上面来
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isbn}}
+    {}%
+  \newunit\newblock
+  %\usebibmacro{doi+eprint+url}%
+%  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%修改连续出版物的驱动，源来自standard.BBX
+  \DeclareBibliographyDriver{periodical}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{editor}%
+  %\setunit{\labelnamepunct}\newblock
+  \newunit\newblock %删除上面一行，添加这一行
+  \usebibmacro{title+issuetitle}%
+  \newunit
+  \usebibmacro{location+institution+date}%添加这一行用于输出地址，单位和时间
+  \newunit\newblock%添加这一行
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byeditor}%
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{issn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%处理专利文献，源来自standard.BBX
+  \DeclareBibliographyDriver{patent}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\labelnamepunct}\newblock
+  %\usebibmacro{title}%
+  \usebibmacro{patenttitle}%给出专利专用的标题输出
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \printfield{type}%
+  \setunit*{\addspace}%
+  %\printfield{number}%
+  \iflistundef{location}
+    {}
+    {\setunit*{\addspace}%
+     \printtext[parens]{%
+       \printlist[][-\value{listtotal}]{location}}}%
+  \newunit\newblock
+  \usebibmacro{byholder}%
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{newsdate}%
+  %\newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%处理在线文献，源来自standard.BBX
+\DeclareBibliographyDriver{online}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \ifnameundef{author}{%这一段用于去除作者不存在时多出的标点
+\ifnameundef{editor}{%
+\ifnameundef{translator}{\relax}%
+{\setunit{\labelnamepunct}\newblock}}%
+{\setunit{\labelnamepunct}\newblock}}%
+{\setunit{\labelnamepunct}\newblock}%
+  %\setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \printfield{version}%
+  \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \printlist{organization}%
+  \newunit\newblock
+  %\usebibmacro{date}%
+  \usebibmacro{modifydate}%修改为带括号的时间
+  \usebibmacro{url+urldate}%从下面移上来
+  \newunit\newblock
+  \iftoggle{bbx:eprint}
+    {\usebibmacro{eprint}}
+    {}%
+  \newunit\newblock
+  %\usebibmacro{url+urldate}%
+  %\newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%学位论文修改，源来自standard.BBX
+  \DeclareBibliographyDriver{thesis}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \printfield{type}%
+  \newunit
+  \usebibmacro{institution+location+date}%
+  %\newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \usebibmacro{doi+eprint+url}%
+  \newunit
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isbn}}
+    {}%
+  \newunit\newblock
+%  \usebibmacro{doi+eprint+url}%
+%  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%2016-11-11增加了译者信息
+\DeclareBibliographyDriver{report}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%增加的译者信息
+  \newunit\newblock
+  \printfield{type}%
+  \setunit*{\addspace}%
+  \printfield{number}%
+  \newunit\newblock
+  \printfield{version}%
+  \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{institution+location+date}%
+  %\newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \usebibmacro{doi+eprint+url}%
+  \newunit
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isrn}}
+    {}%
+  \newunit\newblock
+%  \usebibmacro{doi+eprint+url}%
+%  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%直接利用report做manual,2016-11-11增加了译者信息
+%\DeclareBibliographyDriver{report}{%
+\DeclareBibliographyDriver{manual}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%增加的译者信息
+  \newunit\newblock
+  \printfield{type}%
+  \setunit*{\addspace}%
+  \printfield{number}%
+  \newunit\newblock
+  \printfield{version}%
+  \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{institution+location+date}%
+  %\newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \usebibmacro{doi+eprint+url}%
+  \newunit
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isrn}}
+    {}%
+  \newunit\newblock
+%  \usebibmacro{doi+eprint+url}%
+%  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%直接利用report做unpublished
+%\DeclareBibliographyDriver{report}{%
+\DeclareBibliographyDriver{unpublished}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \printfield{type}%
+  \setunit*{\addspace}%
+  \printfield{number}%
+  \newunit\newblock
+  \printfield{version}%
+  \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{institution+location+date}%
+  %\newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \usebibmacro{doi+eprint+url}%
+  \newunit
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isrn}}
+    {}%
+  \newunit\newblock
+%  \usebibmacro{doi+eprint+url}%
+%  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%直接利用book做collection
+  \DeclareBibliographyDriver{collection}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+\usebibmacro{author/editor+others/translator+others}
+\ifnameundef{author}{%这一段用于去除作者不存在时多出的标点
+\ifnameundef{editor}{%
+\ifnameundef{translator}{\relax}%
+{\setunit{\labelnamepunct}\newblock}}%
+{\setunit{\labelnamepunct}\newblock}}%
+{\setunit{\labelnamepunct}\newblock}%
+  \usebibmacro{maintitle+title}
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \printfield{edition}%
+  \newunit
+  \iffieldundef{maintitle}
+    {\printfield{volume}%
+     \printfield{part}}
+    {}%
+  \newunit
+  \printfield{volumes}%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+  \newunit\newblock
+  %\printfield{note}%
+  %\newunit\newblock
+  \usebibmacro{publisher+location+date}%
+  %\newunit\newblock %这里标点去掉
+  \usebibmacro{chapter+pages}%
+  \usebibmacro{doi+eprint+url}%从下面移动到上面来，因为gbt2015的url需直接放在页码后面。
+  \newunit\newblock
+  %\newunit
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isbn}}
+    {}%
+  \newunit\newblock
+  %\usebibmacro{doi+eprint+url}%
+  %\newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%直接利用inbook做incollection
+\DeclareBibliographyDriver{incollection}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+\ifnameundef{author}{%这一段用于去除作者不存在时多出的标点
+\ifnameundef{editor}{%
+\ifnameundef{translator}{\relax}%
+{\setunit{\labelnamepunct}\newblock}}%
+{\setunit{\labelnamepunct}\newblock}}%
+{\setunit{\labelnamepunct}\newblock}%
+%\setunit{\labelnamepunct}\newblock
+\usebibmacro{title}%
+%\printtext{\texttt{//}\addnbthinspace}%似乎顶格加百分号可以避免一些不必要的空格加入，特别是这种直接处理的语句前后
+\usebibmacro{bybookauthor}%
+\ifnameundef{bookauthor}{\newblock}{\newunit\newblock}%替换下一句
+  %\newunit\newblock
+  \usebibmacro{maintitle+booktitle}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \printfield{edition}%
+  \newunit
+  \iffieldundef{maintitle}
+    {\printfield{volume}%
+     \printfield{part}}
+    {}%
+  \newunit
+  \printfield{volumes}%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+  \newunit\newblock
+  %\printfield{note}%
+  %\newunit\newblock
+  \usebibmacro{publisher+location+date}%
+  \newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isbn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%会议论文格式修改，源来自standard.BBX
+  \DeclareBibliographyDriver{inproceedings}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+%  \newunit
+%  \printlist{language}%
+%  \newunit\newblock
+%  \usebibmacro{byauthor}%
+%  \newunit\newblock
+  %\usebibmacro{in:}%
+  %\printtext{\texttt{//}\addnbthinspace}%似乎顶格加百分号可以避免一些不必要的空格加入，特别是这种直接处理的语句前后
+  \usebibmacro{bybookauthor}%用类似inbook的方式处理
+ \ifnameundef{bookauthor}{\newblock}{\newunit\newblock}%替换下一句
+  %\newunit\newblock
+  \usebibmacro{maintitle+booktitle}%
+  \newunit\newblock
+  \usebibmacro{event+venue+date}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \iffieldundef{maintitle}
+    {\printfield{volume}%
+     \printfield{part}}
+    {}%
+  \newunit
+  \printfield{volumes}%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \printlist{organization}%
+  \newunit
+  \usebibmacro{publisher+location+date}%
+  \newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isbn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%会议论文集格式修改，源来自standard.BBX
+\DeclareBibliographyDriver{proceedings}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  %\usebibmacro{editor+others}%
+  \usebibmacro{author/translator+others}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{maintitle+title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{event+venue+date}%
+  \newunit\newblock
+%  \usebibmacro{byeditor+others}%
+%  \newunit\newblock
+  \iffieldundef{maintitle}
+    {\printfield{volume}%
+     \printfield{part}}
+    {}%
+  \newunit
+  \printfield{volumes}%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \printlist{organization}%
+  \newunit
+  \usebibmacro{publisher+location+date}%
+  %\newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \usebibmacro{doi+eprint+url}%从下面移上来
+  \newunit
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isbn}}
+    {}%
+  \newunit\newblock
+%  \usebibmacro{doi+eprint+url}%
+%  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}

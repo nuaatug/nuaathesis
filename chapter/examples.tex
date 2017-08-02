@@ -63,3 +63,83 @@ SJTU Thesis中的表格介绍非常详尽，但其实有非常简单的从Excel�
 \end{figure}
 
 请注意每行subfigure宽度的总和尽量不要超过一个\textbackslash textwidth，否则图像会自动折叠至下一行。
+
+\section{引用文献格式}
+
+\subsection{专著（含教材）}
+
+著录格式：[序号]编著者.书名[M].版本，出版地：出版者，出版年. 页码.
+
+例\cite{Liu:88} \cite{Isidori:89}
+
+\printbibliography[type=book,title=专著（含教材）格式示例,notkeyword=standard,heading=subbibliography]
+
+注：初版书不标注版本，页码是可选项。
+
+\subsection{期刊}
+
+著录格式：[序号]作者.题目[J].刊名，年，卷（期）：页码.
+
+例\cite{Fu:2000} \cite{Moustafa:95}
+
+\printbibliography[type=article,title=期刊格式示例,heading=subbibliography]
+
+注：外文期刊的刊名可用简称；请注意标注文章的年、卷、期、页，不要遗漏。
+
+\subsection{学位论文}
+
+著录格式：[序号]  作者. 题目[D]. 地点：单位，年.
+
+例\cite{Zhu:96}, \cite{Sun:83}
+
+\printbibliography[type=thesis,title=学位论文格式示例,heading=subbibliography]
+
+\subsection{论文集、会议录}
+
+例\cite{Xin:84} \cite{Bei:97}
+
+\printbibliography[type=proceedings,title=论文集、会议录格式示例,heading=subbibliography]
+
+\subsection{论文集中析出的文献}
+
+著录格式：[序号]  作者. 题目[A]. 见：主编. 论文集名[C]. 论文集名. 出版地：出版者，出版年：页码.
+
+例\cite{Chen:97} \cite{Peng:97}
+
+\printbibliography[type=inproceedings,title=论文集中析出的文献格式示例,heading=subbibliography]
+
+注：会议文集的出版者可能不是正式的出版社；出版地指出版者所在地，不一定是会议地点。
+
+\subsection{科技报告}
+
+例\cite{Kong:89} \cite{Carl:73}
+
+\printbibliography[type=report,title=科技报告格式示例,heading=subbibliography]
+
+注：对于NASA报告，AIAA Paper等航空航天领域知名报告，出版地和出版者可以省略。
+
+\subsection{国际、国家标准，行业规范}
+
+著录格式：[序号]  标准编号，标准名称[S]. 出版地：出版者，出版年.
+
+例\cite{Mile5007d} \cite{gb7713-87}
+
+\defbibfilter{standard}{%
+( type=book or type=inbook )
+and keyword=standard
+}
+\printbibliography[filter=standard,title=国际、国家标准，行业规范格式示例,heading=subbibliography]
+
+注：对于国标GB等，出版地、出版者和出版年可省略。
+
+\subsection{专利}
+
+著录格式：[序号]  设计人. 专利题名[P]. 专利国别：专利号，公告日
+
+例\cite{Li:86}
+
+\printbibliography[type=patent,title=专利格式示例,heading=subbibliography]
+
+\subsection{其他未定义文献类型}
+
+著录格式：[序号]  主要责任者. 文献题名[Z]. 出版地：出版者，出版年.

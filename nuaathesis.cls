@@ -23,7 +23,7 @@
 
 \RequirePackage{algorithm, algorithmicx, algpseudocode} %% 算法排版相关
 \RequirePackage{amsfonts,amssymb,amsthm,bm,mathrsfs,mathtools}  %% 公式相关
-\RequirePackage[backend=biber, style=gb7714-2015,natbib]{biblatex} %% 参考文献相关
+\RequirePackage[backend=biber, style=gb7714-2015-nuaa, gbpub=false]{biblatex} %% 参考文献相关
 \RequirePackage{bicaption} %% 表格图表双标题
 \RequirePackage{booktabs} %% 表格格式相关
 \RequirePackage{caption} %% 表格图表标题相关
