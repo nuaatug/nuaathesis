@@ -1,0 +1,51 @@
+\documentclass[
+  degree=bachelor,
+  type=paper,
+  oneside,openany,
+  AutoFakeBold=2.5
+]{nuaathesis}
+% 可用选项：
+% degree=[bachelor|master|doctor]   必选，毕业论文学位
+% type=[paper|design]   论文类型，本科必选，硕/博默认（强制）论文
+% jincheng    可选，将学校信息设置为金城学院
+% blankleft   可选，在启用 openright 时，去除空白页的页眉页脚，变成真正的白纸
+% 其余选项将传给 ctexbook，比较有用的选项有：
+% oneside|twoside       可选，单面或双面打印
+% openany|openright     可选，在双面打印时，每章的第一页将打印在右侧
+% AutoFakeBold          可选，貌似这个数值最接近 M$ Word 的粗体效果
+% 推荐：双面打印时，使用 twoside,openright,blankleft；其他场合 oneside,openany
+
+% 写作时，使用这个命令只渲染你想查看的部分，提升工作效率，定稿时注释掉整行
+% \includeonly{chapter/00-cover,chapter/30-issues,}
+
+\begin{document}
+
+% 首先，导入论文的基础信息
+\include{chapter/00-cover}
+
+\makecover    % 封面
+\makedeclare  % 承诺书
+
+\frontmatter  % 启用页眉页脚
+\makeabstract % 摘要
+\nuaatableofcontents  % 正文目录
+
+\mainmatter   % 以下正文
+
+\include{chapter/10-introduction}
+\include{chapter/20-examples}
+\include{chapter/25-example2}
+\include{chapter/30-issues}
+\include{chapter/40-duplicate}
+\include{chapter/95-applog}
+
+\backmatter   % 正文后无编号部分，
+\bibliographystyle{gbt-7714-2015-numerical}   % 参考文献的样式
+\bibliography{bib/sample}   % 参考文献
+
+\include{chapter/90-acknowledge}
+
+% \appendix     % 附录部分
+\include{chapter/98-postscript}
+
+\end{document}

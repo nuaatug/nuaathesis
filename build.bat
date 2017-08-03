@@ -6,5 +6,5 @@ xelatex nuaathesis.dtx
 xelatex nuaathesis.dtx
 xelatex nuaathesis.dtx
 
-latexmk -xelatex test-bachelor
-latexmk -xelatex test-master
+latexmk -xelatex sample-bachelor
+latexmk -xelatex sample-master

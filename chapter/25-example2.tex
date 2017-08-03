@@ -1,0 +1,177 @@
+\chapter{一些来自 CQUThesis 的使用样例}
+
+\section{字体命令}\label{txt:FreqCmd}
+{\kaishu 玲珑骰子安红豆，入骨相思知不知。\hfill ——温庭筠}
+
+{\fangsong 愿得一心人，白头不相离。\hfill ——卓文君}
+
+{\ifcsname youyuan\endcsname\youyuan\else[无 \texttt{youyuan} 字体。]\fi 去年今日此门中，人面桃花相映红。\hfill ——崔护}
+
+{\heiti 入我相思门，知我相思苦。\hfill ——李白}
+
+{\ifcsname lishu\endcsname\lishu\else[无 \texttt{lishu} 字体。]\fi 此情可待成追忆？只是当时已惘然。\hfill ——李商隐}
+
+{\songti 雨打梨花深闭门，忘了青春，误了青春。\hfill ——唐寅}
+
+使用\texttt{textbf}和\texttt{textit}以及\texttt{underline}的效果分别如下：
+
+这句话的\textbf{文字}分别\textit{使用}了三种命令来\underline{处理}。
+
+The \textbf{words} in this sentences are \textit{processed} with three different \underline{cmd}.
+
+（注：粗宋体可能会被替换成黑体，参见 \autoref{txt:issue:boldsun}）
+
+
+\section{表格样本}
+
+\subsection{基本表格}
+\label{sec:basictable}
+
+我们经常会在表格下方标注数据来源，或者对表格里面的条目进行解释。前面的脚注是一种不错的方法，如果不喜欢脚注，可以在表格后面写注释，比如\autoref{tab:tabexamp1}。
+\begin{table}[htbp]
+    \centering
+    \bicaption{复杂表格示例}{A more structured table}
+    \label{tab:tabexamp1}
+    \begin{minipage}[t]{0.8\textwidth}
+    \begin{tabularx}{\linewidth}{|l|X|X|X|X|}
+        \hline
+        \multirow{2}*{\diagbox[width=5em]{x}{y}} & \multicolumn{2}{c|}{First Half} & \multicolumn{2}{c|}{Second Half}\\\cline{2-5}
+        & 1st Qtr &2nd Qtr&3rd Qtr&4th Qtr \\ \hline
+        East$^{*}$ &   20.4&   27.4&   90&     20.4 \\
+        West$^{**}$ &   30.6 &   38.6 &   34.6 &  31.6 \\ \hline
+    \end{tabularx}\\[2pt]
+    \footnotesize
+    *：东部\\
+    **：西部
+    \end{minipage}
+\end{table}
+
+此外，\autoref{tab:tabexamp1} 同时还演示了另外两个功能：1）通过 \texttt{tabularx} 的\texttt{|X|} 扩展实现表格自动放大；2）通过命令 \texttt{diagbox} 在表头部分插入反斜线。
+
+\autoref{tab:performance} 是一个很长的表格。
+
+\begin{longtable}[c]{c*{6}{r}}
+    \bicaption[实验数据]{实验数据，这个题注是双语的，而且十分的长，注意这在索引中的处理方式}[Data in experiment]{Data in experiment, and this is a really long long long long long long long long long long long long long long text.}\label{tab:performance}\\
+    \toprule
+    测试程序 & \multicolumn{1}{c}{正常运行} & \multicolumn{1}{c}{同步} & \multicolumn{1}{c}{检查点} & \multicolumn{1}{c}{卷回恢复}
+    & \multicolumn{1}{c}{进程迁移} & \multicolumn{1}{c}{检查点} \\
+    & \multicolumn{1}{c}{时间 (s)}& \multicolumn{1}{c}{时间 (s)}&
+    \multicolumn{1}{c}{时间 (s)}& \multicolumn{1}{c}{时间 (s)}& \multicolumn{1}{c}{
+        时间 (s)}&  文件 (KB) \\\midrule
+    \endfirsthead
+    \multicolumn{7}{c}{续表~\thetable\hskip1em 实验数据}\\
+    \toprule
+    测试程序 & \multicolumn{1}{c}{正常运行} & \multicolumn{1}{c}{同步} & \multicolumn{1}{c}{检查点} & \multicolumn{1}{c}{卷回恢复}
+    & \multicolumn{1}{c}{进程迁移} & \multicolumn{1}{c}{检查点} \\
+    & \multicolumn{1}{c}{时间 (s)}& \multicolumn{1}{c}{时间 (s)}&
+    \multicolumn{1}{c}{时间 (s)}& \multicolumn{1}{c}{时间 (s)}& \multicolumn{1}{c}{
+        时间 (s)}&  文件 (KB) \\\midrule
+    \endhead
+    \hline
+    \multicolumn{7}{r}{续下页}
+    \endfoot
+    \endlastfoot
+    CG.A.2 & 23.05 & 0.002 & 0.116 & 0.035 & 0.589 & 32491 \\
+    CG.A.4 & 15.06 & 0.003 & 0.067 & 0.021 & 0.351 & 18211 \\
+    CG.A.8 & 13.38 & 0.004 & 0.072 & 0.023 & 0.210 & 9890 \\
+    CG.B.2 & 867.45 & 0.002 & 0.864 & 0.232 & 3.256 & 228562 \\
+    CG.B.4 & 501.61 & 0.003 & 0.438 & 0.136 & 2.075 & 123862 \\
+    CG.B.8 & 384.65 & 0.004 & 0.457 & 0.108 & 1.235 & 63777 \\
+    MG.A.2 & 112.27 & 0.002 & 0.846 & 0.237 & 3.930 & 236473 \\
+    MG.A.4 & 59.84 & 0.003 & 0.442 & 0.128 & 2.070 & 123875 \\
+    MG.A.8 & 31.38 & 0.003 & 0.476 & 0.114 & 1.041 & 60627 \\
+    MG.B.2 & 526.28 & 0.002 & 0.821 & 0.238 & 4.176 & 236635 \\
+    MG.B.4 & 280.11 & 0.003 & 0.432 & 0.130 & 1.706 & 123793 \\
+    MG.B.8 & 148.29 & 0.003 & 0.442 & 0.116 & 0.893 & 60600 \\
+    LU.A.2 & 2116.54 & 0.002 & 0.110 & 0.030 & 0.532 & 28754 \\
+    LU.A.4 & 1102.50 & 0.002 & 0.069 & 0.017 & 0.255 & 14915 \\
+    LU.A.8 & 574.47 & 0.003 & 0.067 & 0.016 & 0.192 & 8655 \\
+    LU.B.2 & 9712.87 & 0.002 & 0.357 & 0.104 & 1.734 & 101975 \\
+    LU.B.4 & 4757.80 & 0.003 & 0.190 & 0.056 & 0.808 & 53522 \\
+    LU.B.8 & 2444.05 & 0.004 & 0.222 & 0.057 & 0.548 & 30134 \\
+    CG.B.2 & 867.45 & 0.002 & 0.864 & 0.232 & 3.256 & 228562 \\
+    CG.B.4 & 501.61 & 0.003 & 0.438 & 0.136 & 2.075 & 123862 \\
+    CG.B.8 & 384.65 & 0.004 & 0.457 & 0.108 & 1.235 & 63777 \\
+    MG.A.2 & 112.27 & 0.002 & 0.846 & 0.237 & 3.930 & 236473 \\
+    MG.A.4 & 59.84 & 0.003 & 0.442 & 0.128 & 2.070 & 123875 \\
+    MG.A.8 & 31.38 & 0.003 & 0.476 & 0.114 & 1.041 & 60627 \\
+    MG.B.2 & 526.28 & 0.002 & 0.821 & 0.238 & 4.176 & 236635 \\
+    MG.B.4 & 280.11 & 0.003 & 0.432 & 0.130 & 1.706 & 123793 \\
+    MG.B.8 & 148.29 & 0.003 & 0.442 & 0.116 & 0.893 & 60600 \\
+    LU.A.2 & 2116.54 & 0.002 & 0.110 & 0.030 & 0.532 & 28754 \\
+    LU.A.4 & 1102.50 & 0.002 & 0.069 & 0.017 & 0.255 & 14915 \\
+    LU.A.8 & 574.47 & 0.003 & 0.067 & 0.016 & 0.192 & 8655 \\
+    LU.B.2 & 9712.87 & 0.002 & 0.357 & 0.104 & 1.734 & 101975 \\
+    LU.B.4 & 4757.80 & 0.003 & 0.190 & 0.056 & 0.808 & 53522 \\
+    LU.B.8 & 2444.05 & 0.004 & 0.222 & 0.057 & 0.548 & 30134 \\
+    EP.A.2 & 123.81 & 0.002 & 0.010 & 0.003 & 0.074 & 1834 \\
+    EP.A.4 & 61.92 & 0.003 & 0.011 & 0.004 & 0.073 & 1743 \\
+    EP.A.8 & 31.06 & 0.004 & 0.017 & 0.005 & 0.073 & 1661 \\
+    EP.B.2 & 495.49 & 0.001 & 0.009 & 0.003 & 0.196 & 2011 \\
+    EP.B.4 & 247.69 & 0.002 & 0.012 & 0.004 & 0.122 & 1663 \\
+    EP.B.8 & 126.74 & 0.003 & 0.017 & 0.005 & 0.083 & 1656 \\
+    \bottomrule
+\end{longtable}
+
+\section{定理环境}
+\label{sec:theorem}
+
+给大家演示一下各种和证明有关的环境：
+
+\begin{assumption}
+    假设以下数学方程成立：
+    \begin{eqnarray}
+    \label{eq:eqnxmp}
+    c & = & a^2 - b^2\\
+    & = & (a+b)(a-b)
+    \end{eqnarray}
+\end{assumption}
+
+\begin{assumption}
+    依然假设以下数学方程成立，注意整个系统是自动编号的：
+    \begin{eqnarray}
+    \label{eq:eqnxmp2}
+    c & = & a^2 - b^2\\
+    & = & (a+b)(a-b)
+    \end{eqnarray}
+\end{assumption}
+
+\begin{cor}
+    四川话配音的《猫和老鼠》是世界上最好看最好听最有趣的动画片。
+    \begin{alignat}{3}
+    V_i & =v_i - q_i v_j, & \qquad X_i & = x_i - q_i x_j,
+    & \qquad U_i & = u_i,
+    \qquad \text{for $i\ne j$;}\label{eq:B}\\
+    V_j & = v_j, & \qquad X_j & = x_j,
+    & \qquad U_j & u_j + \sum_{i\ne j} q_i u_i.
+    \end{alignat}
+\end{cor}
+
+迢迢牵牛星，皎皎河汉女。
+纤纤擢素手，札札弄机杼。
+终日不成章，泣涕零如雨。
+河汉清且浅，相去复几许。
+盈盈一水间，脉脉不得语。
+
+\begin{exmp}
+    大家来看\autoref{ktc}。
+    \begin{equation}
+    \label{ktc}
+    \left\{\begin{array}{l}
+    \nabla f({\mbox{\boldmath $x$}}^*)-\sum\limits_{j=1}^p\lambda_j\nabla g_j({\mbox{\boldmath $x$}}^*)=0\\[0.3cm]
+    \lambda_jg_j({\mbox{\boldmath $x$}}^*)=0,\quad j=1,2,\cdots,p\\[0.2cm]
+    \lambda_j\ge 0,\quad j=1,2,\cdots,p.
+    \end{array}\right.
+    \end{equation}
+\end{exmp}
+
+
+\section{参考文献}
+\label{sec:bib}
+重庆大学的要求是参考文献以上标的形式标注于论述之后，就像这样：
+
+研究表明\cite{r1}，早睡早起有益身体健康。
+
+如果想同时引用多个文献\cite{r2,r3,r4,r6}，只需要在\verb|cite{}|中用逗号分开\textsf{citeKey}就好。
+CQUThesis 同时提供正文模式的参考文献引用功能\texttt{inlinecite}，适用于以下情况：
+文献\inlinecite{r6}表明，文献\inlinecite{r7,r8,r9}所述的情况是有理论依据的。
