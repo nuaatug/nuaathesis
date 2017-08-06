@@ -175,3 +175,18 @@ The \textbf{words} in this sentences are \textit{processed} with three different
 如果想同时引用多个文献\cite{r2,r3,r4,r6}，只需要在\verb|cite{}|中用逗号分开\textsf{citeKey}就好。
 CQUThesis 同时提供正文模式的参考文献引用功能\texttt{inlinecite}，适用于以下情况：
 文献\inlinecite{r6}表明，文献\inlinecite{r7,r8,r9}所述的情况是有理论依据的。
+
+NUAAThesis 格式测试，学校的参考文献格式并不是 GB7714-2015，所以追加一些测试样例。
+《要求》里列出的格式有：
+\begin{enumerate}
+  \item 连续出版物\cite{n11,n12}
+  \item 专译集\cite{n21,n22}
+  \item 论文集\cite{n31,n32}
+  \item 学位论文\cite{n41,n42,n43}
+  \item 专利\cite{n51,n52,n53}
+  \item 技术标准\cite{n61,n62,n63}
+\end{enumerate}
+
+注：目前实现的格式仍然与《要求》有点差异，《要求》里论文集的编者、文集名、出版地是逗号分隔，
+而目前是点号分隔；《要求》的学位论文用中文注明学位，目前没实现；在信息缺失的情况下，
+《要求》貌似直接把对应字段省略，目前仍显示“XX不详”。
