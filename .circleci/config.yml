@@ -20,7 +20,9 @@ jobs:
       - run:
           name: 'Prepare artifacts'
           command: |
+            .ci/pack.sh
             mkdir -p /tmp/build
             cp *.pdf /tmp/build
+            cp *.zip /tmp/build
       - store_artifacts:
           path: /tmp/build

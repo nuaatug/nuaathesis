@@ -30,6 +30,8 @@ install:
 
 build_script:
   - echo | build.bat
+  - bash: .ci/pack.sh
 
 artifacts:
   - path: '*.pdf'
+  - path: '*.zip'

@@ -77,7 +77,7 @@
 % \changes{v0.0}{2013/5/15}{模板发布，版本号v0.0。}
 %
 % \def\indexname{代码索引}
-% \def \glossaryname{Glossary Name Here}
+% \def \glossaryname{更新记录}
 % \IndexPrologue{\section{\indexname}}
 % \GlossaryPrologue{\section{\glossaryname}}
 %
@@ -179,7 +179,6 @@
 \newcommand\nuaa@label@lstlistingname{代码}
 \newcommand\nuaa@labelEn@figurename{Fig.}
 \newcommand\nuaa@labelEn@tablename{Table}
-
 %</cfg>
 %    \end{macrocode}
 
@@ -233,6 +232,10 @@
 % 盲审模式开关
 %    \begin{macrocode}
 \DeclareBoolOption[false]{bindtrail}
+%    \end{macrocode}
+% 使用微软的英文字体开关
+%    \begin{macrocode}
+\DeclareBoolOption[false]{msfont}
 %    \end{macrocode}
 % 其他传递选项给 \texttt{ctexbook}
 %    \begin{macrocode}
@@ -442,9 +445,18 @@
 %
 % \pkg{newtxtext} 与 Monotype 的 Times New Roman\textsuperscript{\textregistered} 有一点点差别。
 % \pkg{newtxtext} 收录于CTAN，而大部分 Linux 因为版权限制，不自带 Times New Roman\textsuperscript{\textregistered} 字体。
-% 由于两者差别很小，优先使用 \pkg{newtxtext} 提供的英文字体。
+% 由于两者差别很小，建议优先使用 \pkg{newtxtext} 提供的英文字体。
+%
+% 但是在有些 Linux 发行版上，单独安装 \verb|collection-fontsextra| 中的 \verb|newtx|
+% 和 \verb|newpx| 可能是一件很麻烦的事情，而完整安装 \verb|collection-fontsextra|
+% 要占用大量硬盘空间，而安装微软的英文字体可能更方便，所以设置了一个选项 \verb|msfont|，
+% 启用后将使用微软的英文字体。
 %    \begin{macrocode}
+\ifnuaa@msfont
+\setmainfont[Mapping=tex-text]{Times New Roman}
+\else
 \RequirePackage{newtxtext}
+\fi
 %    \end{macrocode}
 %
 % \subsubsection{页边距 \pkg{geometry}}
@@ -588,6 +600,7 @@
 \setcounter{secnumdepth}{3}  %% 章节编号深度 (part 对应 -1)
 \setcounter{tocdepth}{2}     %% 目录深度 (part 对应 -1)
 \setlength{\cftbeforechapskip}{0bp}
+\setlength{\cftbeforesecskip}{0bp}
 \renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}%% 目录中章后也有点
 \tocloftpagestyle{style@main}
 \newcommand{\tocfont}{\normalsize}
@@ -604,8 +617,7 @@
 \renewcommand{\cftfigpagefont}{\tocfont}
 \renewcommand{\cfttabpagefont}{\tocfont}
 %    \end{macrocode}
-%
-% 进一步设置目录格式（非常规手段），去除 \pkg{tocloft} 绘制标题的代码。
+% 为了合并用图表目录和表格目录，用非常规方法，去除 \pkg{tocloft} 绘制标题的代码。
 %    \begin{macrocode}
 \renewcommand{\@cftmaketoctitle}{}
 \renewcommand{\@cftmakeloftitle}{}
@@ -827,6 +839,13 @@
 \RequirePackage{diagbox}
 \RequirePackage{tabularx}
 \RequirePackage[table]{xcolor}
+%    \end{macrocode}
+% 定义一些表头格式，L, C, R是l, c, r的增强，带一个参数来指定列宽；Y是X的居中版。
+%    \begin{macrocode}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
 %    \end{macrocode}
 %
 % 题注

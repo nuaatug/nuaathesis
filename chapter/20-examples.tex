@@ -6,7 +6,7 @@
 
 \section{流程图}
 
-对于不想花时间学习tizk宏包的同学，我们推荐在Power Point中绘制好流程图，然后导出pdf格式插入到文档中，学习成本较低，效果也非常好。
+对于不想花时间学习\verb|tikz|宏包的同学，我们推荐在PowerPoint中绘制好流程图，然后导出pdf格式插入到文档中，学习成本较低，效果也非常好。
 
 \section{表格}
 
@@ -15,10 +15,10 @@ SJTU Thesis中的表格介绍非常详尽，但其实有非常简单的从Excel�
 \begin{savenotes}
 %% LaTeX通常不推荐在表格中插入脚注。但是，通过使用savenotes + makesavenoteenv 组合可在表格中插入脚注。请参考：https://en.wikibooks.org/wiki/LaTeX/Footnotes_and_Margin_Notes#Common_problems_and_workarounds
 
-表\ref{tab:bicap}是张一白提供的一个\textbf{双语标题}和\textbf{在标题中使用脚注}的示例，对标题有特殊需求的同学可以参考此处的源代码：
+\autoref{tab:bicap}是张一白提供的一个\textbf{双语标题}和\textbf{在标题中使用脚注}的示例，对标题有特殊需求的同学可以参考此处的源代码：
 \begin{table}[H]
   \centering
-  \bicaption[chinese]{一个颇为标准的三线表格\footnote{这个例子来自\href{http://www.ctan.org/tex-archive/macros/latex/contrib/booktabs/booktabs.pdf}{《Publication quality tables in LATEX》}(booktabs宏包的文档)。这也是一个在表格中使用脚注的例子，请留意与threeparttable实现的效果有何不同。}}[english]{A standard three-line table\footnote{该表格演示了如何使用bicaption插入双语标题}}
+  \bicaption[三线表格样例]{一个颇为标准的三线表格\footnote{这个例子来自\href{http://www.ctan.org/tex-archive/macros/latex/contrib/booktabs/booktabs.pdf}{《Publication quality tables in LATEX》}(booktabs宏包的文档)。这也是一个在表格中使用脚注的例子，请留意与threeparttable实现的效果有何不同。}}[Table sample]{A standard three-line table\footnote{该表格演示了如何使用bicaption插入双语标题}}
   \label{tab:bicap}
   \begin{tabular}{@{}llr@{}} \toprule
     \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
@@ -42,7 +42,7 @@ SJTU Thesis中的表格介绍非常详尽，但其实有非常简单的从Excel�
 图片和表格的插入默认是htbp四个选项，有时候这会让图片表格遍布整篇论文，可能会有同学非常反感这种情况，为了强制在当前位置插入图片，可以使用float宏包，然后使用H选项：\verb+\begin{figure}[H]+即可强制\TeX 在当前位置插入图片，从而避免正文和图片表格相距太远。
 
 \section{多列图片}
-由王成欣提供方案及示例代码。如需对两幅或多幅图片进行横向排版，建议使用subcaption包里的subfigure功能。效果如下：
+由王成欣提供方案及示例代码。如需对两幅或多幅图片进行横向排版，建议使用\verb|subcaption|包里的\verb|subfigure|功能。效果如下：
 
 \begin{figure}[H]
 \centering
@@ -62,4 +62,4 @@ SJTU Thesis中的表格介绍非常详尽，但其实有非常简单的从Excel�
 \label{fig:test_subfigure}
 \end{figure}
 
-请注意每行subfigure宽度的总和尽量不要超过一个\textbackslash textwidth，否则图像会自动折叠至下一行。
+请注意每行subfigure宽度的总和尽量不要超过一个\verb|\textwidth|，否则图像会自动折叠至下一行。
