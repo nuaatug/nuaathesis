@@ -33,7 +33,7 @@ build_script:
   - echo | build.bat
 
 after_build:
-  - C:\msys64\usr\bin\bash -lc ".ci/pack.sh"
+  - C:\msys64\usr\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER && .ci/pack.sh"
 
 artifacts:
   - path: '*.pdf'
