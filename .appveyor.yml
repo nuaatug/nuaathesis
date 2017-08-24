@@ -15,6 +15,7 @@ install:
   - curl -fsSL -o install-tl.zip "http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip"
   # unzip
   - 7z x install-tl.zip -y
+  - rm install-tl.zip
 
   # install basic texlive components
   #
@@ -30,7 +31,9 @@ install:
 
 build_script:
   - echo | build.bat
-  - bash: .ci/pack.sh
+
+after_build:
+  - C:\msys64\usr\bin\bash -lc ".ci/pack.sh"
 
 artifacts:
   - path: '*.pdf'
