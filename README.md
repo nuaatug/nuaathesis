@@ -30,7 +30,7 @@ latexmk -xelatex sample-master
 命令行方式2：
 ```
 xelatex -no-pdf sample-master
-biber --debug sample-master
+bibtex sample-master
 xelatex sample-master
 xelatex sample-master # 此处需要运行两遍
 ```

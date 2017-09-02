@@ -20,7 +20,7 @@
 \section{模板使用}
 \subsection{准备工作}
 \begin{itemize}
-  \item \TeX 发行版：Windows 系统推荐使用MiKTeX和\TeX Live这两种发行版，前者占用空间小，只在有宏包缺失情况下才进行下载，后者占用空间大，但基本无需担心宏包缺失。Linux系统(Arch系除外)推荐手动安装\TeX Live发行版，官方源中的TeXLive版本跟进较慢。macOS可以参考SJTU Thesis中的介绍。
+  \item \TeX 发行版：Windows 系统推荐使用MiK\TeX 和\TeX Live这两种发行版，前者占用空间小，只在有宏包缺失情况下才进行下载，后者占用空间大，但基本无需担心宏包缺失。Linux系统(Arch系除外)推荐手动安装\TeX Live发行版，官方源中的 \TeX Live 版本跟进较慢。macOS可以参考SJTU Thesis中的介绍。
   \item \TeX 知识：本说明文档提供\TeX 使用的例子，但不能解决所有的问题，因此使用前请自行学习\TeX~\&~\LaTeX 相关知识。
 \end{itemize}
 
@@ -31,14 +31,14 @@
 \iffalse
 \begin{lstlisting}[basicstyle=\small\ttfamily, caption=手动逐次编译, numbers=none]
 xelatex -no-pdf .tex文件名
-biber --debug .tex文件名
+bibtex .tex文件名
 xelatex .tex文件名
 xelatex .tex文件名
 \end{lstlisting}
 \else
 \begin{verbatim}
 xelatex -no-pdf .tex文件名
-biber --debug .tex文件名
+bibtex .tex文件名
 xelatex .tex文件名
 xelatex .tex文件名
 \end{verbatim}
@@ -57,7 +57,7 @@ xelatex .tex文件名
 
 \subsection{模板文件结构}
 \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
-  \item \verb|.tex| 文件：主文件，chapter下有各个章节的文件，强烈建议将文章模块化，方便调试与版本管理。
+  \item \verb|.tex| 文件：主文件，chapter文件夹下有各个章节的文件，强烈建议将文章模块化，方便调试与版本管理。
   \item \verb|.cls|、\verb|.cfg|、\verb|.sty|文件：模板定义文件
   \item \verb|.bib|文件：参考文献数据库文件
   \item figure文件夹：存放要插入的图片，请不要删改已有的文件
