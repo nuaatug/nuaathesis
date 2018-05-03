@@ -1,0 +1,38 @@
+language: c
+
+matrix:
+  include:
+    - os: linux
+      sudo: false
+      env:
+        - TL_PATH=$HOME/texlive/bin/x86_64-linux
+        - TL_PROFILE=.ci/texlive-linux.profile
+      addons:
+        apt:
+          packages:
+            - cabextract
+    - os: osx
+      env:
+        - TL_PATH=$HOME/texlive/bin/x86_64-darwin
+        - TL_PROFILE=.ci/texlive-osx.profile
+
+before_install:
+  - export PATH=$PATH:$TL_PATH
+
+install:
+  # get online installer
+  - curl -fsSL -o install-tl-unx.tar.gz http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+  - tar zxf install-tl-unx.tar.gz
+  # setup platform profile
+  - cat $TL_PROFILE | sed 's@\$HOME@'"$HOME"'@' > .ci/texlive.profile
+  # install basic texlive components
+  - ./install-tl*/install-tl -profile .ci/texlive.profile
+  # install everything else
+  - tlmgr install $(cat .ci/texlive.pkgs | awk '$1 ~ /^[^;#]/' | tr '\r\n' ' ')
+
+script:
+  # close stdin to latexmk, avoid waiting for user input
+  - echo | ./build.sh
+
+notifications:
+  email: false

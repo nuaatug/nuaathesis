@@ -1,0 +1,1616 @@
+% \iffalse meta-comment
+%
+% Copyright: TODO
+% -------------------------------------------------------
+%
+% This file may be distributed and/or modified under the ...
+%
+% \fi
+%
+% \iffalse
+%<*driver>
+\ProvidesFile{nuaathesis.dtx}
+\documentclass{ltxdoc}
+\usepackage{dtx-style}
+
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+
+\begin{document}
+  \DocInput{\jobname.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+% \DoNotIndex{\newenvironment,\@bsphack,\@empty,\@esphack,\sfcode}
+% \DoNotIndex{\addtocounter,\label,\let,\linewidth,\newcounter}
+% \DoNotIndex{\noindent,\normalfont,\par,\parskip,\phantomsection}
+% \DoNotIndex{\providecommand,\ProvidesPackage,\refstepcounter}
+% \DoNotIndex{\RequirePackage,\setcounter,\setlength,\string,\strut}
+% \DoNotIndex{\textbackslash,\texttt,\ttfamily,\usepackage}
+% \DoNotIndex{\begin,\end,\begingroup,\endgroup,\par,\\}
+% \DoNotIndex{\if,\ifx,\ifdim,\ifnum,\ifcase,\else,\or,\fi}
+% \DoNotIndex{\let,\def,\xdef,\edef,\newcommand,\renewcommand}
+% \DoNotIndex{\expandafter,\csname,\endcsname,\relax,\protect}
+% \DoNotIndex{\Huge,\huge,\LARGE,\Large,\large,\normalsize}
+% \DoNotIndex{\small,\footnotesize,\scriptsize,\tiny}
+% \DoNotIndex{\normalfont,\bfseries,\slshape,\sffamily,\interlinepenalty}
+% \DoNotIndex{\textbf,\textit,\textsf,\textsc}
+% \DoNotIndex{\hfil,\par,\hskip,\vskip,\vspace,\quad}
+% \DoNotIndex{\centering,\raggedright,\ref}
+% \DoNotIndex{\c@secnumdepth,\@startsection,\@setfontsize}
+% \DoNotIndex{\ ,\@plus,\@minus,\p@,\z@,\@m,\@M,\@ne,\m@ne}
+% \DoNotIndex{\@@par,\DeclareOperation,\RequirePackage,\LoadClass}
+% \DoNotIndex{\AtBeginDocument,\AtEndDocument}
+%
+%
+% \GetFileInfo{\jobname.dtx}
+%
+% \changes{v2.0}{2017/9/17}{nuaathesis v2.0发布，代码重构，模板结构重构，大量优化和修正，添加持续集成配置，添加大量代码示例。}
+% \changes{v1.0}{2017/6/22}{nuaathesis 正式通过毕业设计审核，v1.0发布，增加毕业设计/毕业论文选项，并调整页眉；针对双面打印选项调整页脚；细节调整。}
+% \changes{v0.92}{2017/6/5}{v0.92发布，增加 biblatex 对 natbib 支持，如citep可以直接在行中引用编号， citet可以引用作者 (这里貌似仍然是个 bug, 理论上应该是引用题目，还没仔细研究。)； 添加subcaption和caption包，修复bicaption参数； 添加多列图片示例代码；多处细节调整。}
+% \changes{v0.91a}{2017/5/12}{v0.91a发布，添加双语标题和标题中使用脚注用例；增加几个默认宏包，方便使用；部分细节修调整。}
+% \changes{v0.91}{2017/3/15}{v0.91发布，使用开源Fandol字体替代华文字体和思源雅黑字体。}
+% \changes{v0.9a}{2017/3/14}{v0.9a发布，加入使脚注出现在页脚线下方的代码，加入模板更新记录。}
+% \changes{v0.9}{2017/3/14}{v0.9跨版发布，代码重构，模板基本实现，开始由Git进行版本控制，进入微调阶段。}
+% \changes{v0.3}{2013/6/4}{v0.3发布，加入对团队报告的支持，加入几个宏包，加一些预定义符号。}
+% \changes{v0.2}{2013/5/29}{v0.2发布，详情未知。}
+% \changes{v0.1}{2013/5/18}{v0.1发布，详情未知。}
+% \changes{v0.0}{2013/5/15}{模板发布，版本号v0.0。}
+%
+% \def\indexname{代码索引}
+% \def \glossaryname{更新记录}
+% \IndexPrologue{\section{\indexname}}
+% \GlossaryPrologue{\section{\glossaryname}}
+%
+% \title{The \textsf{nuaathesis} class\thanks{This document
+%   corresponds to \textsf{nuaathesis}~\fileversion, dated \filedate.}}
+% \author{Nanashi \\ \texttt{nanashi@nuaa.edu.cn}}
+% \date{\fileversion\ (\filedate)}
+%
+% \maketitle
+%
+% \section{Introduction}
+%
+% Put text here.
+%
+% \section{Usage}
+%
+% Put text here.
+%
+% \DescribeMacro{\dummyMacro}
+% This macro does nothing.\index{doing nothing|usage} It is merely an
+% example.  If this were a real macro, you would put a paragraph here
+% describing what the macro is supposed to do, what its mandatory and
+% optional arguments are, and so forth.
+%
+% \DescribeEnv{dummyEnv}
+% This environment does nothing.  It is merely an example.
+% If this were a real environment, you would put a paragraph here
+% describing what the environment is supposed to do, what its
+% mandatory and optional arguments are, and so forth.
+%
+% \StopEventually{\PrintChanges\PrintIndex}
+%
+% \section{欢迎}
+% NuaaThesis 是南京航空航天大学毕学位论文的 \LaTeX 模板，支持学士、硕士、
+% 博士论文的排版。
+%
+% 本模板的特色：
+% \begin{itemize}
+%   \item 支持南航本科（论文、设计）、硕士、博士的学位论文格式；
+% \end{itemize}
+%
+% \section{安装}
+%% texlive/packages
+% \section{使用说明}
+% \subsection{编译}
+% \subsection{实例文件}
+% \lstinputlisting[style=lstStyleLaTeX]{sample-master.tex}
+%
+% \subsection{论文选项}
+% \DescribeOption{degree=}
+% 选择学位，必须项。当前支持：\option{bachelor}、\option{master}、\option{doctor}。
+%
+% 该选项将影响很多样式，比如封面、页边距、页眉页脚、行间距、字体大小等。
+%
+% \DescribeOption{worktype=}
+% 选择论文类型，可以选择毕业论文 \option{paper} 或者毕业设计 \option{design}。
+% 该选项将影响本科生封面、承诺书和页眉。
+%
+% 本科生必须指定论文的类型，硕士、博士必须选择论文（或者留空）。
+%
+% \DescribeOption{jincheng}
+% 本科生可选，开启后将把学校信息修改为金城学院。
+%
+% \section{实现细节}
+%
+% \subsection{模板信息}
+%    \begin{macrocode}
+%<cls>\NeedsTeXFormat{LaTeX2e}
+%<cls>\ProvidesClass{nuaathesis}
+%<cfg>\ProvidesFile{nuaathesis.cfg}
+%<cls|cfg>[2017/09/17 v2.0 NUAA Thesis Template]
+%    \end{macrocode}
+%
+% 定义一些开发常量：
+%    \begin{macrocode}
+\def\version{v2.0}
+%    \end{macrocode}
+
+% \subsection{配置文件}
+%    \begin{macrocode}
+%<*cfg>
+%    \end{macrocode}
+% 封面页上用到的常量：
+%    \begin{macrocode}
+\newcommand\nuaa@label@nuaa{南京航空航天大学}
+\newcommand\nuaa@label@nuaajc{南京航空航天大学金城学院}
+\newcommand\nuaa@label@worktype@paper{毕业论文}
+\newcommand\nuaa@label@worktype@design{毕业设计}
+\newcommand\nuaa@label@worktype@master{硕士学位论文}
+\newcommand\nuaa@label@worktype@doctor{博士学位论文}
+\newcommand\nuaa@label@thesisnum{编号}
+\newcommand\nuaa@label@title{题\quad 目}
+\newcommand\nuaa@label@teamname{团队名称}
+\newcommand\nuaa@label@author{学生姓名}
+\newcommand\nuaa@label@studentid{学 \hfill 号}
+\newcommand\nuaa@label@college{学 \hfill 院}
+\newcommand\nuaa@label@department{系 \hfill 部}
+\newcommand\nuaa@label@major{专 \hfill 业}
+\newcommand\nuaa@label@classid{班 \hfill 级}
+\newcommand\nuaa@label@advisor{指 \hfill 导 \hfill 教 \hfill 师}
+\newcommand\nuaa@label@researchername{研究生姓名}
+\newcommand\nuaa@label@majorsubject{学科、专业}
+\newcommand\nuaa@label@researchfield{研 \hfill 究 \hfill 方 \hfill 向}
+\newcommand\nuaa@label@graduateschool{研究生院}
+\newcommand\nuaa@labelEn@nuaa{Nanjing University of Aeronautics and Astronautics}
+\newcommand\nuaa@labelEn@graduateschool{The Graduate School}
+\newcommand\nuaa@labelEn@degreemaster{Master of Engineering}
+\newcommand\nuaa@labelEn@degreedoctor{Doctor of Philosophy}
+%    \end{macrocode}
+% 摘要页用到的常量：
+%    \begin{macrocode}
+\newcommand\nuaa@label@abstract{摘\quad 要}
+\newcommand\nuaa@label@abstractshort{摘要}
+\newcommand\nuaa@label@keywords{关键词：}
+\newcommand\nuaa@label@keywordsep{，}
+\newcommand\nuaa@label@abstract@toc{摘要}
+\newcommand\nuaa@labelEn@abstract{Abstract}
+\newcommand\nuaa@labelEn@ABSTRACT{ABSTRACT}
+\newcommand\nuaa@labelEn@KeyWords{Key Words: }
+\newcommand\nuaa@labelEn@keywords{Keywords: }
+\newcommand\nuaa@labelEn@keywordsep{; }
+%    \end{macrocode}
+% 其他地方用到的常量：
+%    \begin{macrocode}
+\newcommand\nuaa@label@reportpaper{报告纸}
+\newcommand\nuaa@label@tableofcontents{目\quad 录}
+\newcommand\nuaa@label@listoffigurestables{图表清单}
+\newcommand\nuaa@label@figurename{图}
+\newcommand\nuaa@label@tablename{表}
+\newcommand\nuaa@label@lstlistingname{代码}
+\newcommand\nuaa@labelEn@figurename{Fig.}
+\newcommand\nuaa@labelEn@tablename{Table}
+%</cfg>
+%    \end{macrocode}
+
+% \subsection{文档类的选项}
+% \subsubsection{定义与处理}
+% 使用 \pkg{kvoptions} 来处理传入 \texttt{nuaathesis} 的参数。
+%    \begin{macrocode}
+%<*cls>
+\RequirePackage{kvoptions}
+\SetupKeyvalOptions{
+  family=nuaa,
+  prefix=nuaa@,
+  setkeys=\kvsetkeys
+}
+%    \end{macrocode}
+% 定义用户类型，目前支持本科、硕士、博士三类。
+%    \begin{macrocode}
+\newif\ifnuaa@bachelor \nuaa@bachelorfalse
+\newif\ifnuaa@master   \nuaa@masterfalse
+\newif\ifnuaa@doctor   \nuaa@doctorfalse
+\define@key{nuaa}{degree}{
+  \expandafter\csname nuaa@#1true\endcsname}
+%    \end{macrocode}
+% 定义论文的主语言，目前支持中文，计划支持英文，尚未支持日语。
+%    \begin{macrocode}
+\newif\ifnuaa@lang@cn \nuaa@lang@cnfalse
+\newif\ifnuaa@lang@en \nuaa@lang@enfalse
+\newif\ifnuaa@lang@ja \nuaa@lang@jafalse
+\define@key{nuaa}{lang}{
+  \expandafter\csname nuaa@lang@#1true\endcsname}
+%    \end{macrocode}
+% 定义文档类型是毕业论文还是毕业设计。
+%    \begin{macrocode}
+\newif\ifnuaa@worktype@paper  \nuaa@worktype@paperfalse
+\newif\ifnuaa@worktype@design \nuaa@worktype@designfalse
+\define@key{nuaa}{type}{
+  \expandafter\csname nuaa@worktype@#1true\endcsname}
+%    \end{macrocode}
+% 金城学院
+%    \begin{macrocode}
+\DeclareBoolOption[false]{jincheng}
+%    \end{macrocode}
+% 右开时空白的左页是否让页眉页脚空白
+%    \begin{macrocode}
+\DeclareBoolOption[false]{blankleft}
+%    \end{macrocode}
+% 双页模式下摘要页右开
+%    \begin{macrocode}
+\DeclareBoolOption[false]{abstractopenright}
+%    \end{macrocode}
+% 盲审模式开关
+%    \begin{macrocode}
+\DeclareBoolOption[false]{bindtrail}
+%    \end{macrocode}
+% 使用微软的英文字体开关
+%    \begin{macrocode}
+\DeclareBoolOption[false]{msfont}
+%    \end{macrocode}
+% 其他传递选项给 \texttt{ctexbook}
+%    \begin{macrocode}
+\DeclareDefaultOption{\PassOptionsToClass{\CurrentOption}{ctexbook}}
+%    \end{macrocode}
+% 处理选项
+%    \begin{macrocode}
+\kvsetkeys{nuaa}{}
+\ProcessKeyvalOptions*
+\AtEndOfClass{\input{nuaathesis.cfg}}
+%    \end{macrocode}
+%
+% \subsubsection{合法性检查与常量定义}
+% 必须指定用户类型
+%    \begin{macrocode}
+\ifnuaa@bachelor\relax\else
+  \ifnuaa@master\relax\else
+    \ifnuaa@doctor\relax\else
+      \ClassError{nuaathesis}{
+        Thesis Degree must be specified: \MessageBreak
+        degree=[bachelor|master|doctor]}
+    \fi
+  \fi
+\fi
+%    \end{macrocode}
+% 本科生必须指定文档类型；硕士、博士默认为论文，且必须选择论文。
+%    \begin{macrocode}
+\ifnuaa@bachelor
+  \ifnuaa@worktype@paper\relax\else
+    \ifnuaa@worktype@design\relax\else
+      \ClassError{nuaathesis}{Thesis Type must be specified: \MessageBreak
+      type=[paper|design]}
+    \fi
+  \fi
+\else
+  \ifnuaa@worktype@design
+    \ClassError{nuaathesis}{You should submit paper instead of design}
+  \else
+    \nuaa@worktype@papertrue
+  \fi
+\fi
+%    \end{macrocode}
+% 默认论文的主语言是中文。
+%    \begin{macrocode}
+\ifnuaa@lang@cn\relax\else
+  \ifnuaa@lang@en\relax\else
+    \ifnuaa@lang@ja\relax\else
+      \nuaa@lang@cntrue
+    \fi
+  \fi
+\fi
+%    \end{macrocode}
+% 根据学校信息，定义对应图标。
+%    \begin{macrocode}
+\ifnuaa@jincheng
+  \newcommand\nuaa@university{\nuaa@label@nuaajc}
+  \newcommand\nuaa@universityLogo{nuaa-jc.jpg}
+\else
+  \newcommand\nuaa@university{\nuaa@label@nuaa}
+  \newcommand\nuaa@universityLogo{nuaa.pdf}
+\fi
+%    \end{macrocode}
+% 根据文档类型，设置文档的中文名称。
+%    \begin{macrocode}
+\newcommand\nuaa@worktypecn{
+  \ifnuaa@bachelor
+    \ifnuaa@worktype@paper
+      \nuaa@label@worktype@paper
+    \else
+      \nuaa@label@worktype@design
+    \fi
+  \else
+    \ifnuaa@master
+      \nuaa@label@worktype@master
+    \else
+      \nuaa@label@worktype@doctor
+    \fi
+  \fi
+}
+%    \end{macrocode}
+% \subsubsection{文档信息收集}
+%    \begin{macrocode}
+\def\nuaaset{\kvsetkeys{nuaa@value}}
+\def\nuaasetEn{\kvsetkeys{nuaa@valueEn}}
+\def\nuaa@def@term #1{
+  \define@key{nuaa}{#1}{\csname #1\endcsname{##1}}
+  \expandafter\gdef\csname #1\endcsname##1{
+    \expandafter\gdef\csname nuaa@#1\endcsname{##1}}
+  \csname #1\endcsname{}
+}
+\def\nuaa@parse@keywords#1#2{
+  \define@key{nuaa}{#1}{\csname #1\endcsname{##1}}
+  \expandafter\gdef\csname nuaa@#1\endcsname{}
+  \expandafter\gdef\csname #1\endcsname##1{
+    \@for\reserved@a:=##1\do{
+      \expandafter\ifx\csname nuaa@#1\endcsname\@empty\else
+        \expandafter\g@addto@macro\csname nuaa@#1\endcsname{%
+          \ignorespaces #2}
+      \fi
+      \expandafter\expandafter\expandafter\g@addto@macro%
+        \expandafter\csname nuaa@#1\expandafter\endcsname\expandafter{\reserved@a}}}}
+%    \end{macrocode}
+%
+% 文档的中文信息
+%    \begin{macrocode}
+\nuaa@def@term{value@title}
+\nuaa@def@term{value@author}
+\nuaa@def@term{value@studentid}
+\nuaa@def@term{value@college}
+\nuaa@def@term{value@major}
+\nuaa@def@term{value@classid}
+\nuaa@def@term{value@advisors}
+\nuaa@def@term{value@applydate}
+\nuaa@def@term{value@libraryclassid}
+\nuaa@def@term{value@subjectclassid}
+\nuaa@def@term{value@thesisid}
+\nuaa@def@term{value@majorsubject}
+\nuaa@def@term{value@researchfield}
+%    \end{macrocode}
+%
+% 文档的英文信息
+%    \begin{macrocode}
+\nuaa@def@term{valueEn@title}
+\nuaa@def@term{valueEn@college}
+\nuaa@def@term{valueEn@majorsubject}
+\nuaa@def@term{valueEn@author}
+\nuaa@def@term{valueEn@advisors}
+\nuaa@def@term{valueEn@applydate}
+%    \end{macrocode}
+%
+% 摘要页
+%    \begin{macrocode}
+\newcommand{\nuaa@@abstract}[1]{\long\gdef\nuaa@abstract{#1}}
+\newenvironment{abstract}{\Collect@Body\nuaa@@abstract}{}
+\newcommand{\nuaa@@abstractEn}[1]{\long\gdef\nuaa@abstractEn{#1}}
+\newenvironment{abstractEn}{\Collect@Body\nuaa@@abstractEn}{}
+\nuaa@parse@keywords{keywords}{\nuaa@label@keywordsep}
+\nuaa@parse@keywords{keywordsEn}{\nuaa@labelEn@keywordsep}
+%    \end{macrocode}
+%
+% 收集一些常用字段
+%    \begin{macrocode}
+\ifnuaa@lang@cn
+  \newcommand\nuaa@title{\nuaa@value@title}
+\else\ifnuaa@lang@en
+  \newcommand\nuaa@title{\nuaa@valueEn@title}
+\fi\fi
+%    \end{macrocode}
+% \subsection{载入宏包}
+% \subsubsection{主文档类 \texttt{ctexbook}}
+%
+% 根据要求，本科生论文字号为小四(12~pt)，行间距为1.5~倍。
+% 考虑到学校提供的 Word 模板启用了文档网络，跨度为 15.6~pt，所以小四号字只占用一行，
+% 行间距需修正为 $15.6 \times 1.5 = 23.4$~pt\footnote{\url{https://www.zhihu.com/question/26397264/answer/48165229}}。
+% 再考虑到用 \verb|\zihao| 在选择字号时，\pkg{ctex} 会将 \verb|\f@baselineskip|
+% 设置成 \verb|\f@size| 的 1.2 倍\footnote{\url{https://liam0205.me/2013/10/17/LaTeX-Linespace/}}，
+% 所以最终设置行间距为 $23.4 \div (12 \times 1.2) = 1.625$。
+%
+% 同理，硕/博士论文字号为五号(10.5~pt)，行间距为20~pt。
+% 因为行间距是固定值，所以 Word 的文档网络不会影响行间距。
+% 行间距最终设置为 $20 \div (10.5 \times 1.2) \approx 1.5873$。
+%    \begin{macrocode}
+\ifnuaa@bachelor
+  \PassOptionsToClass{zihao=-4,linespread=1.625}{ctexbook}
+\else
+  \PassOptionsToClass{zihao=5,linespread=1.5873}{ctexbook}
+\fi
+\PassOptionsToClass{a4paper,scheme=chinese,space=auto,UTF8}{ctexbook}
+\LoadClass{ctexbook}
+%    \end{macrocode}
+%
+% \subsubsection{\LaTeX 增强}
+%    \begin{macrocode}
+\RequirePackage{etoolbox}
+%    \end{macrocode}
+%
+% \subsubsection{数学相关}
+% 尽早引入这些宏包，避免载入顺序引发的问题。
+%    \begin{macrocode}
+\RequirePackage{amsmath,amsthm}
+%    \end{macrocode}
+%
+% \subsubsection{其他？}
+% 首段缩进
+%    \begin{macrocode}
+\RequirePackage{indentfirst}
+%    \end{macrocode}
+% 硕/博士封面一开始需要分栏
+%    \begin{macrocode}
+\RequirePackage{multicol}
+%    \end{macrocode}
+% 一些 \TeX 系列的 logo
+%    \begin{macrocode}
+\RequirePackage{hologo}
+%    \end{macrocode}
+% Todo: 用途不明，求文档
+%    \begin{macrocode}
+\PassOptionsToPackage{no-math}{footspec}
+\RequirePackage{fontspec}
+\RequirePackage[perpage,bottom]{footmisc}
+\RequirePackage{soul}
+\RequirePackage{xltxtra}
+%    \end{macrocode}
+%
+% \subsection{格式设置}
+% \subsubsection{英文字体 \pkg{newtxtext}}
+%
+% \pkg{newtxtext} 与 Monotype 的 Times New Roman\textsuperscript{\textregistered} 有一点点差别。
+% \pkg{newtxtext} 收录于CTAN，而大部分 Linux 因为版权限制，不自带 Times New Roman\textsuperscript{\textregistered} 字体。
+% 由于两者差别很小，建议优先使用 \pkg{newtxtext} 提供的英文字体。
+%
+% 但是在有些 Linux 发行版上，单独安装 \verb|collection-fontsextra| 中的 \verb|newtx|
+% 和 \verb|newpx| 可能是一件很麻烦的事情，而完整安装 \verb|collection-fontsextra|
+% 要占用大量硬盘空间，而安装微软的英文字体可能更方便，所以设置了一个选项 \verb|msfont|，
+% 启用后将使用微软的英文字体。
+%    \begin{macrocode}
+\ifnuaa@msfont
+\setmainfont[Mapping=tex-text]{Times New Roman}
+\else
+\RequirePackage{newtxtext}
+\fi
+%    \end{macrocode}
+%
+% \subsubsection{页边距 \pkg{geometry}}
+%
+% 本科生的页边距沿用前一版本的设定（Word 在页眉里插入图片，行高不知道怎么算）。
+%
+% 硕/博士的页边距是根据要求计算出来的。
+% \texttt{headheight}和\texttt{footskip}是五号字的行高（考虑文档网络），
+% $\texttt{headsep} = 3.3\text{cm}-2.6\text{cm}-15.6\text{pt} \approx 0.15\text{cm}$。
+%    \begin{macrocode}
+\RequirePackage{geometry}
+\ifnuaa@bachelor \geometry{
+  top=2.5cm,
+  bottom=2cm,
+  left=2cm,
+  right=2cm,
+  headheight=0.75cm,
+  headsep=2bp,
+  %footskip=0.8cm,
+  includehead,
+  includefoot
+} \else \geometry{
+  top=3.3cm,
+  bottom=3.3cm,
+  left=3.0cm,
+  right=2.6cm,
+  headheight=15.6bp,
+  headsep=0.15cm,
+  footskip=15.6bp
+}
+\fi
+%    \end{macrocode}
+%
+% \subsubsection{页眉页脚 \pkg{fancyhdr}}
+%    \begin{macrocode}
+\RequirePackage{fancyhdr}
+%    \end{macrocode}
+%
+% 页码修饰，本科生正文和附录部分的页码格式比较特别，目录里的页码格式与页脚页码格式不同，
+% 所以页脚页码需要特殊处理。
+%    \begin{macrocode}
+\newcommand\nuaa@pagenum@decorate[1]{
+  \ifnuaa@bachelor
+    \if@frontmatter
+      #1
+    \else
+      - #1 -
+    \fi
+  \else
+    #1
+  \fi
+}
+%    \end{macrocode}
+%
+% 定义不带页眉页脚的空白样式，用于封面页和空白页。
+%    \begin{macrocode}
+\fancypagestyle{style@empty}{
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+%    \end{macrocode}
+%
+% 定义正文页眉页脚的样式。
+%    \begin{macrocode}
+\fancypagestyle{style@main}{
+  \fancyhead{}
+  \ifnuaa@bachelor
+    \fancyhead[L]{
+      \setlength{\unitlength}{1mm}
+      \begin{picture}(0,0)
+        \put(7.3,1.5){\includegraphics[width=6cm]{\nuaa@universityLogo}}
+      \end{picture}
+    }
+    \fancyhead[R]{\songti\zihao{4}\nuaa@worktypecn \nuaa@label@reportpaper\hspace{1\ccwd}}
+  \else
+    \fancyhead[C]{
+      \songti\zihao{5}
+      \ifthenelse{\isodd{\value{page}}}{
+        \nuaa@university\nuaa@worktypecn
+      }{
+        \nuaa@title
+      }}
+  \fi
+  \fancyfoot{}
+  \if@twoside
+    \fancyfoot[EL]{\footnotesize{\nuaa@pagenum@decorate{\thepage}}}
+    \fancyfoot[OR]{\footnotesize{\nuaa@pagenum@decorate{\thepage}}}
+  \else
+    \fancyfoot[R]{\footnotesize{\nuaa@pagenum@decorate{\thepage}}}
+  \fi
+  \renewcommand{\headrulewidth}{0.75bp}
+  \ifnuaa@bachelor
+    \renewcommand{\footrulewidth}{0.75bp}
+  \fi
+}
+%    \end{macrocode}
+% \subsubsection{front/main/backmatter}
+% 重定义了\texttt{\textbackslash frontmatter}、\texttt{\textbackslash mainmatter}和\texttt{\textbackslash backmatter}
+% 三个宏，用来调整文档不同部分的格式。
+%    \begin{macrocode}
+\newif\if@frontmatter
+\newif\if@backmatter
+\renewcommand{\frontmatter}{
+  \cleardoublepage
+  \@frontmattertrue
+  \@backmatterfalse
+  \ifnuaa@bachelor\pagenumbering{roman}\else\pagenumbering{Roman}\fi
+  \pagestyle{style@main}
+  \ctexset{chapter = {
+    break = {\clearpage},
+    numbering = false
+  }}
+}
+\renewcommand{\mainmatter}{
+  \cleardoublepage
+  \@frontmatterfalse
+  \@backmatterfalse
+  \pagenumbering{arabic}
+  \pagestyle{style@main}
+  \ctexset{chapter = {
+    break = {\if@openright\cleardoublepage\else\clearpage\fi},
+    numbering = true
+  }}
+}
+\renewcommand{\backmatter}{
+  \cleardoublepage
+  \@frontmatterfalse
+  \@backmattertrue
+  \ctexset{chapter/numbering = false,
+    section/number = \Alph{section},
+    section/name = {,.},
+    subsection/number = \CTEXthesection{}\arabic{subsection},}%
+  \setcounter{chapter}{0}
+}
+%    \end{macrocode}
+% \subsubsection{目录 \pkg{tocloft}}
+% 设置目录的缩进、字体（通常）。
+%    \begin{macrocode}
+\RequirePackage[]{tocloft}
+\setcounter{secnumdepth}{3}  %% 章节编号深度 (part 对应 -1)
+\setcounter{tocdepth}{2}     %% 目录深度 (part 对应 -1)
+\setlength{\cftbeforechapskip}{0bp}
+\setlength{\cftbeforesecskip}{0bp}
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}%% 目录中章后也有点
+\tocloftpagestyle{style@main}
+\newcommand{\tocfont}{\normalsize}
+\renewcommand{\cftchapfont}{\tocfont}
+\renewcommand{\cftsecfont}{\tocfont}
+\renewcommand{\cftsubsecfont}{\tocfont}
+\renewcommand{\cftsubsubsecfont}{\tocfont}
+\renewcommand{\cftfigfont}{\tocfont}
+\renewcommand{\cfttabfont}{\tocfont}
+\renewcommand{\cftchappagefont}{\tocfont}
+\renewcommand{\cftsecpagefont}{\tocfont}
+\renewcommand{\cftsubsecpagefont}{\tocfont}
+\renewcommand{\cftsubsubsecpagefont}{\tocfont}
+\renewcommand{\cftfigpagefont}{\tocfont}
+\renewcommand{\cfttabpagefont}{\tocfont}
+%    \end{macrocode}
+% 为了合并用图表目录和表格目录，用非常规方法，去除 \pkg{tocloft} 绘制标题的代码。
+%    \begin{macrocode}
+\renewcommand{\@cftmaketoctitle}{}
+\renewcommand{\@cftmakeloftitle}{}
+\renewcommand{\@cftmakelottitle}{}
+%    \end{macrocode}
+%
+% 绘制正文目录，本科生“目录”字号（三号）与其他大标题（chapter，小三）不同。
+%    \begin{macrocode}
+\newcommand\nuaatableofcontents{
+  \cleardoublepage
+  \chapter*{
+    \ifnuaa@bachelor
+      \linespread{1.5}\fontsize{16bp}{15.6bp}\selectfont
+    \fi
+    \nuaa@label@tableofcontents}
+  \tableofcontents
+}
+%    \end{macrocode}
+%
+% 绘制图表清单，两张不带标题的表合并在一起，每一条添加“图”、“表”前缀。
+%    \begin{macrocode}
+\newcommand\nuaalistoffigurestables{
+  \clearpage
+  \renewcommand{\cftfigpresnum}{\nuaa@label@figurename}
+  \renewcommand{\cfttabpresnum}{\nuaa@label@tablename}
+  \newlength{\mylenf}
+  \settowidth{\mylenf}{\cftfigpresnum}
+  \setlength{\cftfignumwidth}{\dimexpr\mylenf+2em}
+  \setlength{\cfttabnumwidth}{\dimexpr\mylenf+2em}
+
+  \chapter*{\nuaa@label@listoffigurestables}
+  \listoffigures
+  \listoftables
+}
+%    \end{macrocode}
+% \subsubsection{各级标题}
+% 设置各级标题的行间距、字体、字号等。
+%
+% 由于 chapter 级标题在页首时，会引入一些空白，暂时没找到这些数值是怎么计算的，
+% 所以根据实际测量，修正 \texttt{beforeskip} 的值。
+%
+% \pkg{ctex} 提供的参数 \texttt{fixskip} 会把正常的行间距一并删减掉，
+% 修正这些误差的操作更复杂，所以放弃不用。
+%    \begin{macrocode}
+\ifnuaa@bachelor \ctexset{
+  chapter = {
+    pagestyle = style@main,
+    format = {\centering\linespread{2.41}\heiti\fontsize{15bp}{15.6bp}\selectfont},
+    beforeskip = {23.7bp},  % 15.6*2 + 17 - 24.5(correction) = 35.2bp
+    afterskip = {16.5bp},
+  },
+  section = {
+    format = {\linespread{1.5}\heiti\fontsize{14bp}{20.8bp}\selectfont},
+    beforeskip = {0bp},
+    afterskip = {0bp},
+  },
+  subsection = {
+    format = {\linespread{1.5}\heiti\fontsize{12bp}{15.6bp}\selectfont},
+    indent = {0\ccwd},
+    beforeskip = {0bp},
+    afterskip = {0bp},
+  },
+  subsubsection = {
+    format = {\heiti\fontsize{12bp}{20bp}},
+    indent = {0\ccwd},
+    beforeskip = {7.8bp},
+    afterskip = {7.8bp},
+  }
+} \else \ctexset{
+  chapter = {
+    pagestyle = style@main,
+    format = {\centering\linespread{1.0}\heiti\fontsize{15bp}{20bp}\selectfont},
+    beforeskip = {10.4bp},   % 15.6*1.5 - 13(correction) = 10.4
+    afterskip = {23.4bp},
+    },
+  section = {
+    format = {\linespread{1.0}\heiti\fontsize{14bp}{20bp}\selectfont},
+    beforeskip = {7.8bp},
+    afterskip = {7.8bp},
+  },
+  subsection = {
+    format = {\linespread{1.0}\heiti\fontsize{12bp}{20bp}\selectfont},
+    beforeskip = {7.8bp},
+    afterskip = {7.8bp},
+    indent = {0\ccwd},
+  },
+  subsubsection = {
+    format = {\linespread{1.0}\heiti\fontsize{12bp}{20bp}},
+    indent = {0\ccwd},
+    beforeskip = {7.8bp},
+    afterskip = {7.8bp},
+  }
+}
+\fi
+%    \end{macrocode}
+% \subsubsection{参考文献 \pkg{natbib}}
+% 调整字体大小和行间距，本/硕/博貌似都是用五号字、单倍行距（文档网络修正行间距为15.6~pt）。
+%    \begin{macrocode}
+\RequirePackage[numbers,square,comma,super,sort&compress]{natbib}
+\AtBeginDocument{
+  \pretocmd{\bibliography}{\begingroup\linespread{1.0}\fontsize{10.5bp}{15.6bp}\selectfont}{}{}
+  \apptocmd{\bibliography}{\endgroup}{}{}
+}
+\renewcommand\@biblabel[1]{\linespread{1.0}\fontsize{10.5bp}{15.6bp}\selectfont[#1]}
+\renewenvironment{thebibliography}[1]{
+  \chapter*{\bibname}
+  \list{\@biblabel{\@arabic\c@enumiv}}
+  {
+    \settowidth\labelwidth{\@biblabel{#1}}
+    \leftmargin\labelwidth
+    \advance\leftmargin\labelsep
+    \setlength{\parsep}{1mm}
+    \setlength{\labelsep}{0.5em}
+    \setlength{\itemsep}{0.05pc}
+    \setlength{\listparindent}{0in}
+    \setlength{\itemindent}{0in}
+    \setlength{\rightmargin}{0in}
+    \@openbib@code
+    \usecounter{enumiv}
+    \let\p@enumiv\@empty
+    \renewcommand\theenumiv{\@arabic\c@enumiv}
+  }
+  \sloppy
+  \clubpenalty4000
+  \@clubpenalty\clubpenalty
+  \widowpenalty4000%
+  \sfcode`\.\@m
+}{
+\def\@noitemerr
+{\@latex@warning{Empty `thebibliography' environment}}
+\endlist \vskip.2in}
+%    \end{macrocode}
+%
+% 将“参考文献”加入目录和 pdf 书签。
+%    \begin{macrocode}
+\pretocmd{\bibliography}{
+  \clearpage\phantomsection\addcontentsline{toc}{chapter}{\bibname}}{}{}
+%    \end{macrocode}
+%
+% 另外的引用命令。
+%    \begin{macrocode}
+\bibpunct{[}{]}{,}{s}{}{,}
+\renewcommand\NAT@citesuper[3]{\ifNAT@swa%
+  \unskip\kern\p@\textsuperscript{\NAT@@open #1\NAT@@close}%
+  \if*#3*\else\ (#3)\fi\else #1\fi\endgroup}
+\DeclareRobustCommand\inlinecite{\@inlinecite}
+\def\@inlinecite#1{\begingroup\let\@cite\NAT@citenum\citep{#1}\endgroup}
+\let\onlinecite\inlinecite
+%    \end{macrocode}
+% \subsection{文档部件}
+% \subsubsection{定理环境}
+%    \begin{macrocode}
+\newtheoremstyle{break}% name
+   {}%      Space above, empty = `usual value'
+   {}%      Space below
+   {\itshape}% Body font
+   {}%         Indent amount (empty = no indent, \parindent = para indent)
+   {\bfseries}% Thm head font
+   {.}%        Punctuation after thm head
+   {\newline}% Space after thm head: \newline = linebreak
+   {}%         Thm head spec
+%</cls>
+%<*cfg>
+%%%%% theorem %%%%%
+\ifnuaa@lang@cn
+\theoremstyle{plain}
+  \newtheorem{algo}{算法~}[chapter]
+\theoremstyle{definition}
+  \newtheorem{assumption}{假设~}[chapter]
+  \newtheorem{thm}{定理~}[chapter]
+  \newtheorem{defn}{定义~}[chapter]
+  \newtheorem{conj}{猜想~}[chapter]
+  \newtheorem{exmp}{例~}[chapter]
+  \newtheorem{rem}{注~}
+  \newtheorem{case}{情形~}
+  \newtheorem{lem}[thm]{引理~}
+  \newtheorem{prop}[thm]{命题~}
+  \newtheorem{cor}[thm]{推论~}
+\theoremstyle{break}
+  \newtheorem{bthm}[thm]{定理~}
+  \newtheorem{blem}[thm]{引理~}
+  \newtheorem{bprop}[thm]{命题~}
+  \newtheorem{bcor}[thm]{推论~}
+  \renewcommand{\proofname}{\bf 证明}
+\else
+  \ClassError{nuaathesis}{Internal error}
+\fi
+%</cfg>
+%    \end{macrocode}
+% \subsubsection{列表环境}
+%    \begin{macrocode}
+%<*cls>
+\RequirePackage[inline]{enumitem}
+%    \end{macrocode}
+% 使用enumitem宏包配制列表环境，紧凑间距。
+%    \begin{macrocode}
+\setlist{nosep}
+%    \end{macrocode}
+% 列表和段落头对齐
+%    \begin{macrocode}
+\setlist*{leftmargin=*}
+\setlist[1]{labelindent=\parindent} %% Only the level 1
+%    \end{macrocode}
+% \subsubsection{图表和题注}
+% 图
+%    \begin{macrocode}
+\RequirePackage{graphicx} %% 插图相关
+\graphicspath{{fig/}{figure/}{figures/}{logo/}{logos/}{graph/}{graphs}}
+\DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,.jpeg}
+%    \end{macrocode}
+%
+% 表
+%    \begin{macrocode}
+\RequirePackage{booktabs}
+\RequirePackage{longtable}
+\RequirePackage{makecell}
+\RequirePackage{multirow}
+\RequirePackage{rotating}
+\RequirePackage{diagbox}
+\RequirePackage{tabularx}
+\RequirePackage[table]{xcolor}
+%    \end{macrocode}
+% 定义一些表头格式，L, C, R是l, c, r的增强，带一个参数来指定列宽；Y是X的居中版。
+%    \begin{macrocode}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+%    \end{macrocode}
+%
+% 题注
+%    \begin{macrocode}
+\RequirePackage{caption}
+\RequirePackage{subcaption}
+\RequirePackage{footnote}
+%    \end{macrocode}
+% 题注：在图表内使用脚注
+%    \begin{macrocode}
+\makesavenoteenv{tabular}
+%    \end{macrocode}
+% 题注格式：编号与题注间隔，最后一行居中，本科题注为黑体
+%    \begin{macrocode}
+\captionsetup{labelsep=quad}
+\captionsetup{justification=centerlast}
+\ifnuaa@bachelor
+  \DeclareCaptionFont{heiticaption}{
+    \linespread{1.5}\heiti\fontsize{10.5bp}{15.6bp}\selectfont}
+  \captionsetup{font=heiticaption}
+\fi
+%    \end{macrocode}
+% \subsubsection{双语题注}
+% 利用\pkg{newfloat} 创建一些 float 环境，将第二语言的题注声明在其他 float 环境内，
+% 避免图表目录里同时出现一张图/表的两个不同语言的名字。
+%    \begin{macrocode}
+\RequirePackage{float}
+\RequirePackage{newfloat}
+\RequirePackage[labelformat=simple]{subcaption}
+\RequirePackage{bicaption}
+\captionsetup[bi-first]{bi-first}
+\captionsetup[bi-second]{bi-second}
+%</cls>
+%<*cfg>
+%%%%% bi-caption %%%%%
+\ifnuaa@lang@cn
+\DeclareCaptionOption{bi-first}[]{
+  \def\tablename{\nuaa@label@tablename}
+  \def\figurename{\nuaa@label@figurename}
+}
+\DeclareCaptionOption{bi-second}[]{
+  \def\tablename{\nuaa@labelEn@tablename}
+  \def\figurename{\nuaa@labelEn@figurename}
+}
+\DeclareFloatingEnvironment[fileext=lofEN]{figuresEN}[\shortfigurenameEN][\listoffiguresnameEN]
+\DeclareFloatingEnvironment[fileext=lotEN]{tablesEN}[\shorttablenameEN][\listoftablesnameEN]
+\captionsetup[bi-second]{listtype+=sEN}
+\else
+  \ClassError{nuaathesis}{Internal error}
+\fi
+%</cfg>
+%    \end{macrocode}
+%
+% \subsubsection{自动交叉引用}
+%    \begin{macrocode}
+%<*cls>
+\RequirePackage[hidelinks]{hyperref}
+%    \end{macrocode}
+% 顺便给 PDF 书签加上自动编号，\pkg{bookmark}需要\pkg{hyperref}后载入。
+%    \begin{macrocode}
+\RequirePackage[numbered]{bookmark}
+%</cls>
+%<*cfg>
+%%%%% auto ref %%%%%
+\ifnuaa@lang@cn
+\AtBeginDocument{%
+  \def\figureautorefname{图}
+  \def\tableautorefname{表}
+  \def\partautorefname{卷}
+  \def\appendixautorefname{附录}
+  \def\equationautorefname{式}
+  \def\Itemautorefname{列表}
+  \def\chapterautorefname{章}
+  \def\sectionautorefname{节}
+  \def\subsectionautorefname{小节}
+  \def\subsubsectionautorefname{条目}
+  \def\paragraphautorefname{自然段}
+  \def\Hfootnoteautorefname{脚注}
+  \def\AMSautorefname{式}
+  \def\theoremautorefname{理论}
+  \def\pageautorefname{页}
+}
+\else
+  \ClassError{nuaathesis}{Internal error}
+\fi
+%</cfg>
+%    \end{macrocode}
+% \subsubsection{代码清单 \pkg{listing}}
+%    \begin{macrocode}
+%<*cls>
+\RequirePackage{listings}
+%</cls>
+%<*cfg>
+%%%%% listings %%%%%
+\renewcommand\lstlistingname{\nuaa@label@lstlistingname}
+\lstset{tabsize=4, %
+  frame=shadowbox, %把代码用带有阴影的框圈起来
+  commentstyle=\color{red!50!green!50!blue!50},%浅灰色的注释
+  rulesepcolor=\color{red!20!green!20!blue!20},%代码块边框为淡青色
+  keywordstyle=\color{blue!90}\bfseries, %代码关键字的颜色为蓝色，粗体
+  showstringspaces=false,%不显示代码字符串中间的空格标记
+  stringstyle=\ttfamily, % 代码字符串的特殊格式
+  keepspaces=true, %
+  breakindent=22pt, %
+  numbers=left,%左侧显示行号
+  stepnumber=1,%
+  numberstyle=\tiny, %行号字体用小号
+  basicstyle={\footnotesize\ttfamily}, %
+  showspaces=false, %
+  flexiblecolumns=true, %
+  breaklines=true, %对过长的代码自动换行
+  breakautoindent=true,%
+  breakindent=4em, %
+  aboveskip=1em, %代码块边框
+  %% added by http://bbs.ctex.org/viewthread.php?tid=53451
+  fontadjust,%
+  captionpos=t,%
+  framextopmargin=2pt,framexbottommargin=2pt,abovecaptionskip=-3pt,belowcaptionskip=3pt,%
+  xleftmargin=4em,xrightmargin=4em, % 设定listing左右的空白
+  texcl=true,
+  % 设定中文冲突，断行，列模式，数学环境输入，listing数字的样式
+  extendedchars=false,columns=flexible,mathescape=true%
+  numbersep=-1em%
+}
+%</cfg>
+%    \end{macrocode}
+% \subsection{实用命令}
+% \subsubsection{中文日期}
+%    \begin{macrocode}
+%<*cls>
+\newcommand{\nuaa@dateCn}{
+  \zhdigits{\the\year}年\zhnumber{\the\month}月
+}
+%    \end{macrocode}
+%
+% \subsubsection{英文日期}
+%    \begin{macrocode}
+\newcommand{\nuaa@dateEn}{
+  \ifcase\the\month
+  \or January%
+  \or February%
+  \or March%
+  \or April%
+  \or May%
+  \or June%
+  \or July%
+  \or August%
+  \or September%
+  \or October%
+  \or November%
+  \or December%
+  \fi, \the\year
+}
+%    \end{macrocode}
+%
+% \subsubsection{盲审信息抹除}
+%    \begin{macrocode}
+\newcommand\secretize[1]{
+  \ifnuaa@bindtrail
+    ***
+  \else
+    #1
+  \fi
+}
+%    \end{macrocode}
+%
+% \subsubsection{双面换页}
+% 为了产生真正的空白页，需要手动结束当前页，设置页眉页脚，然后再双面换页。
+%    \begin{macrocode}
+\let\nuaa@cleardoublepage\cleardoublepage
+\renewcommand{\cleardoublepage}{
+  \clearpage
+  {
+  \ifnuaa@blankleft\pagestyle{style@empty}\fi
+  \nuaa@cleardoublepage
+  }
+}
+%    \end{macrocode}
+%
+% \subsubsection{论文模板的logo}
+%    \begin{macrocode}
+\newcommand{\nuaathesis}{%
+  \makebox{%
+    N\hspace{-0.3ex}\raisebox{-0.5ex}{U}\hspace{-0.3ex}A\mbox{$^{\hspace{-0.5ex}2}$}\hspace{0.3ex}%
+    \textsc{Thesis}}}
+\newcommand{\oldnuaathesis}{%
+  N\raisebox{0.5ex}{U}\hspace{-0.3ex}AA%
+  \textsc{Thesis}
+}
+\newcommand{\seuthesix}{%
+  \makebox{S\hspace{-0.3ex}\raisebox{-0.5ex}{E}\hspace{-0.3ex}U\hspace{0.1em}%
+  \textsc{Thesix}}
+}
+%    \end{macrocode}
+%
+% \subsubsection{绘制关键词}
+% 摘要页的关键词部分，如果关键词换行了，需要与第一个关键词左对齐。
+%    \begin{macrocode}
+\newbox\nuaa@kw
+\newcommand{\nuaa@put@kw}[2]{%
+  \begingroup
+  \setbox\nuaa@kw=\hbox{#1}
+  \noindent\hangindent\wd\nuaa@kw\hangafter1
+  \box\nuaa@kw#2\par
+  \endgroup}
+%    \end{macrocode}
+%
+% \subsubsection{特殊页面}
+% 按照文档的类别，调用实际的宏。
+%    \begin{macrocode}
+\def\makecover{
+  \hypersetup{
+    % TODO: language
+    pdftitle = {\nuaa@value@title},
+    pdfauthor = {\nuaa@value@author},
+    pdfsubject = {\nuaa@worktypecn},
+    pdfkeywords = {\nuaa@keywords},
+    % pdfcreator = {my logo here?}
+  }
+
+  \pagestyle{style@empty}
+  \pagenumbering{Alph}
+  \cleardoublepage
+
+  \phantomsection
+  \ifnuaa@bachelor
+    \nuaa@make@cover@bachelor
+    \relax
+  \else
+    \nuaa@make@cover@master@cn
+    \nuaa@make@cover@master@en
+  \fi
+}
+
+\def\makedeclare{
+  \ifnuaa@bachelor
+    \nuaa@make@declare@bachelor
+  \else
+    \nuaa@make@declare@master
+  \fi
+}
+
+\def\makeabstract{
+  \ifnuaa@bachelor
+    \nuaa@make@abstract@bachelor@cn
+    \nuaa@make@abstract@bachelor@en
+  \else
+    \nuaa@make@abstract@master@cn
+    \nuaa@make@abstract@master@en
+  \fi
+}
+%    \end{macrocode}
+%
+% \subsection{绘制特殊页面}
+% \subsubsection{本科封面}
+%    \begin{macrocode}
+\newcommand{\nuaa@make@cover@bachelor}{
+  \cleardoublepage
+  \newgeometry{top=1.0in, bottom=1.0in, left=1.25in, right=1.25in}
+
+  \begingroup
+  \linespread{1.0}
+
+  \begin{flushright}
+    \heiti\fontsize{14bp}{21bp}\nuaa@label@thesisnum
+    \underline{\hspace{60bp}}
+    \\ \vspace{42bp}
+  \end{flushright}
+
+  \begin{center}
+    \textbf{\kaishu\fontsize{22bp}{30bp}\nuaa@university}
+    \\ \vspace{30bp}
+
+    \textbf{
+      \songti\fontsize{55pt}{32pt}\selectfont
+      \xeCJKsetup{CJKglue={\hskip 10pt plus 0.08\baselineskip}}
+      \nuaa@worktypecn}
+    \\ \vspace{3bp}       % 56bp(origin) + 7bp(correction) - 60bp(merged to below)
+
+    \begingroup
+    \heiti\zihao{2}
+    \parbox[c][142bp][c]{1.44in}{\center\nuaa@label@title}
+    \parbox[c][142bp][c]{4.07in}{\center
+      \ifnuaa@lang@cn\relax\else
+      \nuaa@valueEn@title \par
+      \fi
+      \nuaa@value@title}
+    \endgroup
+
+    \begingroup
+    \renewcommand{\tabcolsep}{0bp}
+    \renewcommand{\arraystretch}{2.23}
+    \newcommand\nuaa@make@cover@label[1]{
+      \makebox[1.31in][c]{\heiti\zihao{-3}\makebox[4\ccwd][s]{##1}}}
+    \newcommand\nuaa@make@cover@field[1]{
+      \makebox[3.22in][c]{\heiti\zihao{3}\secretize{##1}}}
+    \begin{tabular}{cc}
+      \nuaa@make@cover@label{\nuaa@label@author} &
+      \nuaa@make@cover@field{\nuaa@value@author} \\ \cline{2-2}
+      \nuaa@make@cover@label{\nuaa@label@studentid} &
+      \nuaa@make@cover@field{\nuaa@value@studentid} \\ \cline{2-2}
+      \nuaa@make@cover@label{\ifnuaa@jincheng\nuaa@label@department\else\nuaa@label@college\fi} &
+      \nuaa@make@cover@field{\nuaa@value@college} \\ \cline{2-2}
+      \nuaa@make@cover@label{\nuaa@label@major} &
+      \nuaa@make@cover@field{\nuaa@value@major} \\ \cline{2-2}
+      \nuaa@make@cover@label{\nuaa@label@classid} &
+      \nuaa@make@cover@field{\nuaa@value@classid} \\ \cline{2-2}
+      \nuaa@make@cover@label{\nuaa@label@advisor} &
+      \nuaa@make@cover@field{\nuaa@value@advisors} \\ \cline{2-2}
+    \end{tabular}
+    \endgroup
+    \vspace{43bp}
+
+    \heiti\zihao{3}
+    \ifdefempty{\nuaa@value@applydate}{\nuaa@dateCn}{\nuaa@value@applydate}
+  \end{center}
+
+  \endgroup
+  \restoregeometry
+}
+%    \end{macrocode}
+% \subsubsection{本科承诺书}
+%    \begin{macrocode}
+\newcommand{\nuaa@make@declare@bachelor}{
+  \cleardoublepage
+  \newgeometry{top=1.0in, bottom=1.0in, left=1.25in, right=1.25in}
+
+  \begin{center}
+    \linespread{1.0}\heiti\fontsize{18bp}{31.2bp}\selectfont
+    \textbf{\nuaa@university} \par
+    \textbf{本科\nuaa@worktypecn 诚信承诺书}
+  \end{center}
+
+  \begingroup
+    \linespread{1.0}\songti\fontsize{14bp}{31.2bp}\selectfont
+    本人郑重声明：所呈交的\nuaa@worktypecn
+    （题目：\uline{\nuaa@title} ）
+    是本人在导师的指导下独立进行研究所取得的成果。
+    尽本人所知，除了\nuaa@worktypecn 中特别加以标注引用的内容外，
+    本\nuaa@worktypecn 不包含任何其他个人或集体已经发表或撰写的成果作品。
+
+    \vspace{31.2bp}
+
+    \begin{flushright}
+      \setlength{\tabcolsep}{0bp}
+      \begin{tabular}{rcr}
+      作者签名： & \hspace{7.5em} & \hspace{2em} 年 \hspace{0.5em} 月 \hspace{0.5em} 日 \\
+      （学号）： & \hspace{7.5em} & \\
+      \end{tabular}
+    \end{flushright}
+
+  \endgroup
+  \restoregeometry
+}
+%    \end{macrocode}
+% \subsubsection{本科中文摘要}
+%    \begin{macrocode}
+\newcommand{\nuaa@make@abstract@bachelor@cn}{
+  \ifnuaa@abstractopenright
+    \cleardoublepage
+  \else
+    \clearpage
+  \fi
+
+  \begin{center}
+    \vspace*{-4.3pt}\heiti\zihao{2}
+    \phantomsection
+    \addcontentsline{toc}{chapter}{\nuaa@label@abstractshort}
+    \nuaa@value@title
+  \end{center}
+
+  \begin{center}
+    \heiti\zihao{-3}\vspace{1em}
+    \nuaa@label@abstract
+  \end{center}
+
+  \begingroup
+  \songti\zihao{-4}
+  \nuaa@abstract
+  \endgroup
+
+  \vspace{3em}
+
+  \nuaa@put@kw{\textbf{\heiti\zihao{-3}\nuaa@label@keywords}}{\nuaa@keywords}
+}
+%    \end{macrocode}
+% \subsubsection{本科英文摘要}
+%    \begin{macrocode}
+\newcommand{\nuaa@make@abstract@bachelor@en}{
+  \ifnuaa@abstractopenright
+    \cleardoublepage
+  \else
+    \clearpage
+  \fi
+
+  \begin{center}
+    \vspace*{-4.3pt}\heiti\zihao{2}
+    \phantomsection
+    \addcontentsline{toc}{chapter}{\nuaa@labelEn@abstract}
+    \nuaa@valueEn@title
+  \end{center}
+
+  \begin{center}
+    \heiti\zihao{-3}\vspace{18pt}
+    \nuaa@labelEn@abstract
+    \vspace{10pt}
+  \end{center}
+
+  \begingroup
+  \songti\zihao{-4}
+  \nuaa@abstractEn
+  \endgroup
+
+  \vspace{3em}
+
+  \nuaa@put@kw{\textbf{\zihao{-3}\nuaa@labelEn@KeyWords}}{\nuaa@keywordsEn}
+}
+%    \end{macrocode}
+% \subsubsection{硕/博士中文封面}
+%    \begin{macrocode}
+\newcommand{\nuaa@make@cover@master@cn}{
+  \cleardoublepage
+  \begingroup
+  \linespread{1.0}
+
+  \vspace*{-4.8bp} \vspace{-\parskip}\vspace{-\topskip}
+
+  \begin{multicols}{2}
+    \linespread{1}\songti\fontsize{10.5bp}{15.6bp}\selectfont
+    \begin{flushleft}
+      中图分类号：\nuaa@value@libraryclassid \par
+      学科分类号：\nuaa@value@subjectclassid
+    \end{flushleft}
+    \columnbreak
+    \begin{flushright}
+      论文编号：\nuaa@value@thesisid
+    \end{flushright}
+  \end{multicols}
+
+  \vspace{61bp} \vspace{-\parskip}\vspace{-\baselineskip}
+
+  \begin{center}
+    \songti\zihao{0}\nuaa@worktypecn
+  \end{center}
+
+  \vspace{\stretch{0.25}}
+
+  \begin{center}
+    \linespread{1.5}\heiti\zihao{1}\nuaa@value@title
+  \end{center}
+  \vfill
+
+  \begingroup
+    \linespread{1.0}\songti\fontsize{16bp}{31.2bp}\selectfont
+    \newcommand\nuaa@make@cover@label[1]{\makebox[5\ccwd][s]{##1}}
+    \parbox[t]{2.875in}{
+      \setlength{\parindent}{1.125in}
+      \nuaa@make@cover@label{\nuaa@label@researchername} \par
+      \nuaa@make@cover@label{\nuaa@label@majorsubject} \par
+      \nuaa@make@cover@label{\nuaa@label@researchfield} \par
+      \nuaa@make@cover@label{\nuaa@label@advisor} \par
+    }
+    \parbox[t]{3in}{
+      \setlength{\parindent}{0bp}
+      \nuaa@value@author \par
+      \nuaa@value@majorsubject \par
+      \nuaa@value@researchfield \par
+      \nuaa@value@advisors \par
+    }
+  \endgroup
+
+  \vspace{61bp}
+
+  \begin{center}
+    \includegraphics{nuaa-jianqi.pdf}
+
+    \kaishu\fontsize{18bp}{31.2bp}\selectfont
+    \nuaa@label@graduateschool\quad \nuaa@value@college
+
+    \kaishu\fontsize{16bp}{31.2bp}\selectfont
+    \ifdefempty{\nuaa@value@applydate}{\nuaa@dateCn}{\nuaa@value@applydate}
+
+  \end{center}
+
+  \endgroup
+}
+%    \end{macrocode}
+% \subsubsection{硕/博士英文封面}
+%    \begin{macrocode}
+\newcommand{\nuaa@make@cover@master@en}{
+  \cleardoublepage
+
+  \begin{center}
+    \linespread{1.8}\zihao{4}
+    \nuaa@labelEn@nuaa \\
+    \nuaa@labelEn@graduateschool \\
+    \nuaa@valueEn@college
+
+    \vfill
+    \begingroup
+      \linespread{1.5}
+      \zihao{2}\textbf{\nuaa@valueEn@title} \par
+    \endgroup
+    \vfill
+
+    \linespread{2.0}\zihao{4}
+    A Thesis in \\
+    \nuaa@valueEn@majorsubject \\
+    by \\
+    \nuaa@valueEn@author \bigskip
+
+    Advised by \\
+    \nuaa@valueEn@advisors \bigskip
+
+    Submitted in Partial Fulfillment \\
+    of the Requirements \\
+    for the Degree of \\
+    \ifnuaa@master
+      \nuaa@labelEn@degreemaster
+    \else
+      \nuaa@labelEn@degreedoctor
+    \fi \bigskip
+
+    \ifdefempty{\nuaa@valueEn@applydate}{\nuaa@dateEn}{\nuaa@valueEn@applydate}
+  \end{center}
+}
+%    \end{macrocode}
+% \subsubsection{硕/博士承诺书}
+%    \begin{macrocode}
+\newcommand{\nuaa@make@declare@master}{
+  \cleardoublepage
+
+  \begin{center}
+  \linespread{1.0}\songti\fontsize{22bp}{62.4bp}
+  \vspace*{25.5bp} \vspace{-\parskip}\vspace{-\baselineskip}
+  承诺书 \par
+  \end{center}
+
+  \begingroup
+  \vspace*{31.4bp} \vspace{-\parskip}\vspace{-\baselineskip}
+  \linespread{1.0}\songti\fontsize{16bp}{30bp}\selectfont
+  本人声明所呈交的\nuaa@worktypecn 是本人在导师指导下进行的研究工作及取得的研究成果。
+  除了文中特别加以标注和致谢的地方外，论文中不包含其他人已经发表或撰写过的研究成果，
+  也不包含为获得\nuaa@label@nuaa 或其他教育机构的学位或证书而使用过的材料。
+
+  本人授权\nuaa@label@nuaa 可以将学位论文的全部或部分内容编入有关数据库进行检索，
+  可以采用影印、缩印或扫描等复制手段保存、汇编学位论文。
+
+  （保密的学位论文在解密后适用本承诺书）
+
+  \endgroup
+
+  \vfill
+  \begin{flushright}
+  \linespread{1.0}\songti\fontsize{14bp}{25bp}\selectfont
+  \makebox[5\ccwd][s]{作者签名：} \underline{\hspace{7em}} \par
+  \makebox[5\ccwd][s]{日 \hfill 期：} \underline{\hspace{7em}} \par
+  \end{flushright}
+  \vfill
+}
+%    \end{macrocode}
+% \subsubsection{硕/博士中文摘要}
+%    \begin{macrocode}
+\newcommand{\nuaa@make@abstract@master@cn}{
+  \ifnuaa@abstractopenright
+    \cleardoublepage
+  \else
+    \clearpage
+  \fi
+
+  \chapter*{\nuaa@label@abstract}
+
+  \begingroup
+    \nuaa@abstract
+  \endgroup
+  \vspace{2\baselineskip}
+
+  \nuaa@put@kw{\textbf{\songti\nuaa@label@keywords}}{\nuaa@keywords}
+}
+%    \end{macrocode}
+% \subsubsection{硕/博士英文摘要}
+%    \begin{macrocode}
+\newcommand{\nuaa@make@abstract@master@en}{
+  \ifnuaa@abstractopenright
+    \cleardoublepage
+  \else
+    \clearpage
+  \fi
+
+  \chapter*{\textbf{\nuaa@labelEn@ABSTRACT}}
+
+  \begingroup
+    \nuaa@abstractEn
+  \endgroup
+  \vspace{2\baselineskip}
+
+  \nuaa@put@kw{\textbf{\nuaa@labelEn@keywords}}{\nuaa@keywordsEn}
+}
+%</cls>
+%    \end{macrocode}
+%
+% \iffalse
+%    \begin{macrocode}
+%<*dtx-style>
+\ProvidesPackage{dtx-style}
+\RequirePackage[bottom,perpage,hang,]{footmisc}
+\RequirePackage{hypdoc}
+\RequirePackage[UTF8,scheme=chinese]{ctex}
+\RequirePackage{newpxtext}
+\RequirePackage{newpxmath}
+\RequirePackage[
+top=2.5cm, bottom=2.5cm,
+left=4cm, right=2cm,
+headsep=3mm]{geometry}
+\RequirePackage{array,longtable,booktabs}
+\RequirePackage{listings}
+\RequirePackage{fancyhdr}
+\RequirePackage{xcolor}
+\RequirePackage{enumitem}
+\RequirePackage{etoolbox}
+\RequirePackage{metalogo}
+\RequirePackage{graphicx}
+\RequirePackage{xspace}
+\RequirePackage{pifont}
+
+\def\footnoterule{\vskip-3\p@\hrule\@width0.3\textwidth\@height0.4\p@\vskip2.6\p@}
+\let\cqu@footnotesize\footnotesize
+\renewcommand{\footnotesize}{\cqu@footnotesize\zihao{-5}}
+\footnotemargin1.5em\relax
+
+\let\cqu@makefnmark\@makefnmark
+\def\cqu@@makefnmark{\mbox{{\normalfont\@thefnmark}}}
+\pretocmd{\@makefntext}{\let\@makefnmark\cqu@@makefnmark}{}{}
+\apptocmd{\@makefntext}{\let\@makefnmark\cqu@makefnmark}{}{}
+
+\colorlet{cqu@macro}{blue!60!black}
+\colorlet{cqu@env}{blue!70!black}
+\colorlet{cqu@option}{purple}
+\patchcmd{\PrintMacroName}{\MacroFont}{\MacroFont\bfseries\color{cqu@macro}}{}{}
+\patchcmd{\PrintDescribeMacro}{\MacroFont}{\MacroFont\bfseries\color{cqu@macro}}{}{}
+\patchcmd{\PrintDescribeEnv}{\MacroFont}{\MacroFont\bfseries\color{cqu@env}}{}{}
+\patchcmd{\PrintEnvName}{\MacroFont}{\MacroFont\bfseries\color{cqu@env}}{}{}
+
+\appto{\TeX}{\xspace}
+\appto{\LaTeX}{\xspace}
+\appto{\XeTeX}{\xspace}
+
+\def\DescribeOption{%
+    \leavevmode\@bsphack\begingroup\MakePrivateLetters%
+    \Describe@Option}
+\def\Describe@Option#1{\endgroup
+    \marginpar{\raggedleft\PrintDescribeOption{#1}}%
+    \cqu@special@index{option}{#1}\@esphack\ignorespaces}
+\def\PrintDescribeOption#1{\strut \MacroFont\bfseries\sffamily\color{cqu@option} #1\ }
+\def\cqu@special@index#1#2{\@bsphack
+    \begingroup
+    \HD@target
+    \let\HDorg@encapchar\encapchar
+    \edef\encapchar usage{%
+        \HDorg@encapchar hdclindex{\the\c@HD@hypercount}{usage}%
+    }%
+    \index{#2\actualchar{\string\ttfamily\space#2}
+        (#1)\encapchar usage}%
+    \index{#1:\levelchar#2\actualchar
+        {\string\ttfamily\space#2}\encapchar usage}%
+    \endgroup
+    \@esphack}
+
+\lstdefinestyle{lstStyleBase}{%
+    basicstyle=\small\ttfamily,
+    aboveskip=\medskipamount,
+    belowskip=\medskipamount,
+    lineskip=0pt,
+    boxpos=c,
+    showlines=false,
+    extendedchars=true,
+    upquote=true,
+    tabsize=2,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    numbers=none,
+    linewidth=\linewidth,
+    xleftmargin=4pt,
+    xrightmargin=0pt,
+    resetmargins=false,
+    breaklines=true,
+    breakatwhitespace=false,
+    breakindent=0pt,
+    breakautoindent=true,
+    columns=flexible,
+    keepspaces=true,
+    gobble=2,
+    framesep=3pt,
+    rulesep=1pt,
+    framerule=1pt,
+    backgroundcolor=\color{gray!5},
+    stringstyle=\color{green!40!black!100},
+    keywordstyle=\bfseries\color{blue!50!black},
+    commentstyle=\slshape\color{black!60}}
+
+\lstdefinestyle{lstStyleShell}{%
+    style=lstStyleBase,
+    frame=l,
+    rulecolor=\color{blue},
+    language=bash}
+
+\lstdefinestyle{lstStyleLaTeX}{%
+    style=lstStyleBase,
+    frame=l,
+    rulecolor=\color{cyan},
+    language=[LaTeX]TeX}
+
+\lstnewenvironment{latex}{\lstset{style=lstStyleLaTeX}}{}
+\lstnewenvironment{shell}{\lstset{style=lstStyleShell}}{}
+
+\setlist{nosep}
+
+\DeclareDocumentCommand{\option}{m}{\textsf{#1}\xspace}
+\DeclareDocumentCommand{\env}{m}{\texttt{#1}\xspace}
+\DeclareDocumentCommand{\pkg}{s m}{%
+    \texttt{#2}\xspace\IfBooleanF#1{\cqu@special@index{package}{#2}}}
+\DeclareDocumentCommand{\file}{s m}{%
+    \texttt{#2}\xspace\IfBooleanF#1{\cqu@special@index{file}{#2}}}
+\newcommand{\myentry}[1]{%
+    \marginpar{\raggedleft\color{purple}\bfseries\strut #1}}
+\newcommand{\note}[1]{{%
+        \color{magenta}{\noindent\bfseries 说明：}\emph{#1}}}
+
+\def\cquthesis{\textsc{Cqu}\-\textsc{Thesis}}
+%</dtx-style>
+%    \end{macrocode}
+% \fi
+%
+% \Finale
+\endinput

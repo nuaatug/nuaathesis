@@ -1,0 +1,36 @@
+%%
+%% Copyright (C) 2017 by SomeBody <my@mail.org>
+%%
+%% This file is part of xxx
+%%
+%% TODO: fill copyright stuff
+\input docstrip.tex
+
+\askforoverwritefalse
+\keepsilent
+
+\usedir{tex/latex/nuaathesis}
+
+\preamble
+
+This is a generated file.
+
+Copyright (C) 2017-\the\year by Somebody <my@mail.org>
+TODO: other notice/copyright to be embedded in generated file
+
+\endpreamble
+
+\generate{
+  \file{\jobname.cls}{\from{\jobname.dtx}{cls}}
+  \file{\jobname.cfg}{\from{\jobname.dtx}{cfg}}
+  \file{dtx-style.sty}{\from{\jobname.dtx}{dtx-style}}
+}
+
+\obeyspaces
+\Msg{****************************************************}
+\Msg{* Some message}
+\Msg{* Happy TeXing!}
+\Msg{*}
+\Msg{****************************************************}
+
+\endbatchfile
