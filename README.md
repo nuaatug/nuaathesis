@@ -15,6 +15,7 @@
 
 首先请安装 LaTeX 环境，
 TeX Live 用户可以参考 [`.ci/texlive.pkgs`](.ci/texlive.pkgs) 来安装所需的宏包，
+TeX Live 2018 默认安装的 latex 宏包可能存在问题，建议在安装 TeX Live 2018 后先用 tlmgr 更新所有的宏包，之后再编译本模板；
 ArchLinux 用户可以参考 [`.circleci/config.yml`](.circleci/config.yml) 来安装所需的软件包。
 
 由于本 repo 是面向模板开发的，如果您下载了 release 版的 zip 压缩包，请忽略这一步；
