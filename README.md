@@ -1,6 +1,6 @@
 # nuaathesis
 
-南京航空航天大学(非官方)学位论文 LaTeX 模板
+南京航空航天大学(非官方)学位论文 LaTeX 模板 [![Build Status](https://travis-ci.org/nuaatug/nuaathesis.svg?branch=master)](https://travis-ci.org/nuaatug/nuaathesis)
 
 [模板文档和示例文件](https://ci.appveyor.com/project/yzwduck/nuaathesis/build/artifacts)
 
