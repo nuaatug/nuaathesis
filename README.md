@@ -1,8 +1,17 @@
 # nuaathesis
 
-南京航空航天大学(非官方)学位论文 LaTeX 模板 [![Build Status](https://travis-ci.org/nuaatug/nuaathesis.svg?branch=master)](https://travis-ci.org/nuaatug/nuaathesis)
+南京航空航天大学(非官方)学位论文 LaTeX 模板 
 
-[模板文档和示例文件](https://ci.appveyor.com/project/yzwduck/nuaathesis/build/artifacts)
+### Build Status 
+
+| CI |   Platform   | Status |
+| ---- |---------- | --- |
+| CircleCI | ArchLinux |  [![CircleCI](https://circleci.com/gh/nuaatug/nuaathesis/tree/master.svg?style=svg)](https://circleci.com/gh/nuaatug/nuaathesis/tree/master) |
+| Appveyor | Windows       |  [![Build status](https://ci.appveyor.com/api/projects/status/t1sh0d9t01bvi83l/branch/master?svg=true)](https://ci.appveyor.com/project/summershrimp/nuaathesis/branch/master) |
+| TravisCI | Linux + MacOS    | [![Build Status](https://travis-ci.org/nuaatug/nuaathesis.svg?branch=master)](https://travis-ci.org/nuaatug/nuaathesis) |
+
+
+[模板文档和示例文件](https://ci.appveyor.com/project/summershrimp/nuaathesis/build/artifacts)
 
 ## 特点
 
