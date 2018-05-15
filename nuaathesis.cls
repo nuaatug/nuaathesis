@@ -53,6 +53,7 @@
 \RequirePackage{subcaption} %% 配合caption进行子图注释
 \RequirePackage[titles]{tocloft}
 \RequirePackage{tabularx} %% 表格相关
+\RequirePackage{varwidth}
 \RequirePackage[table]{xcolor}  %% 颜色相关
 \RequirePackage{xltxtra}
 \RequirePackage{footnote} %% 脚注相关
@@ -171,6 +172,7 @@
 \captionsetup{labelsep=quad}
 \captionsetup{font=heiticaption}
 \makesavenoteenv{tabular} % 在图表内使用脚注
+\newcommand{\bigcell}[1]{\begin{varwidth}{\linewidth}#1\end{varwidth}\vspace{12pt}}
 
 %% Floating parameters
 \renewcommand{\textfraction}{0.15}
