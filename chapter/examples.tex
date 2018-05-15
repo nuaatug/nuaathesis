@@ -37,6 +37,20 @@ SJTU Thesis中的表格介绍非常详尽，但其实有非常简单的从Excel�
 
 对于较长较大的表格，可以参考\LaTeX 笔记——lnotes2\footnote{\url{}http://dralpha.altervista.org/zh/tech/lnotes2.pdf}中的longtable（跨页表格）和sidewaystable（横向表格）等表格环境进行实现。另外可以使用\verb!p{2pt}!替代表格中的rcl，来控制表格每一列的宽度。
 
+如果需要在表格里显示多行文本，可以使用\texttt{bigcell}宏，在里面可以手工换行；如果需要自动换行的话，推荐在表格的preamble部分，指定该列的宽度，如：
+
+\begin{table}[H]
+  \centering
+  \caption{多行文本的表格示例}
+  \label{tab:multiline}
+  \begin{tabular}{lp{.8\linewidth}} \toprule
+    名字 & 描述 \\ \midrule
+    \LaTeX & \bigcell{一种基于\TeX 的排版系统，由美国计算机科学家莱斯利·兰伯特在20世纪80年代初期开发，利用这种格式系统的处理，即使用户没有排版和程序设计的知识也可以充分发挥由TEX所提供的强大功能，不必一一亲自去设计或校对，能在几天，甚至几小时内生成很多具有书籍品质的印刷品。} \\
+    XeLaTeX & \bigcell{为了支持Unicode和现代字体，XeLaTeX 被开发出来，其直接使用本地计算机中安装的字体的方法，大大降低了使用\LaTeX 的难度。 \\ 从效果看，生成的PDF文件与dvi文件相差不大。} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
 \section{图片表格指定位置插入}
 
 图片和表格的插入默认是htbp四个选项，有时候这会让图片表格遍布整篇论文，可能会有同学非常反感这种情况，为了强制在当前位置插入图片，可以使用float宏包，然后使用H选项：\verb+\begin{figure}[H]+即可强制\TeX 在当前位置插入图片，从而避免正文和图片表格相距太远。
