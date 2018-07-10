@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+  \begin{axis}[
+    width=.45\textwidth,
+    legend pos=north west,
+    xlabel=$x$,
+    ylabel=$y$
+  ]
+  \addplot {x^3};
+  \addplot[ybar,fill=red,draw=red!60,
+    ybar legend,mark=none,samples=5]
+    {-30*(x+4)};
+  \legend{first,second}
+  \end{axis}
+\end{tikzpicture}

@@ -1,0 +1,43 @@
+\documentclass[
+  lang=cn,
+  degree=master,
+  openany,oneside
+  % openright,blankleft,twoside
+]{nuaathesis}
+
+\graphicspath{{../logo/},{./logo/}}
+
+\input{global.tex}
+% \includeonly{content/start,}
+
+\begin{document}
+
+\makecover
+\makedeclare
+\frontmatter
+\makeabstract
+\nuaatableofcontents
+\nuaalistoffigurestables
+\include{content/abbr}
+
+\mainmatter
+
+\include{content/start}
+\include{content/highlight}
+\include{content/theorem2}
+\include{content/demo}
+
+\appendix
+% 如果需要附录的话，在这里 include
+
+\backmatter
+% 如果参考文献使用 biber
+\bibliographystyle{nuaathesis}   % 参考文献的样式
+\bibliography{bib/sample}   % 参考文献
+% 如果打算手写参考文献
+\include{content/manref}
+
+\include{content/acknowledge}
+\include{content/backmatter}
+
+\end{document}

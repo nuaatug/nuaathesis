@@ -1,0 +1,250 @@
+\chapter{使用示例}
+
+本章介绍一些常用的宏包的常用方法，希望能为读者写作时提供参考。
+
+\section{插图}
+
+首先讨论一下插图的格式，在 \LaTeX{} 环境下，
+\begin{enumerate}
+\item 推荐使用宏包来绘制插图，如 \pkg{tikz}，它兼容所有 \LaTeX{} 环境，
+字体能与全文统一，质量最佳，但是需要的学习成本较大。
+请务必先阅读 \pkg{tikz} 文档的第1章教程，
+然后可以去 texample\footnote{\url{http://texample.net/tikz}} 等网站上找类似的例子，
+也可以使用 GeoGebra\footnote{\url{https://www.geogebra.org}} 之类的工具来生成\TeX 代码，
+效果可以参见\autoref{fig:tikzrot}；
+\item 其次推荐使用其他绘图工具生成的 \verb|PDF|、 \verb|EPS| 格式的矢量图，
+\verb|svg| 格式可以通过 inkscape 软件转换成带 \TeX{}文本代码的 \verb|PDF|。效果可以参见\autoref{fig:logo}；
+\item 当然，\verb|PNG|、 \verb|jpeg| 之类的位图格式也能做插图。
+\end{enumerate}
+
+\begin{figure}[htb]
+  \newcounter{density}
+  \setcounter{density}{20}
+  \input{fig/tikz_rot}
+  \caption{tikz例子}
+  \label{fig:tikzrot}
+\end{figure}
+
+\begin{figure}[htb]
+  \includegraphics[width=4cm]{nuaa-logo.pdf}
+  \caption{一个校徽}
+  \label{fig:logo}
+\end{figure}
+
+如果需要多个插图共用一个题注的话，需要加载额外的宏包，
+一般选用 \pkg{subcaption} 或 \pkg{subfig}，这两个宏包是互斥的。
+需要注意的是 \pkg{subcaption} 貌似与 \pkg{geometry} 有些冲突，
+会导致多行的图表的最后一行无法居中，而 \pkg{geometry} 是设置页边距的必用宏包。
+所以个人推荐使用  \pkg{subfig}，效果可以参考\autoref{fig:sub2}。
+
+\begin{figure}[htb]
+  \subfloat[左边的大校徽\label{fig:sub1}]{\includegraphics[width=4cm]{nuaa-logo.pdf}}\quad
+  \subfloat[短标题：小校徽][小校徽，题注很长，不过请各位放心，它会自动换行\label{fig:sub2}]
+  {\includegraphics[width=3cm]{nuaa-logo.pdf}}
+  \caption{包含两张图片的插图}
+  \label{fig:subfigs}
+\end{figure}
+
+如果需要插入图表的话，可以考虑使用 \pkg{pgfplots} 宏包，效果参见\autoref{fig:plots}；
+也可以用 Matplotlib、MatLab、Mathematica 之类的工具导出成兼容格式的图片。
+
+\begin{figure}[htb]
+  \subfloat[函数图像\label{fig:func}]{\input{fig/tikz_func}} \quad
+  \subfloat[累计结果\label{fig:sum}]{\input{fig/tikz_sum}}
+  \caption{顺眼的插图}
+  \label{fig:plots}
+\end{figure}
+
+如果真的需要让十几张图片共用一个题注的话，
+需要手工拆分成多个 \env{float} 并用 \cs{ContinuedFloat} 来拼接，
+不过直接多次使用 \cs{caption} 会在图表清单里产生多个重复条目，需要一点点小技巧
+（设置图表目录标题为空）。
+建议将浮动位置指定为 \verb|t|，以确保分散至多页的图能占用整个页面，手工分页才能靠谱。
+效果可以参见\autoref{fig:subfigss}的\autoref{fig:logo6}。
+
+\begin{figure}[t]
+  \subfloat[校徽$\times 1$]{\includegraphics[width=4cm]{nuaa-logo.pdf}}\quad
+  \subfloat[校徽$\times 2$]{\includegraphics[width=.4\textwidth]{nuaa-logo.pdf}}\\
+  \subfloat[校徽$\times 3$]{\includegraphics[width=.4\textwidth]{nuaa-logo.pdf}}\quad
+  \subfloat[校徽$\times 4$]{\includegraphics[width=4cm]{nuaa-logo.pdf}}
+  \caption{包含多张图片的插图}
+  \label{fig:subfigss}
+\end{figure}
+\begin{figure}[t]
+  \ContinuedFloat
+  \subfloat[校徽$\times 5$]{\includegraphics[width=4cm]{nuaa-logo.pdf}}\quad
+  \subfloat[校徽$\times 6$ \label{fig:logo6}]{\includegraphics[width=4cm]{nuaa-logo.pdf}}\\
+  \subfloat[校徽$\times 7$]{\includegraphics[width=4cm]{nuaa-logo.pdf}}\quad
+  \subfloat[校徽$\times 8$]{\includegraphics[width=4cm]{nuaa-logo.pdf}}
+  % 指定图表清单中的标题为[]，即可将其消除，避免目录中出现重复条目
+  \caption[]{包含多张图片的插图（续）}
+\end{figure}
+
+如果需要插入一张很大的图片的话，可以使用 \pkg{rotating} 提供的 \env{sidewaysfigure}，
+它能将插图放置在单独的页面上，如果文档使用 \verb|twoside| 选项的话，它会根据页面方向，
+设置 \ang{90} 或 \ang{270} 旋转，可能需要编译两遍才能设置正确的旋转方向。
+不过可能有一个问题，\env{sidewaysfigure} 中使用 \cs{subfloat} 可能无法准确标号，
+需要手工重置 \texttt{subfigure} 计数器。
+效果参见\autoref{fig:fullpage1}和\autoref{fig:fullpage2}。
+
+\setcounter{subfigure}{0}
+\begin{sidewaysfigure}
+  \subfloat[First caption\label{fig:fp1}]{\includegraphics[width=.8\textheight]{nuaa-jianqi.pdf}} \\
+  \subfloat[Second caption]{\includegraphics[height=2cm]{nuaa-jianqi.pdf}}
+  \caption{一幅占用完整页面的图片}
+  \label{fig:fullpage1}
+\end{sidewaysfigure}
+
+\setcounter{subfigure}{0}
+\begin{sidewaysfigure}
+  \subfloat[First caption]{\includegraphics[height=2cm]{nuaa-jianqi.pdf}} \\
+  \subfloat[Second caption]{\includegraphics[width=.8\textheight]{nuaa-jianqi.pdf}}
+  \caption{又一幅占用完整页面的图片}
+  \label{fig:fullpage2}
+\end{sidewaysfigure}
+
+\section{表格}
+
+由于封面页，本模板预先加载了 \pkg{array} 和 \pkg{tabu}，如果需要其他表格的宏包，
+请自行加载。
+
+如果需要插入一个简易的表格，可以只使用 \env{tabular} 环境，如\autoref{tab:city}。
+\begin{table}[htb]
+  \caption[城市人口]{城市人口数量排名 (source: Wikipedia)\label{tab:city}}
+  \begin{tabular}{lr}
+    \toprule
+    城市 & 人口 \\
+    \midrule
+    Mexico City & 20,116,842\\
+    Shanghai & 19,210,000\\
+    Peking & 15,796,450\\
+    Istanbul & 14,160,467\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+也可以使用 \env{tabu} 环境，它可以更灵活地设置列宽，但它有一些 bug，如\autoref{tab:tabu}。
+\begin{table}[htb]
+  \caption{\env{tabu} 注意事项 \label{tab:tabu}}
+  \begin{tabu} spread 4pc {XX[2]<{\strut}} \toprule
+    默认列 & 有修正的列 \\ \midrule
+    \env{tabu} 的 bug? \par This line is BAD & 注意左侧最后一行后的垂直空格 \\ \midrule
+    注意对比最后一行 &
+      bug 会影响多行的 \env{tabu} 表格 \par
+      bug 的修正方法是在段落后面加 \cs{strut} \par
+      This line is Good \\ \midrule
+    但垂直居中没效果 & 改用 \env{tabular} \\ \bottomrule
+  \end{tabu}
+\end{table}
+
+如果需要对某一列的小数点对齐，或者带有单位，或者需要做四舍五入的处理，可以尝试配合 \pkg{siunitx} 一起使用。
+非常推荐看一下 \pkg{siunitx} 文档的，至少看一下“Hints for using siunitx”一节的输出结果，
+\autoref{tab:xmpl:mixed} 来自于该文档的 7.14 节。
+
+\begin{table}[htb]
+  \caption{Tables where numbers have different units}
+  \label{tab:xmpl:mixed}
+  \begin{tabular}
+    {
+      >{$}l<{$}
+      S[table-format = 2.3(1)]
+      S[table-format = 3.3(1)]
+    }
+    \toprule
+      & {One} & {Two} \\
+    \midrule
+    a / \si{\angstrom}   &  1.234(2) &   5.678(4) \\
+    \beta / \si{\degree} & 90.34(4)  & 104.45(5)  \\
+    \mu / \si{\per\mm}   &  0.532    &   0.894    \\
+    \bottomrule
+  \end{tabular}
+  \hfil
+  \begin{tabular}
+    {S[table-format=1.3]@{\,}s[table-unit-alignment = left]}
+    \toprule
+    \multicolumn{2}{c}{Heading} \\
+    \midrule
+    1.234 & \metre   \\
+    0.835 & \candela \\
+    4.23  & \joule\per\mole \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+如果表格内容很多，导致无法放在一页内的话，需要用 \env{longtable} 或 \env{longtabu} 进行分页。
+\autoref{tab:performance} 是来自 \cquthesis{} 的一个长表格的例子。
+
+\begin{longtable}[c]{c*{6}{r}}
+	\caption[实验数据]{实验数据，这个题注十分的长，注意这在索引中的处理方式}\label{tab:performance}\\
+	\toprule
+	\multirow{2}{*}{测试程序} & \multicolumn{1}{c}{正常运行} & \multicolumn{1}{c}{同步} & \multicolumn{1}{c}{检查点} & \multicolumn{1}{c}{卷回恢复}
+	& \multicolumn{1}{c}{进程迁移} & \multicolumn{1}{c}{检查点} \\
+	& \multicolumn{1}{c}{时间 (s)}& \multicolumn{1}{c}{时间 (s)}&
+	\multicolumn{1}{c}{时间 (s)}& \multicolumn{1}{c}{时间 (s)}& \multicolumn{1}{c}{时间 (s)}& \multicolumn{1}{c}{文件 (KB)} \\ \midrule
+	\endfirsthead
+	\multicolumn{7}{c}{\nuaafontcaption 续表~\thetable\hskip1em 实验数据}\\
+	\toprule
+	\multirow{2}{*}{测试程序} & \multicolumn{1}{c}{正常运行} & \multicolumn{1}{c}{同步} & \multicolumn{1}{c}{检查点} & \multicolumn{1}{c}{卷回恢复}
+	& \multicolumn{1}{c}{进程迁移} & \multicolumn{1}{c}{检查点} \\
+	& \multicolumn{1}{c}{时间 (s)}& \multicolumn{1}{c}{时间 (s)}&
+	\multicolumn{1}{c}{时间 (s)}& \multicolumn{1}{c}{时间 (s)}& \multicolumn{1}{c}{时间 (s)}& \multicolumn{1}{c}{文件(KB)} \\ \midrule
+	\endhead
+	\hline
+	\multicolumn{7}{r}{续下页}
+	\endfoot
+	\endlastfoot
+	CG.A.2 & 23.05 & 0.002 & 0.116 & 0.035 & 0.589 & 32491 \\
+	CG.A.4 & 15.06 & 0.003 & 0.067 & 0.021 & 0.351 & 18211 \\
+	CG.A.8 & 13.38 & 0.004 & 0.072 & 0.023 & 0.210 & 9890 \\
+	CG.B.2 & 867.45 & 0.002 & 0.864 & 0.232 & 3.256 & 228562 \\
+	CG.B.4 & 501.61 & 0.003 & 0.438 & 0.136 & 2.075 & 123862 \\
+	CG.B.8 & 384.65 & 0.004 & 0.457 & 0.108 & 1.235 & 63777 \\
+	MG.A.2 & 112.27 & 0.002 & 0.846 & 0.237 & 3.930 & 236473 \\
+	MG.A.4 & 59.84 & 0.003 & 0.442 & 0.128 & 2.070 & 123875 \\
+	MG.A.8 & 31.38 & 0.003 & 0.476 & 0.114 & 1.041 & 60627 \\
+	MG.B.2 & 526.28 & 0.002 & 0.821 & 0.238 & 4.176 & 236635 \\
+	MG.B.4 & 280.11 & 0.003 & 0.432 & 0.130 & 1.706 & 123793 \\
+	MG.B.8 & 148.29 & 0.003 & 0.442 & 0.116 & 0.893 & 60600 \\
+	LU.A.2 & 2116.54 & 0.002 & 0.110 & 0.030 & 0.532 & 28754 \\
+	LU.A.4 & 1102.50 & 0.002 & 0.069 & 0.017 & 0.255 & 14915 \\
+	LU.A.8 & 574.47 & 0.003 & 0.067 & 0.016 & 0.192 & 8655 \\
+	LU.B.2 & 9712.87 & 0.002 & 0.357 & 0.104 & 1.734 & 101975 \\
+	LU.B.4 & 4757.80 & 0.003 & 0.190 & 0.056 & 0.808 & 53522 \\
+	LU.B.8 & 2444.05 & 0.004 & 0.222 & 0.057 & 0.548 & 30134 \\
+	CG.B.2 & 867.45 & 0.002 & 0.864 & 0.232 & 3.256 & 228562 \\
+	CG.B.4 & 501.61 & 0.003 & 0.438 & 0.136 & 2.075 & 123862 \\
+	CG.B.8 & 384.65 & 0.004 & 0.457 & 0.108 & 1.235 & 63777 \\
+	MG.A.2 & 112.27 & 0.002 & 0.846 & 0.237 & 3.930 & 236473 \\
+	MG.A.4 & 59.84 & 0.003 & 0.442 & 0.128 & 2.070 & 123875 \\
+	MG.A.8 & 31.38 & 0.003 & 0.476 & 0.114 & 1.041 & 60627 \\
+	MG.B.2 & 526.28 & 0.002 & 0.821 & 0.238 & 4.176 & 236635 \\
+	MG.B.4 & 280.11 & 0.003 & 0.432 & 0.130 & 1.706 & 123793 \\
+	MG.B.8 & 148.29 & 0.003 & 0.442 & 0.116 & 0.893 & 60600 \\
+	LU.A.2 & 2116.54 & 0.002 & 0.110 & 0.030 & 0.532 & 28754 \\
+	LU.A.4 & 1102.50 & 0.002 & 0.069 & 0.017 & 0.255 & 14915 \\
+	LU.A.8 & 574.47 & 0.003 & 0.067 & 0.016 & 0.192 & 8655 \\
+	LU.B.2 & 9712.87 & 0.002 & 0.357 & 0.104 & 1.734 & 101975 \\
+	LU.B.4 & 4757.80 & 0.003 & 0.190 & 0.056 & 0.808 & 53522 \\
+	LU.B.8 & 2444.05 & 0.004 & 0.222 & 0.057 & 0.548 & 30134 \\
+	EP.A.2 & 123.81 & 0.002 & 0.010 & 0.003 & 0.074 & 1834 \\
+	EP.A.4 & 61.92 & 0.003 & 0.011 & 0.004 & 0.073 & 1743 \\
+	EP.A.8 & 31.06 & 0.004 & 0.017 & 0.005 & 0.073 & 1661 \\
+	EP.B.2 & 495.49 & 0.001 & 0.009 & 0.003 & 0.196 & 2011 \\
+	EP.B.4 & 247.69 & 0.002 & 0.012 & 0.004 & 0.122 & 1663 \\
+	EP.B.8 & 126.74 & 0.003 & 0.017 & 0.005 & 0.083 & 1656 \\
+	\bottomrule
+\end{longtable}
+
+\section{数字与国际单位}
+
+本模板预加载 \pkg{siunitx} 来格式化文中的内联数字，该宏包有大量可定制的参数，
+请务必阅读其文档，并在文档导言部分设置格式。
+
+\begin{itemize}
+  \item 旋转角度为 \ang{90}、\ang{270}
+  \item 分辨率 \num{1920x1080} 的像素数量约为 \num{2.07e6}
+  \item 电脑显示器的像素间距为 \SI{1.8}{\nm}、\SI{180}{\um} 还是 \SI{18}{\mm}？
+  \item 重力加速度 $g=\SI{9.8}{\kg\per\square\second}$、
+  $g=\SI[inter-unit-product=\ensuremath{{}\cdot{}}]{9.8}{\kg\per\square\second}$，
+  亦或 $g=\SI[per-mode=symbol]{9.8}{\kg\per\square\second}$
+\end{itemize}

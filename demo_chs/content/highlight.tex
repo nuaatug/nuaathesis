@@ -1,0 +1,88 @@
+\chapter{特色功能}
+
+本章节介绍由 \nuaathesis{} 提供的特有的宏。
+
+\section{定理环境}
+
+\nuaathesis{} 没有定义任何定理环境，
+但提供了三个宏 \cs{nuaatheorem(g|chap|chapu)} 来定义不同编号方法的定理环境。
+\begin{enumerate}
+  \item \cs{nuaatheoremg} 的编号只有一个数字；
+  \item \cs{nuaatheoremchap} 的编号由“章节.序号”构成，不同的定理环境的编号是独立的，
+  它们的数字编号会重复，如“\autoref{ex:oneplus}”后面可能出现“\autoref{non:dora}”；
+  \item \cs{nuaatheoremchapu} 的编号也是由“章节.序号”构成，
+  但它们的数字编号是统一的，同一个数字不会重复出现（仅限用\cs{nuaatheoremchapu}声明的定理环境之间）。
+  如“\autoref{def:distance}”后面\textbf{不会}出现“假设~2.1”，但可能出现“定义~2.2”或“\autoref{assume:fail}”；
+\end{enumerate}
+
+由于学校没有规定计数的编号，所以所有的定理环境应该由作者来决定编号方式，
+这也意味着所有的定理环境都要由作者来定义（这不是 \nuaathesis{} 在偷懒哦）。
+
+顺便一提，在同一章里同时出现两种编号方式的定理环境，很可能造成混乱，
+所以请合理安排定理环境的编号方式。以下开始举栗子。
+
+\subsection*{样例}
+
+\begin{definition}[欧几里得距离]
+\label{def:distance}
+点$\mathbf{p}$与点$\mathbf{q}$的\textbf{欧几里得距离}，是连接该两点的线段($\overline{\mathbf{pq}}$)的长度。
+
+在笛卡尔坐标系下，如果 $n$维欧几里得空间下的两个点 $\mathbf{p}=(p_1, p_2, \dots, p_n)$ 与点
+$\mathbf{q} = (q_1, q_2, q_3, \dots, q_n)$，那么点$\mathbf{p}$与点$\mathbf{q}$的距离，
+或者点$\mathbf{q}$与点$\mathbf{p}$的距离，由以下公式定义：
+\begin{align}
+\label{equ:1}
+d(\mathbf{p},\mathbf{q}) = d(\mathbf{q},\mathbf{p}) & = \sqrt{(q_1-p_1)^2 + (q_2-p_2)^2 + \cdots + (q_n-p_n)^2} \\
+\label{equ:2}
+& = \sqrt{\sum_{i=1}^n (q_i-p_i)^2}
+\end{align}
+\end{definition}
+
+\begin{proof}
+由\cs{nuaatheorem(g|chap|chapu)}定义的定理环境支持 \cs{autoref}，
+比如在\autoref{def:distance}中，\autoref{equ:2}是\autoref{equ:1}的简写。
+
+但是 \cs{autoref} 只能在 \cs{ref} 加上前缀，无法加上后缀，前缀前的空格也难以消除。
+所以上一句话的后半部分，更推荐手工来写标注 “(\ref{equ:2}) 是 (\ref{equ:1}) 的简写”。
+
+定理环境里面可以换行，不过证明与其他定理环境稍有不同，它是单独定义实现的，
+因此末尾会有一个（帅气的） QED 符号。
+\end{proof}
+
+\begin{assumption}
+\label{assume:fail}
+假设本身就不成立
+\end{assumption}
+
+\begin{lines}
+\label{s1}
+例句1
+\end{lines}
+
+\section{参考文献}
+\label{sec:bib}
+重庆大学的要求是参考文献以上标的形式标注于论述之后，就像这样：
+
+研究表明\cite{r1}，早睡早起有益身体健康。
+
+如果想同时引用多个文献\cite{r2,r3,r4,r6}，只需要在\verb|cite{}|中用逗号分开\texttt{citeKey}就好。
+\cquthesis 同时提供正文模式的参考文献引用功能\texttt{inlinecite}，适用于以下情况：
+文献\inlinecite{r6}表明，文献\inlinecite{r7,r8,r9}所述的情况是有理论依据的。
+
+\nuaathesis 格式测试，学校的参考文献格式并不是 GB7714-2015，所以追加一些测试样例。
+《要求》里列出的格式有：
+\begin{enumerate}
+  \item 连续出版物\cite{n11,n12}：［序号］作者.文题.刊名,年,卷号(期号):起～止页码.
+  \item 专译集\cite{n21,n22}：［序号］作者.书名(译者).出版地:出版者,出版年:起～止页码.
+  \item 论文集\cite{n31,n32}：［序号］作者.文题.编者,文集名,出版地:出版者,出版年:起～止页码.
+  \item 学位论文\cite{n41,n42,n43}：［序号］姓名.文题,[ＸＸ学位论文].授予单位所在地:授予单位,授予年.
+  \item 专利\cite{n51,n52,n53}：［序号］申请者.专利名,国名,专利文献种类,专利号,出版日期.
+  \item 技术标准\cite{n61,n62,n63}：［序号］发布单位,技术标准代号,技术标准名称,出版地:出版者,出版日期.
+\end{enumerate}
+
+注：目前实现的格式仍然与《要求》有点差异：
+\begin{enumerate}
+  \item 《要求》里论文集的编者、文集名、出版地是逗号分隔，而目前是点号分隔；
+  \item 《要求》的学位论文用中文注明学位，目前没实现；
+  \item 在信息缺失的情况下，《要求》貌似直接把对应字段省略，目前仍显示“ＸＸ不详”。
+\end{enumerate}

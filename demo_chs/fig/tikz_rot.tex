@@ -1,0 +1,23 @@
+\begin{tikzpicture}
+  \def\couleur{Dandelion}
+  \path[coordinate] (0,0) coordinate(A)
+              ++( 90:4cm) coordinate(B)
+              ++(0:4cm) coordinate(C)
+              ++(-90:4cm) coordinate(D);
+  \draw (A) node[left] {A}
+    (B) node[left] {B}
+    (C) node[right] {Point C} --
+    (D) node[right,midway,align=left] {边长$a$ \\ 面积和：$S=\frac{50}{9}a^2$ \\ 边长和：$C=\frac{20}{9}(10+\sqrt{82})a$}
+    node[right] {点D};
+  \draw[fill=\couleur!\thedensity] (A)--(B)--(C)--(D)--cycle;
+  \foreach \x in {1,...,40}{%
+      \pgfmathsetcounter{density}{\thedensity+25}
+      \setcounter{density}{\thedensity}
+      \path[coordinate] coordinate(X) at (A){};
+      \path[coordinate] (A) -- (B) coordinate[pos=.1](A)
+                          -- (C) coordinate[pos=.1](B)
+                          -- (D) coordinate[pos=.1](C)
+                          -- (X) coordinate[pos=.1](D);
+      \draw[fill=\couleur!\thedensity] (A)--(B)--(C)--(D)--cycle;
+  }
+\end{tikzpicture}

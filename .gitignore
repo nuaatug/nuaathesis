@@ -4,6 +4,8 @@
 *.cfg
 *.pdf
 *.hd
+*.ins
+demo_*/*.bst
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
@@ -39,6 +41,7 @@
 *.fdb_latexmk
 *.synctex
 *.synctex.gz
+*.synctex(busy)
 *.synctex.gz(busy)
 *.pdfsync
 

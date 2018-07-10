@@ -1,0 +1,120 @@
+\nuaaset{
+  title = {\nuaathesis{} 日文论文示例},
+  author = {佚名},
+  college = {\TeX{} 学院},
+  advisers = {Knuth\quad 教授},
+  % applydate = {二〇一六年三月}  % default to current date
+  %
+  % bachelor only
+  major = {\LaTeX{} 科学与技术},
+  studentid = {131810299},
+  classid = {1318001},
+  % master/doctor only
+  majorsubject = {编程与艺术},
+  researchfield = {轮子制造},
+  libraryclassid = {H319},        % 中图分类号
+  subjectclassid = {050211},      % 学科分类号
+  thesisid = {1028712 16-S022},   % 论文编号
+}
+
+\nuaasetEn{
+  author = {nuaatug},
+  college = {College of \TeX},
+  majorsubject = {Programming and Typesetting},
+  advisers = {Professor~Knuth},
+  degreefull = {Master of Arts},
+  % applydate = {March, 8012}
+}
+
+\nuaasetJa{
+  title = {見本テーゼとしても長い\linebreak タイトルが必要です}
+}
+
+\begin{abstract}
+本文主要演示日文论文写作时的注意事项。
+
+大部分中文 \LaTeX{} 的内容同样适用于日文，在此不再赘述。
+
+\jpn{もし、ここに日本語は書きたいなら、\textbackslash jpn をつかてください。}
+\end{abstract}
+\keywords{日语, 注意事项}
+
+\begin{abstractJa}
+ここに論文の要旨をお書きください。
+
+もちろん改行も可能です。
+\end{abstractJa}
+\keywordsJa{学位論文, \LaTeX}
+
+
+% load packages, define global settings/macros
+
+\theoremstyle{nuaaplain}
+\nuaatheoremchapu{definition}{定義}
+\nuaatheoremchapu{assumption}{仮設}
+
+\usepackage{subfig}
+\usepackage{rotating}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{metalogo}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{ifthen}
+\usepackage{longtable}
+\usepackage{siunitx}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage{lipsum}
+
+\lstdefinestyle{lstStyleBase}{%
+  basicstyle=\small\ttfamily,
+  aboveskip=\medskipamount,
+  belowskip=\medskipamount,
+  lineskip=0pt,
+  boxpos=c,
+  showlines=false,
+  extendedchars=true,
+  upquote=true,
+  tabsize=2,
+  showtabs=false,
+  showspaces=false,
+  showstringspaces=false,
+  numbers=left,
+  numberstyle=\footnotesize,
+  linewidth=\linewidth,
+  xleftmargin=\parindent,
+  xrightmargin=0pt,
+  resetmargins=false,
+  breaklines=true,
+  breakatwhitespace=false,
+  breakindent=0pt,
+  breakautoindent=true,
+  columns=flexible,
+  keepspaces=true,
+  framesep=3pt,
+  rulesep=2pt,
+  framerule=1pt,
+  backgroundcolor=\color{gray!5},
+  stringstyle=\color{green!40!black!100},
+  keywordstyle=\bfseries\color{blue!50!black},
+  commentstyle=\slshape\color{black!60}}
+
+\lstdefinestyle{lstStyleShell}{%
+    style=lstStyleBase,
+    frame=l,
+    rulecolor=\color{blue},
+    language=bash}
+
+\lstdefinestyle{lstStyleLaTeX}{%
+    style=lstStyleBase,
+    frame=l,
+    rulecolor=\color{cyan},
+    language=[LaTeX]TeX}
+
+\lstnewenvironment{latex}{\lstset{style=lstStyleLaTeX}}{}
+\lstnewenvironment{shell}{\lstset{style=lstStyleShell}}{}
+
+
+%\usetikzlibrary{external}
+%\tikzexternalize % activate!
+

@@ -1,0 +1,120 @@
+% use \nuaaset to provide some basic information (in Chinese)
+\nuaaset{
+  title = {\nuaathesis{} 英文论文示例},
+  author = {佚名},
+  college = {\TeX{} 学院},
+  advisers = {Knuth\quad 教授},
+  % applydate = {二〇一六年三月}  % default to current date
+  %
+  % bachelor only
+  major = {\LaTeX{} 科学与技术},
+  studentid = {131810299},
+  classid = {1318001},
+  % master/doctor only
+  majorsubject = {编程与艺术},
+  researchfield = {轮子制造},
+  libraryclassid = {H319},        % 中图分类号
+  subjectclassid = {050211},      % 学科分类号
+  thesisid = {1028712 16-S022},   % 论文编号
+}
+
+% use \nuaasetEn to setup the cover (in English)
+\nuaasetEn{
+  title = {``How to'' Write \textit{Thesis} in English \linebreak with \nuaathesis},
+  author = {nuaatug},
+  college = {College of \TeX},
+  majorsubject = {Programming and Typesetting},
+  advisers = {Professor~Knuth},
+  degreefull = {Master of Arts},
+  % applydate = {March, 8012}
+}
+
+% abstract, Chinese
+\begin{abstract}
+本文主要演示英文论文写作时的注意事项。
+
+大部分中文 \LaTeX{} 的内容同样适用于英文，在此不再赘述。
+\end{abstract}
+\keywords{英语, 注意事项}
+
+% abstract, English
+\begin{abstractEn}
+In this document, we will demonstrate how to write thesis with \nuaathesis.
+
+Because both English and Chinese essays use the same document class,
+please refer to the Chinese demo for common features.
+This document only focuses on English-specific features.
+\end{abstractEn}
+\keywordsEn{English, thesis writing}
+
+
+% load packages, define global settings/macros
+
+\theoremstyle{nuaaplain}
+\nuaatheoremchapu{definition}{Definition}
+\nuaatheoremchapu{assumption}{Assumption}
+
+\usepackage{subfig}
+\usepackage{rotating}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{metalogo}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{ifthen}
+\usepackage{longtable}
+\usepackage{siunitx}
+\usepackage{listings}
+\usepackage{multirow}
+
+\lstdefinestyle{lstStyleBase}{%
+  basicstyle=\small\ttfamily,
+  aboveskip=\medskipamount,
+  belowskip=\medskipamount,
+  lineskip=0pt,
+  boxpos=c,
+  showlines=false,
+  extendedchars=true,
+  upquote=true,
+  tabsize=2,
+  showtabs=false,
+  showspaces=false,
+  showstringspaces=false,
+  numbers=left,
+  numberstyle=\footnotesize,
+  linewidth=\linewidth,
+  xleftmargin=\parindent,
+  xrightmargin=0pt,
+  resetmargins=false,
+  breaklines=true,
+  breakatwhitespace=false,
+  breakindent=0pt,
+  breakautoindent=true,
+  columns=flexible,
+  keepspaces=true,
+  framesep=3pt,
+  rulesep=2pt,
+  framerule=1pt,
+  backgroundcolor=\color{gray!5},
+  stringstyle=\color{green!40!black!100},
+  keywordstyle=\bfseries\color{blue!50!black},
+  commentstyle=\slshape\color{black!60}}
+
+\lstdefinestyle{lstStyleShell}{%
+    style=lstStyleBase,
+    frame=l,
+    rulecolor=\color{blue},
+    language=bash}
+
+\lstdefinestyle{lstStyleLaTeX}{%
+    style=lstStyleBase,
+    frame=l,
+    rulecolor=\color{cyan},
+    language=[LaTeX]TeX}
+
+\lstnewenvironment{latex}{\lstset{style=lstStyleLaTeX}}{}
+\lstnewenvironment{shell}{\lstset{style=lstStyleShell}}{}
+
+
+%\usetikzlibrary{external}
+%\tikzexternalize % activate!
+

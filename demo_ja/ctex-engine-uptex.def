@@ -1,0 +1,269 @@
+%%
+%% This is file `ctex-engine-uptex.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% ctex.dtx  (with options: `uptex')
+%% 
+%%     Copyright (C) 2003--2018
+%%     CTEX.ORG and any individual authors listed in the documentation.
+%% ------------------------------------------------------------------------------
+%% 
+%%     This work may be distributed and/or modified under the
+%%     conditions of the LaTeX Project Public License, either
+%%     version 1.3c of this license or (at your option) any later
+%%     version. This version of this license is in
+%%        http://www.latex-project.org/lppl/lppl-1-3c.txt
+%%     and the latest version of this license is in
+%%        http://www.latex-project.org/lppl.txt
+%%     and version 1.3 or later is part of all distributions of
+%%     LaTeX version 2005/12/01 or later.
+%% 
+%%     This work has the LPPL maintenance status `maintained'.
+%% 
+%%     The Current Maintainers of this work are Leo Liu, Qing Lee and Liam Huang.
+%% 
+%% ------------------------------------------------------------------------------
+%% 
+\GetIdInfo$Id: ctex.dtx 096f319 2018-05-02 19:51:41 +0800 Liam Huang <liamhuang0205@gmail.com> $
+  {upTeX adapter (CTEX)}
+\ProvidesExplFile{ctex-engine-uptex.def}
+  {\ExplFileDate}{2.4.14}{\ExplFileDescription}
+\cs_new_protected_nopar:Npn \ctex_set_zhmap:n #1
+  {
+    \AtBeginDvi {#1}
+    \ctex_at_end_package:nn { atbegshi }
+      { \AtBeginShipoutFirst {#1} }
+  }
+\@onlypreamble \ctex_set_zhmap:n
+\tl_set:Nn \CJKrmdefault { rm }
+\tl_set:Nn \CJKsfdefault { sf }
+\tl_set:Nn \CJKttdefault { tt }
+\tl_set:Nn \CJKfamilydefault { \CJKrmdefault }
+%\ctex_preto_cmd:NnnTF \rmfamily { \ExplSyntaxOff }
+%  { \kanjifamily { \CJKrmdefault } }
+%  { }
+%  { \ctex_patch_failure:N \rmfamily }
+%\ctex_preto_cmd:NnnTF \sffamily { \ExplSyntaxOff }
+%  { \kanjifamily { \CJKsfdefault } }
+%  { }
+%  { \ctex_patch_failure:N \sffamily }
+%\ctex_preto_cmd:NnnTF \ttfamily { \ExplSyntaxOff }
+%  { \kanjifamily { \CJKttdefault } }
+%  { }
+%  { \ctex_patch_failure:N \ttfamily }
+%\ctex_preto_cmd:NnnTF \normalfont { \ExplSyntaxOff }
+%  { \kanjifamily { \CJKfamilydefault } }
+%  { \cs_set_eq:NN \reset@font \normalfont }
+%  { \ctex_patch_failure:N \normalfont }
+\NewDocumentCommand \CJKfamily { m }
+  {
+    \kanjifamily { #1 }
+    \selectfont
+  }
+%\tl_set:Nn \kanjifamilydefault { \CJKfamilydefault }
+\ctex_at_end_preamble:n { \ctex_update_default_family: }
+\normalfont
+\ctex_patch_cmd_once:NnnnTF \em
+  { \ExplSyntaxOff }
+  { \eminnershape \else \gtfamily \itshape }
+  { \eminnershape \else \itshape }
+  { }
+  {
+    \ctex_patch_cmd:Nnn \em
+      { \mcfamily \upshape \else \gtfamily \itshape }
+      { \eminnershape \else \itshape }
+  }
+\cs_set_nopar:Npn \eminnershape { \upshape }
+\cs_new_protected_nopar:Npn \ctex_set_upfamily:nnn #1 #2 #3
+  {
+    \DeclareKanjiFamily{JY2}{#1}{}
+    \DeclareKanjiFamily{JT2}{#1}{}
+    \DeclareFontShape{JY2}{#1}{m}{n}{<->~ #2-h}{}
+    \DeclareFontShape{JT2}{#1}{m}{n}{<->~ #2-v}{}
+    \tl_if_empty:nF { #3 }
+      {
+        \DeclareFontShape{JY2}{#1}{bx}{n}{<->~ #3-h}{}
+        \DeclareFontShape{JT2}{#1}{bx}{n}{<->~ #3-v}{}
+      }
+  }
+\@onlypreamble \ctex_set_upfamily:nnn
+\cs_new_protected_nopar:Npn \ctex_set_upmap:nnn #1 #2 #3
+  {
+    \ctex_set_zhmap:n
+      {
+        \special{ pdf:mapline~ #1-h~   UniGB-UTF16-H~ #2 }
+        \special{ pdf:mapline~ #1-v~   UniGB-UTF16-V~ #2 }
+        \tl_if_empty:nF { #3 }
+          {
+            \special{ pdf:mapline~ #1b-h~  UniGB-UTF16-H~ #3 }
+            \special{ pdf:mapline~ #1b-v~  UniGB-UTF16-V~ #3 }
+          }
+      }
+  }
+\@onlypreamble \ctex_set_upmap:nnn
+\cs_new_protected_nopar:Npn \ctex_set_upfonts:nnnnnn #1 #2 #3 #4 #5 #6
+  {
+    \ctex_set_upmap:nnn { upserif } { #1 } { #2 }
+    \ctex_set_upmap:nnn { upserifit } { #3 } {}
+    \ctex_set_upmap:nnn { upsans } { #4 } { #5 }
+    \ctex_set_upmap:nnn { upmono } { #6 } {}
+  }
+\@onlypreamble \ctex_set_upfonts:nnnnnn
+\RequirePackage { pxeverysel }
+\cs_new_protected_nopar:Npn \ctex_update_default_family:
+  {
+    \tl_if_eq:NNT \CJKfamilydefault \l__ctex_family_default_init_tl
+      {
+        \group_begin:
+          \cs_set_eq:NN \__ctex_family_default_wrap:n \exp_not:n
+          \tl_gset:Nx \CJKfamilydefault
+            {
+              \str_case:onF { \familydefault }
+                {
+                  { \rmdefault } { \exp_not:N \CJKrmdefault }
+                  { \sfdefault } { \exp_not:N \CJKsfdefault }
+                  { \ttdefault } { \exp_not:N \CJKttdefault }
+                }
+                { \CJKfamilydefault }
+            }
+        \group_end:
+      }
+  }
+\tl_new:N \l__ctex_family_default_init_tl
+\cs_new_eq:NN \__ctex_family_default_wrap:n \use:n
+\tl_set:Nx \l__ctex_family_default_init_tl
+  {
+    \exp_not:N \__ctex_family_default_wrap:n
+      { \exp_not:o { \CJKfamilydefault } }
+  }
+\tl_gset_eq:NN \CJKfamilydefault \l__ctex_family_default_init_tl
+\cs_new_protected_nopar:Npn \ctex_detected_platform:
+  {
+    \file_if_exist:nTF { /dev/null }
+      {
+        \file_if_exist:nTF { nul: }
+          {
+            \file_if_exist:nTF { \c__ctex_upper_case_file_str }
+              { \ctex_if_macosx:TF { mac } { windows } }
+              { \ctex_if_macosx:TF { mac } { fandol } }
+          }
+          { \ctex_if_macosx:TF { mac } { fandol } }
+      }
+      { \tl_gset:Nn \g__ctex_fontset_tl { windows } }
+  }
+\str_const:Nx \c__ctex_upper_case_file_str
+  { \exp_args:No \str_upper_case:n { \g_file_curr_name_str } }
+\cs_new_protected_nopar:Npn \ctex_if_macosx:TF #1#2
+  {
+    \file_if_exist:nTF { \c__ctex_macosx_file_str }
+      { \tl_gset:Nn \g__ctex_fontset_tl {#1} }
+      { \tl_gset:Nn \g__ctex_fontset_tl {#2} }
+  }
+\str_const:Nn \c__ctex_macosx_file_str { /Library/Fonts/Songti.ttc }
+\ctex_hypersetup:n { driverfallback = dvipdfmx }
+\ctex_at_end_package:nn { hyperref }
+  { \AtBeginShipoutFirst { \special { pdf:tounicode~ UTF8-UTF16 } } }
+\msg_new:nnn { ctex } { fntef-not-available }
+  { Functions~ of~ `CJKfntef'~ is~ not~ available~ in~ upLaTeX. }
+\msg_warning:nn { ctex } { fntef-not-available }
+\clist_map_inline:nn
+  { underdot , underline , underdblline , underwave , sout , xout }
+  { \cs_new_eq:cN { CTEX#1 } \use:n }
+\cs_new_eq:NN \CTEXfilltwosides \use_none:n
+\cs_new_eq:NN \endCTEXfilltwosides \prg_do_nothing:
+\cs_new_protected_nopar:Npn \ctex_update_ccwd:
+  { \skip_set:Nn \ccwd { 1zw + \ptex_kanjiskip:D } }
+\dim_new:N \ccwd
+\cs_new_protected_nopar:Npn \ctex_update_ccglue:
+  { \skip_set_eq:NN \ptex_kanjiskip:D \l__ctex_ccglue_skip }
+\skip_new:N \l__ctex_ccglue_skip
+\prg_new_conditional:Npnn \ctex_if_ccglue_touched: { TF }
+  {
+    \skip_if_eq:nnTF { \l__ctex_ccglue_skip } { \ptex_kanjiskip:D }
+      { \prg_return_false: } { \prg_return_true: }
+  }
+\cs_new_protected_nopar:Npn \ctex_update_em_unit:
+  { \dim_set:Nn \ccwd { 1zw } }
+\cs_new_protected:Npn \ctex_add_to_selectfont:n #1
+  {
+    \cs_set_protected_nopar:Npx \CTEX@selectfont@hook
+      { \exp_not:o { \CTEX@selectfont@hook #1 } }
+  }
+\cs_new_eq:NN \CTEX@selectfont@hook \prg_do_nothing:
+\if_cs_exist:N \@EverySelectfont@Init
+  \group_begin:
+    \cs_set:Npn \__ctex_tmp:N #1
+      {
+        \tl_set:Nn \l__ctex_tmp_tl {#1}
+        \cs_new_eq:NN \CTEX@selectfont@save #1
+        \cs_new_protected_nopar:Npn \__ctex_restore_selectfont:
+          {
+            \tl_put_left:Nn \@EverySelectfont@Init
+              { \let #1 \CTEX@selectfont@save }
+            \cs_undefine:N \__ctex_restore_selectfont:
+          }
+      }
+    \ctex_parse_name:NN \__ctex_tmp:N \selectfont
+  \exp_last_unbraced:NNo \group_end:
+  \ctex_patch_cmd_once:NnnnTF { \l__ctex_tmp_tl }
+    { \ExplSyntaxOff }
+    { \size@update }
+    { \CTEX@selectfont@hook \size@update }
+    { \__ctex_restore_selectfont: }
+    { \ctex_patch_failure:N \selectfont }
+\fi:
+\EverySelectfont { \CTEX@selectfont@hook }
+\cs_new_protected_nopar:Npn \ctex_update_xkanjiskip:
+  {
+    \skip_if_eq:nnT
+      { \ptex_xkanjiskip:D } { \l__ctex_xkanjiskip_skip }
+      {
+        \skip_set:Nn \l__ctex_xkanjiskip_skip { \l__ctex_xkanjiskip_tl }
+        \skip_set_eq:NN \ptex_xkanjiskip:D \l__ctex_xkanjiskip_skip
+      }
+  }
+\tl_new:N \l__ctex_xkanjiskip_tl
+\tl_set:Nn \l__ctex_xkanjiskip_tl
+  { .25zw plus 1pt minus 1pt }
+\skip_new:N \l__ctex_xkanjiskip_skip
+\skip_set:Nn \l__ctex_xkanjiskip_skip
+  { \ptex_xkanjiskip:D }
+\ctex_add_to_selectfont:n { \ctex_update_xkanjiskip: }
+\keys_define:nn { ctex }
+  {
+    space .code:n =
+      { \msg_warning:nn { ctex } { invalid-option } }
+  }
+\keys_define:nn { ctex }
+  {
+    punct .code:n =
+      {
+        \tl_set:Nx \l__ctex_punct_tl { #1 }
+        \msg_warning:nn { ctex } { invalid-option }
+      } ,
+    punct .default:n = { quanjiao } ,
+  }
+\tl_set:Nn \l__ctex_encoding_tl { UTF8 }
+\DeclareKanjiFamily{JY2}{rm}{}
+\DeclareKanjiFamily{JY2}{sf}{}
+\DeclareKanjiFamily{JY2}{tt}{}
+\DeclareKanjiFamily{JT2}{rm}{}
+\DeclareKanjiFamily{JT2}{sf}{}
+\DeclareKanjiFamily{JT2}{tt}{}
+\DeclareFontShape{JY2}{rm}{m}{n}{<-> upzhserif-h}{}
+\DeclareFontShape{JY2}{rm}{m}{it}{<-> upzhserifit-h}{}
+\DeclareFontShape{JY2}{rm}{bx}{n}{<-> upzhserifb-h}{}
+\DeclareFontShape{JT2}{rm}{m}{n}{<-> upzhserif-v}{}
+\DeclareFontShape{JT2}{rm}{m}{it}{<-> upzhserifit-v}{}
+\DeclareFontShape{JT2}{rm}{bx}{n}{<-> upzhserifb-v}{}
+\DeclareFontShape{JY2}{sf}{m}{n}{<-> upzhsans-h}{}
+\DeclareFontShape{JY2}{sf}{bx}{n}{<-> upzhsansb-h}{}
+\DeclareFontShape{JT2}{sf}{m}{n}{<-> upzhsans-v}{}
+\DeclareFontShape{JT2}{sf}{bx}{n}{<-> upzhsansb-v}{}
+\DeclareFontShape{JY2}{tt}{m}{n}{<-> upzhmono-h}{}
+\DeclareFontShape{JT2}{tt}{m}{n}{<-> upzhmono-v}{}
+%% 
+%%
+%% End of file `ctex-engine-uptex.def'.

@@ -1,0 +1,57 @@
+\chapter{快速上手}
+
+\section{欢迎}
+
+欢迎使用 \nuaathesis，本文档将介绍如何利用 \nuaathesis 模板进行学位论文写作，
+我们假设读者有 \LaTeX 英文写作经验，并会使用搜索引擎解决常见问题。
+
+本模板的源代码托管在 \url{https://github.com/nuaatug/nuaathesis}，
+欢迎来提 issue/PR。
+
+\section{\LaTeX 环境准备}
+
+由于\nuaathesis 使用了一些不太常用的宏包，\TeX~Live 用户需要手动安装后才能使用本模板。
+
+如果使用系统（Debian, ArchLinux 等）的 \TeX~Live 软件包的话，请用系统的软件包管理器，安装以下 collection：
+\verb|langchinese, latexextra, science, pictures, fontsextra|.
+
+如果是从 \TeX~Live 官网下载光盘镜像、或是在线安装的话，
+\begin{enumerate}
+  \item 首先运行 \verb|tlmgr --help| 来确认 \TeX~Live 环境是否就绪，它应该会输出很长的帮助说明；
+  \item 在本模板的 \verb|.ci| 目录（可能是隐藏目录），运行 \verb|install.bat| (Windows) 或 \verb|install.sh|，
+  它会利用 \verb|tlmgr| 下载安装所需的宏包；
+  \item Windows 的脚本依赖于 PowerShell，如果没有安装该系统功能的话，脚本无法使用；
+  如需手工安装的话，可以参考 \verb|.ci/texlive.pkgs| 中列出的宏包清单。
+\end{enumerate}
+
+如果使用 Mik\TeX 的话，理论上它会自动下载安装缺失的宏包，good luck :)
+
+\section{编译模板和文档}
+
+进入模板的根目录，运行 \verb|build.bat|（Windows） 或 \verb|build.sh|（其他系统），
+它会生成模板 \verb|nuaathesis.cls| 以及对应的文档 \verb|nuaathesis.pdf|。
+
+\section{使用模板}
+
+论文写作时，请确认工作目录下有以下文件：
+\begin{itemize}
+  \item \verb|nuaathesis.cls| 文档模板；
+  \item \verb|nuaathesis.bst| 参考文献格式（如果使用 biber 来生成参考文献的话）；
+  \item \verb|logo/| 文件夹，内含一些图标；
+\end{itemize}
+
+如果工作目录下没有这些文件的话，请从本模板根目录复制一份。
+
+\section{开始写作}
+
+最方便的开始方法，莫过于在修改现有的文章，特别是这篇快速手册。需要修改的文件有：
+\begin{itemize}
+  \item \verb|master.tex| 主文件，定义了文档包含的内容；
+  \item \verb|global.tex| 里面定义文档的信息，导入一些宏包，并设置全局使用的宏；
+  \item \verb|content/| 文件夹，按章节拆分的文档内容；
+  \item \verb|ref/| 文件夹，内含参考文献数据库；
+\end{itemize}
+
+修改完成后，使用 \verb|latexmk -xelatex master| 进行编译。
+
+当然，主文件也可能叫作 \verb|bachelor.tex| 或其他名字，请对照着修改编译命令。

@@ -1,0 +1,48 @@
+\chapter{使い方}
+
+\section{図と表}
+
+普通に使えるよね、例えば\autoref{fig:logo}と\autoref{tab:city}。
+
+\begin{figure}[H]
+  \includegraphics[width=3cm]{nuaa-logo.pdf}
+  \caption[バッジ]{学校のバッジ\label{fig:logo}}
+\end{figure}
+
+\begin{table}[htb]
+  \caption[人数の表]{人数の表 (source: Wikipedia)\label{tab:city}}
+  \begin{tabular}{lr}
+    \toprule
+    都市 & 人数 \\
+    \midrule
+    メキシコ & 20,116,842\\
+    上海 & 19,210,000\\
+    北京 & 15,796,450\\
+    イスタンブール & 14,160,467\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{なぜ \texttt{\textbackslash zhcn} が必要ですか}
+
+\zhcn{因为同一个汉字在两种语言中的写法不一样，如}\autoref{fig:compare}。
+
+\begin{figure}[H]
+  \subfloat[日語字]{\fontsize{60bp}{60bp}\selectfont 字}\hfil
+  \subfloat[\zhcn{中国字}]{\fontsize{60bp}{60bp}\selectfont\zhcn{字}}\quad
+  \caption{字$\times 2$\label{fig:compare}}
+\end{figure}
+
+\zhcn{并且，如果使用 IPA 之类字符数量不多的字体写中文的话，有可能会遇到中文独有的汉字，
+导致最后的 pdf 里出现无法显示汉字的框。
+所以一定要根据的语言，使用对应的字体。}
+
+\section{参考文献について}
+
+\zhcn{目前还无法在 biber 的参考文献中指定语言/字体…在这里偷个懒，使用英文示例中的例子：}
+
+Cite one paper\cite{r1}, or multiple\cite{r2,r3,r4}.
+
+Here is inline cited paper\inlinecite{r6}, and another paper\inlinecite{r7,r8,r9}.
+
+\zhcn{理论上基本能处理日文的参考文献数据库的，但笔者实在有点偷懒，}えへへ～

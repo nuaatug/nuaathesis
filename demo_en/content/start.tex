@@ -1,0 +1,85 @@
+\chapter{QUICK START}
+
+Welcome to \nuaathesis,
+a thesis template with English support for foreign language college and/or oversea students.
+We assume that you are familiar with writing articles in \LaTeX.
+
+The source code for this template is hosted on \url{https://github.com/nuaatug/nuaathesis},
+issues and pull requests are always welcomed.
+
+\section{Setup \LaTeX{} Environment}
+
+\nuaathesis{} requires some packages which are not included in basic/minimum \LaTeX{} installation.
+Here are some tips to install the depended packages:
+
+If you are using the \TeX~Live from your system distribution,
+please install the following \TeX~Live collections:
+\verb|langchinese, latexextra, science, pictures, fontsextra|.
+
+If you are using the \TeX~Live installed from \url{https://www.tug.org/texlive/},
+\begin{enumerate}
+  \item verify your \TeX~Live installation by executing: \verb|tlmgr --help|,
+  make sure it has long, pages of output.
+  \item go to the \verb|.ci| directory (may be hidden),
+  run \verb|install.bat| (Windows) or \verb|install.sh| (others).
+  For Windows users, the script might fail if your system doesn't have PowerShell.
+  If the script doesn't work, install the texlive packages listed in \verb|.ci/texlive.pkgs| manually.
+\end{enumerate}
+
+If you are using Mik\TeX,
+chances are that the dependencies will be installed automatically when you compile the document.
+Good luck \verb|:)|
+
+For Windows users, due to the \CTeX's assumption, you should either
+\begin{itemize}
+  \item install simplified Chinese fonts on Windows, or
+  \item specify document option \verb|fontset=fandol| or any other Chinese fonts in your thesis
+\end{itemize}
+
+\section{Compile Template}
+
+Run \verb|build.bat| (Windows) or \verb|build.sh| (others),
+it will extract the document class and build the document.
+
+\section{Compile Thesis}
+
+Before compiling the thesis,
+please make sure that the working directory contains following files/directories:
+\begin{itemize}
+  \item \verb|nuaathesis.cls| document class;
+  \item \verb|nuaathesis.bst| biber style;
+  \item \verb|logo/| folder, contains some figures for cover and header.
+\end{itemize}
+If any of them is missing, please copy it from the root directory of the template.
+
+There are a bunch of methods to compile a \LaTeX{} document,
+assuming your thesis is called \verb|master.tex|
+\begin{itemize}
+\item
+the recommended compiling command is
+\begin{shell}
+latexmk -xelatex master
+\end{shell}
+\item the regular, decoupled compiling commands are
+\begin{shell}
+xelatex master
+bibtex master
+xelatex master
+xelatex master
+\end{shell}
+\item you could replace \verb|xelatex| with any other \LaTeX{} engines supported by \CTeX,
+but \XeLaTeX{} works best with Chinese document,
+and we don't test compatibility with other \LaTeX{} engines except \XeLaTeX.
+\end{itemize}
+
+\section{Write/modify Thesis}
+
+This document is also written with \nuaathesis,
+why not adapt it into your thesis and save time for starting from scratch?
+Here is the list of files that you need to modify:
+\begin{itemize}
+  \item \verb|master.tex|: the main document
+  \item \verb|global.tex|: basic information for cover and abstract, import packages, define macros
+  \item \verb|content/|: main matters are here
+  \item \verb|manref.tex|: hand-written references, NOT recommended
+\end{itemize}
