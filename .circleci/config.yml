@@ -7,7 +7,7 @@ jobs:
     steps:
       - run:
           name: 'Install texlive'
-          command: 'pacman -Syu --needed --noconfirm git openssh biber cabextract p7zip texlive-bibtexextra texlive-langchinese texlive-langjapanese texlive-latexextra texlive-science texlive-pictures'
+          command: 'pacman -Syu --needed --noconfirm git openssh base-devel biber cabextract p7zip texlive-bibtexextra texlive-langchinese texlive-langjapanese texlive-latexextra texlive-science texlive-pictures'
       - run:
           # I have no idea why these fonts will fail if installed with previous command
           name: 'Install texlive-fontsextra'
