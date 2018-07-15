@@ -1,11 +1,14 @@
+% this file is part of demo thesis in English,
+% the main TeX file should be `bachelor.tex` or `master.tex` in the parent directory.
+
 \chapter{QUICK START}
 
 Welcome to \nuaathesis,
-a thesis template with English support for foreign language college and/or oversea students.
+a \LaTeX{} thesis template with English support for foreign language college and/or international students.
 We assume that you are familiar with writing articles in \LaTeX.
 
 The source code for this template is hosted on \url{https://github.com/nuaatug/nuaathesis},
-issues and pull requests are always welcomed.
+feedback, issues and pull requests are always welcomed.
 
 \section{Setup \LaTeX{} Environment}
 
@@ -41,22 +44,26 @@ For Windows users, due to the \CTeX's assumption, you should either
 Run \verb|build.bat| (Windows) or \verb|build.sh| (others),
 it will extract the document class and build the document.
 
+Note:
+if simplified Chinese fonts are not installed on Windows,
+the document \texttt{nuaathesis.pdf} might fail to build,
+but the document class \texttt{nuaathesis.cls} should have been extracted.
+
 \section{Compile Thesis}
 
 Before compiling the thesis,
 please make sure that the working directory contains following files/directories:
 \begin{itemize}
-  \item \verb|nuaathesis.cls| document class;
-  \item \verb|nuaathesis.bst| biber style;
-  \item \verb|logo/| folder, contains some figures for cover and header.
+  \item \verb|nuaathesis.cls|: document class;
+  \item \verb|nuaathesis.bst|: biber style;
+  \item \verb|logo/|: folder, contains some figures for cover and header.
 \end{itemize}
 If any of them is missing, please copy it from the root directory of the template.
 
 There are a bunch of methods to compile a \LaTeX{} document,
 assuming your thesis is called \verb|master.tex|
 \begin{itemize}
-\item
-the recommended compiling command is
+\item the recommended compiling command is
 \begin{shell}
 latexmk -xelatex master
 \end{shell}
@@ -81,5 +88,16 @@ Here is the list of files that you need to modify:
   \item \verb|master.tex|: the main document
   \item \verb|global.tex|: basic information for cover and abstract, import packages, define macros
   \item \verb|content/|: main matters are here
-  \item \verb|manref.tex|: hand-written references, NOT recommended
+  \item \verb|bib/|: biber database
 \end{itemize}
+
+\section{Disclamer}
+
+This is UNOFFICIAL \LaTeX{} thesis template for NUAA.
+Since format specification on English thesis has never been published,
+nor has this template received official certification,
+there is the risk that the thesis format might not be accepted.
+
+The story is almost the same as the Chinese ones.
+We do our best to match \nuaathesis{} with (the only Chinese) official Word template,
+but we cannot provide any guarantee for the correct format.

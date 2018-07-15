@@ -1435,7 +1435,6 @@ and the derived files           nuaathesis.ins,
 % 人工参考文献目录
 %    \begin{macrocode}
 \newenvironment{manref}{
-  \chapter{\bibname}
   \begingroup\nuaa@font@bib
   \begin{list}{\@biblabel{\@arabic\c@enumiv}}{
     \leftmargin\labelwidth
@@ -1455,6 +1454,13 @@ and the derived files           nuaathesis.ins,
   \endgroup
 }
 %    \end{macrocode}
+% \begin{macro}{\mcite}
+% 配合使用 \cs{label} 来引用手工参考文献目录，只支持单个引用。
+% 本质就是 \cs{ref} 左右加方括号。
+%    \begin{macrocode}
+\newcommand\mcite[1]{[\ref{#1}]}
+%    \end{macrocode}
+% \end{macro}
 % \subsection{文档部件}
 % \subsubsection{宏包}
 % 本节将调整一些常用宏包的参数。

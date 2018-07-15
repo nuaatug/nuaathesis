@@ -1,6 +1,16 @@
 \chapter{INTRODUCTION}
 
 \section{Theorem Environment}
+Please define theorems with following macros in \texttt{global.tex}:
+\begin{itemize}
+\item \cs{nuaatheoremchapu}, the suffix stands for CHAPter Unified,
+it produces two-level unique numbering (recommended?)
+\item \cs{nuaatheoremchap}, the suffix stands for CHAPter,
+it produces regular two-level numbering
+\item \cs{nuaatheoremg}, the suffix stands for Global,
+it produces one-level numbering
+\end{itemize}
+
 Here is the \autoref{def:bonus}.
 \begin{definition}\label{def:bonus}
   Bonus points are extra gains.
@@ -10,8 +20,9 @@ Here is the \autoref{def:bonus}.
 Take a look at the figure below, and the table of figures for the \autoref{fig:logo}.
 
 \begin{figure}[H]
-  \includegraphics[width=3cm]{nuaa-logo}
-  \caption[Demo logo]{This is a logo\label{fig:logo}}
+  \subfloat[Logo in PDF]{\includegraphics[width=3cm]{nuaa-logo}}\quad
+  \subfloat[Figure in TikZ]{\input{fig/tikz_rot}}
+  \caption[Demo]{This is a figure\label{fig:logo}}
 \end{figure}
 
 \section{Using Table}

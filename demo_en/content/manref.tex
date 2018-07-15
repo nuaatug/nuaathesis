@@ -1,8 +1,13 @@
+\chapter{\bibname}
+
 \begin{manref}
-\item here is the hand-coded reference
+\item \label{ref:hint} here is the hand-coded reference
 \item do NOT use hand-coded reference, unless \texttt{biber} does not work for your thesis
-\item you cannot cite entities as \texttt{biber}
+\item you cannot cite in the same way as \texttt{biber}, but \cs{label} and \cs{ref} still work
 \item here is an example:
-\item KANAMORI H. Shaking without quaking[J]. Science, 1998, 279(5359): 2063.
-\item[{[88]}] PS: the index can be any number/text
+\item \label{ref:man} KANAMORI H. Shaking without quaking[J]. Science, 1998, 279(5359): 2063.
 \end{manref}
+
+Cite example:
+[\ref{ref:hint}] is a hint,
+\mcite{ref:man} is published in 1998.
