@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script expects current working dir to be the root of repo.
+
 # This script packs files for end user, who can starts writing thesis right away.
 # To make user easy to start up, the pack should be as small as possible.
 
@@ -16,3 +18,4 @@ find . -not -path '*/\.*' -type f \( -name '*.pdf' -o -name '*.cls' -o -name '*.
 # curl -o $TMP_DIR/.gitignore https://raw.githubusercontent.com/github/gitignore/master/TeX.gitignore
 # 7z a nuaathesis.zip $TMP_DIR
 (cd .pack && tar cf ../nuaathesis.tar.gz nuaathesis)
+(cd .pack && 7z a ../nuaathesis.zip nuaathesis)

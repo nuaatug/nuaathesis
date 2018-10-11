@@ -23,6 +23,7 @@ jobs:
             .ci/pack.sh
             mkdir -p /tmp/build
             cp *.pdf /tmp/build
-            cp *.tar.gz /tmp/build
+            cp nuaathesis.tar.gz /tmp/build
+            cp nuaathesis.zip /tmp/build
       - store_artifacts:
           path: /tmp/build

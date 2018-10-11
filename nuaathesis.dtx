@@ -139,7 +139,7 @@ and the derived files           nuaathesis.ins,
 % \end{multicols}
 % \clearpage
 %
-% \changes{v2.1}{2018/7/1}{初步实现英文、日文论文格式，基本去除对 \CTeX{} 的依赖。}
+% \changes{v2.1}{2018/10/10}{初步实现英文、日文论文格式，基本去除对 \CTeX{} 的依赖。}
 % \changes{v2.0}{2017/9/17}{仿照 \cquthesis{}，使用 \textsc{DocStrip}，使用根据校 Word 模板直接计算出的行间距等距离，添加硕/博士模板，重写大部分代码。}
 % \changes{v1.0}{2017/6/22}{\nuaathesis{} 正式通过毕业设计审核，增加毕业设计/毕业论文选项，并调整页眉；针对双面打印选项调整页脚；细节调整。}
 % \changes{v0.92}{2017/6/5}{增加 biblatex 对 natbib 支持，如citep可以直接在行中引用编号， citet可以引用作者 (这里貌似仍然是个 bug, 理论上应该是引用题目，还没仔细研究。)； 添加subcaption和caption包，修复bicaption参数； 添加多列图片示例代码；多处细节调整。}
@@ -1921,8 +1921,7 @@ and the derived files           nuaathesis.ins,
 
   \begingroup
     \linespread{1.0}\songti\fontsize{14bp}{31.2bp}\selectfont
-    \setlength\parindent{2\ccwd}
-    \ \vspace{-\baselineskip}
+    \setlength\parindent{2\ccwd}\indent
 
     本人郑重声明：所呈交的\nuaa@worktypecn
     （题目：{%
@@ -1976,8 +1975,7 @@ and the derived files           nuaathesis.ins,
   \end{center}
 
   \begingroup
-    \setlength\parindent{2\ccwd}\songti
-    \ \vspace{-\baselineskip}
+    \setlength\parindent{2\ccwd}\songti\indent
 
     \nuaa@abstract
   \endgroup
@@ -2178,7 +2176,6 @@ and the derived files           nuaathesis.ins,
   \vspace*{31.4bp} \vspace{-\parskip}\vspace{-\baselineskip}
   \linespread{1.0}\rmfamily\songti\fontsize{16bp}{30bp}\selectfont
   \setlength\parindent{2\ccwd}
-  \ \vspace{-\baselineskip}
 
   本人声明所呈交的\nuaa@worktypecn 是本人在导师指导下进行的研究工作及取得的研究成果。
   除了文中特别加以标注和致谢的地方外，论文中不包含其他人已经发表或撰写过的研究成果，
@@ -2218,8 +2215,7 @@ and the derived files           nuaathesis.ins,
 
   \begingroup
     \setlength\parindent{2\ccwd}
-    \rmfamily\songti
-    \ \vspace{-\baselineskip}
+    \rmfamily\songti\indent
 
     \nuaa@abstract
   \endgroup

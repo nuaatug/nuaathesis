@@ -37,4 +37,5 @@ after_build:
 
 artifacts:
   - path: '*.pdf'
-  - path: '*.tar.gz'
+  - path: 'nuaathesis.tar.gz'
+  - path: 'nuaathesis.zip'
