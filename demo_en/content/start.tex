@@ -16,63 +16,62 @@ feedback, issues and pull requests are always welcomed.
 Here are some tips to install the depended packages:
 
 \begin{itemize}
-\item\textbf{Mik\TeX} it will install missing packages when compiling the document, good luck \verb|:)|
-\item\textbf{\TeX~Live} you must install the packages listed in \verb|.ci/texlive.pkgs| manually.
-You can use \verb|.ci/install.bat| or \verb|.ci/install.sh| to install theses packages.
+\item\textbf{MiK\TeX} it will install missing packages when compiling the document.
+If you have trouble downloading the missing packages, please change the mirror server,
+or wait for another day, good luck \verb|:)|
+\item\textbf{\TeX~Live} please install the following collections: langchinese, latexextra, science, pictures, fontsextra.
+Check out \verb|.ci/install.bat| or \verb|.ci/install.sh|, which tries to automate the process for you.
 \end{itemize}
 
-For Windows users, please definitely check out chapter~\ref{chap:win} (in \verb|windows.tex|),
-which contains more detailed instructions.
+For Windows users, please definitely check out chapter~\ref{chap:win} (in \verb|windows.tex|).
 
 \section{Compile Template}
 
+Skip this section if you already have \verb|nuaathesis.cls|.
+
 Run \verb|build.bat| (Windows) or \verb|build.sh| (others),
-it will extract the document class and build the document.
+it will extract the document class \verb|*.cls|
+and build the document \verb|*.pdf|.
 
-Note:
-if simplified Chinese fonts are not installed on Windows,
-the document \texttt{nuaathesis.pdf} might fail to build,
-but the document class \texttt{nuaathesis.cls} should have been extracted.
+\section{Prepare Thesis}
 
-\section{Compile Thesis}
+This document is also written with \nuaathesis.
+It is highly recommended to start with compiling this document and adapt it into your thesis.
 
-Before compiling the thesis,
-please make sure that the working directory contains following files/directories:
+Please make sure that the thesis directory contains the following files.
+If any of them is missing, please copy it from the root directory of the template.
 \begin{itemize}
   \item \verb|nuaathesis.cls|: document class;
   \item \verb|nuaathesis.bst|: biber style;
-  \item \verb|logo/|: folder, contains some figures for cover and header.
-\end{itemize}
-If any of them is missing, please copy it from the root directory of the template.
-
-There are a bunch of methods to compile a \LaTeX{} document,
-assuming your thesis is called \verb|master.tex|
-\begin{itemize}
-\item the recommended compiling command is
-\begin{shell}
-latexmk -xelatex master
-\end{shell}
-\item the regular, decoupled compiling commands are
-\begin{shell}
-xelatex master
-bibtex master
-xelatex master
-xelatex master
-\end{shell}
-\item you could replace \verb|xelatex| with any other \LaTeX{} engines supported by \CTeX,
-but \XeLaTeX{} works best with Chinese document,
-and we don't test compatibility with other \LaTeX{} engines except \XeLaTeX.
+  \item \verb|logo/|: folder, contains some artworks for cover and header.
 \end{itemize}
 
-\section{Write/modify Thesis}
+You should change your editor's options to compile the thesis with \verb|latexmk|,
+here are some instructions for a few editors.
 
-This document is also written with \nuaathesis,
-why not adapt it into your thesis and save time for starting from scratch?
-Here is the list of files that you need to modify:
+\subsection{Using TeXstudio}
+\begin{enumerate}
+\item Open the root file \verb|bachelor.tex| or \verb|master.tex|;
+\item Open \verb|Options| menu > \verb|Configure TeXstudio| dialog;
+\item Navigate to \verb|Build| on the left, change \verb|Default Compiler| to \verb|Latexmk|
+\item Save and enjoy.
+\end{enumerate}
+
+\subsection{Using vscode}
+\begin{enumerate}
+\item Open the directory with your thesis;
+\item Install the extension named \verb|LaTeX Workshop|;
+\item Open the root file \verb|bachelor.tex| or \verb|master.tex|, delete the unused one;
+\item Build with LaTeX Workshop.
+\end{enumerate}
+
+\section{Modify Thesis}
+
+Here is the list of files that you need to modify to adapt it into your thesis:
 \begin{itemize}
-  \item \verb|master.tex|: the main document
+  \item \verb|bachelor.tex| or \verb|master.tex|: the root file
   \item \verb|global.tex|: basic information for cover and abstract, import packages, define macros
-  \item \verb|content/|: main matters are here
+  \item \verb|content/|: main matters here, usually one for each chapter
   \item \verb|bib/|: biber database
 \end{itemize}
 
@@ -84,5 +83,5 @@ nor has this template received official certification,
 there is the risk that the thesis format might not be accepted.
 
 The story is almost the same as the Chinese ones.
-We do our best to match \nuaathesis{} with (the only Chinese) official Word template,
-but we cannot provide any guarantee for the correct format.
+We try our best to match \nuaathesis{} with the (Chinese only) official Word template,
+but we cannot guarantee the correct format.

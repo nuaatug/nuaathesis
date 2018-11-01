@@ -5,7 +5,7 @@
   % openright,blankleft,twoside
 ]{nuaathesis}
 
-\graphicspath{{./fig/},{../logo/},{./logo/}}
+\graphicspath{{./fig/},{./logo/},{../logo/}}
 
 \input{global.tex}
 % \includeonly{content/start,}
@@ -16,6 +16,8 @@
 \makedeclare
 \frontmatter
 \makeabstract
+% 如果需要调整目录层级数量的话，取消下一行注释，数字含义: 0=chapter, 1=section, 2=subsection
+% \setcounter{tocdepth}{1}
 \nuaatableofcontents
 \nuaalistoffigurestables
 \include{content/abbr}
@@ -34,7 +36,7 @@
 \backmatter
 % 如果参考文献使用 biber
 \bibliographystyle{nuaathesis}   % 参考文献的样式
-\bibliography{bib/sample}   % 参考文献
+\bibliography{bib/sample}   % 参考文献，即 bib/sample.bib 文件（纯文本）
 % 如果打算手写参考文献
 \include{content/manref}
 
