@@ -7,14 +7,11 @@ matrix:
       env:
         - TL_PATH=$HOME/texlive/bin/x86_64-linux
         - TL_PROFILE=.ci/texlive-linux.profile
-      addons:
-        apt:
-          packages:
-            - cabextract
-    - os: osx
-      env:
-        - TL_PATH=$HOME/texlive/bin/x86_64-darwin
-        - TL_PROFILE=.ci/texlive-osx.profile
+#     - os: osx
+#       env:
+#         - TL_PATH=$HOME/texlive/bin/x86_64-darwin
+#         - TL_PROFILE=.ci/texlive-osx.profile
+# We have some issue with macOS + TexLive + Chinese fonts on CI
 
 before_install:
   - export PATH=$PATH:$TL_PATH
@@ -32,7 +29,7 @@ install:
 
 script:
   # close stdin to latexmk, avoid waiting for user input
-  - echo | ./build.sh
+  - echo | ./build.sh all
 
 notifications:
   email: false

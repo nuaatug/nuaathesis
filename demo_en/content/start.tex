@@ -1,0 +1,87 @@
+% this file is part of demo thesis in English,
+% the main TeX file should be `bachelor.tex` or `master.tex` in the parent directory.
+
+\chapter{QUICK START}
+
+Welcome to \nuaathesis,
+a \LaTeX{} thesis template with English support for foreign language college and/or international students.
+We assume that you are familiar with writing articles in \LaTeX.
+
+The source code is hosted on \url{https://github.com/nuaatug/nuaathesis},
+feedback, issues and pull requests are always welcomed.
+
+\section{Setup \LaTeX{} Environment}
+
+\nuaathesis{} requires some packages which are not included in basic/minimum \LaTeX{} installation.
+Here are some tips to install the depended packages:
+
+\begin{itemize}
+\item\textbf{MiK\TeX} it will install missing packages when compiling the document.
+If you have trouble downloading the missing packages, please change the mirror server,
+or wait for another day, good luck \verb|:)|
+\item\textbf{\TeX~Live} please install the following collections: langchinese, latexextra, science, pictures, fontsextra.
+Check out \verb|.ci/install.bat| or \verb|.ci/install.sh|, which tries to automate the process for you.
+\end{itemize}
+
+For Windows users, please definitely check out chapter~\ref{chap:win} (in \verb|windows.tex|).
+
+\section{Compile Template}
+
+Skip this section if you already have \verb|nuaathesis.cls|.
+
+Run \verb|build.bat| (Windows) or \verb|build.sh| (others),
+it will extract the document class \verb|*.cls|
+and build the document \verb|*.pdf|.
+
+\section{Prepare Thesis}
+
+This document is also written with \nuaathesis.
+It is highly recommended to start with compiling this document and adapt it into your thesis.
+
+Please make sure that the thesis directory contains the following files.
+If any of them is missing, please copy it from the root directory of the template.
+\begin{itemize}
+  \item \verb|nuaathesis.cls|: document class;
+  \item \verb|nuaathesis.bst|: biber style;
+  \item \verb|logo/|: folder, contains some artworks for cover and header.
+\end{itemize}
+
+You should change your editor's options to compile the thesis with \verb|latexmk|,
+here are some instructions for a few editors.
+
+\subsection{Using TeXstudio}
+\begin{enumerate}
+\item Open the root file \verb|bachelor.tex| or \verb|master.tex|;
+\item Open \verb|Options| menu > \verb|Configure TeXstudio| dialog;
+\item Navigate to \verb|Build| on the left, change \verb|Default Compiler| to \verb|Latexmk|
+\item Save and enjoy.
+\end{enumerate}
+
+\subsection{Using vscode}
+\begin{enumerate}
+\item Open the directory with your thesis;
+\item Install the extension named \verb|LaTeX Workshop|;
+\item Open the root file \verb|bachelor.tex| or \verb|master.tex|, delete the unused one;
+\item Build with LaTeX Workshop.
+\end{enumerate}
+
+\section{Modify Thesis}
+
+Here is the list of files that you need to modify to adapt it into your thesis:
+\begin{itemize}
+  \item \verb|bachelor.tex| or \verb|master.tex|: the root file
+  \item \verb|global.tex|: basic information for cover and abstract, import packages, define macros
+  \item \verb|content/|: main matters here, usually one for each chapter
+  \item \verb|bib/|: biber database
+\end{itemize}
+
+\section{Disclamer}
+
+This is UNOFFICIAL \LaTeX{} thesis template for NUAA.
+Since format specification on English thesis has never been published,
+nor has this template received official certification,
+there is the risk that the thesis format might not be accepted.
+
+The story is almost the same as the Chinese ones.
+We try our best to match \nuaathesis{} with the (Chinese only) official Word template,
+but we cannot guarantee the correct format.

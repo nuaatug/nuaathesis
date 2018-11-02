@@ -9,7 +9,7 @@ install:
   # install Chinese Simplified fonts
   - ps: Set-Service BITS -StartupType Automatic; Set-Service wuauserv -StartupType Automatic
   - ps: Start-Service BITS; Start-Service wuauserv
-  - ps: Import-Module Dism; Get-WindowsCapability -online | where { $_.Name -match "Font" -and $_.Name -match "Hans" } | Add-WindowsCapability -online
+  - ps: Import-Module Dism; Get-WindowsCapability -Online | where { $_.Name -match "Font" -and $_.Name -match "Hans" } | Add-WindowsCapability -Online
 
   # get online installer
   - curl -fsSL -o install-tl.zip "http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip"
@@ -30,11 +30,12 @@ install:
   - ps: tlmgr install (Get-Content .\.ci\texlive.pkgs | where { $_ -notmatch "(^\s*#)|(^\s*$)" })
 
 build_script:
-  - echo | build.bat
+  - C:\msys64\usr\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER && ./build.sh all"
 
 after_build:
   - C:\msys64\usr\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER && .ci/pack.sh"
 
 artifacts:
   - path: '*.pdf'
-  - path: '*.zip'
+  - path: 'nuaathesis.tar.gz'
+  - path: 'nuaathesis.zip'

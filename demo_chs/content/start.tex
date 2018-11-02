@@ -1,0 +1,76 @@
+% 本文件是示例论文的一部分
+% 论文的主文件位于上级目录的 `bachelor.tex` 或 `master.tex`
+
+\chapter{快速上手}
+
+\section{欢迎}
+
+欢迎使用 \nuaathesis，本文档将介绍如何利用 \nuaathesis 模板进行学位论文写作，
+我们假设读者有 \LaTeX 英文写作经验，并会使用搜索引擎解决常见问题。
+
+本模板的源代码托管在 \url{https://github.com/nuaatug/nuaathesis}，
+欢迎来提 issue/PR。
+
+\section{\LaTeX 环境准备}
+
+由于本模板使用了大量宏包，因此对 \LaTeX 环境有不少要求。
+推荐使用以下打 \ding{51} 的 \LaTeX 发行版：
+\begin{itemize}
+\item[\ding{51}]\TeX~Live 请安装以下 collection：langchinese, latexextra, science, pictures, fontsextra；\\
+如果觉得安装体积太大的话，可以看 \texttt{.ci/texlive.pkgs} 列出的所需宏包；
+\item[\ding{51}]MiK\TeX 请祈祷国内的镜像服务器不抽风；如果它抽风了，建议隔天再试； \\
+因为 MiK\TeX{} 能自动下载安装宏包，非常推荐 Windows 用户使用。
+\item[\ding{53}]CTeX (\url{http://www.ctex.org/}) 不推荐，可能宏包缺失、版本过旧导致无法编译。
+\end{itemize}
+
+\section{编译模板和文档}
+
+只有在找不到 \verb|nuaathesis.cls| 文件的时候，才需要执行本步骤。
+
+进入模板的根目录，运行 \verb|build.bat|（Windows） 或 \verb|build.sh|（其他系统），
+它会生成模板 \verb|nuaathesis.cls| 以及对应的文档 \verb|nuaathesis.pdf|。
+
+\section{使用模板}
+
+论文写作时，请确认\textbf{论文的目录}下有以下文件：
+\begin{itemize}
+  \item \verb|nuaathesis.cls| 文档模板；
+  \item \verb|nuaathesis.bst| 参考文献格式（如果使用 biber 来生成参考文献的话）；
+  \item \verb|logo/| 文件夹，内含一些图标；
+\end{itemize}
+
+如果论文目录下没有这些文件的话，请从本模板根目录复制一份。
+
+\section{开始写作}
+
+最方便的开始方法，莫过于修改现有的文稿。因此推荐直接修改本文档：
+\begin{itemize}
+  \item \verb|bachelor.tex| 或 \verb|master.tex| 主文件，定义了文档包含的内容。建议删除并只保留其中一个主文件；
+  \item \verb|global.tex| 里面定义文档的信息，导入一些宏包，并设置全局使用的宏；
+  \item \verb|content/| 文件夹，按章节拆分的文档内容，这里；
+  \item \verb|ref/| 文件夹，内含参考文献数据库；
+\end{itemize}
+
+修改完成后，使用 \verb|latexmk -xelatex bachelor| 进行编译。
+如果需要使用图形界面的编辑器的话，请继续阅读本节内容。
+
+\subsection{使用 TeXstudio}
+\begin{enumerate}
+\item 打开主文件 \verb|bachelor.tex| 或 \verb|master.tex|；
+\item 菜单 Options > Configure TeXstudio 对话框；
+\item 左侧选择 Build，右侧将 Default Compiler 修改为 Latexmk；
+\item 确认即可。
+\end{enumerate}
+
+\subsection{使用 vscode}
+\begin{enumerate}
+\item 打开论文目录；
+\item 安装 LaTeX Workshop 插件；
+\item 打开论文的主文件 \verb|bachelor.tex| 或 \verb|master.tex|，删除没有用到的主文件；
+\item 使用 LaTeX Workshop 插件提供的编译命令编译文档。
+\end{enumerate}
+
+\section{打印论文}
+
+如果论文需要双面打印的话，请务必修改文档类选项，编译双面打印用的 PDF 文件。
+具体地说，在主文件的头部，去除 \texttt{openany, oneside}，改成 \texttt{openright, blankleft, twoside}。

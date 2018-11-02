@@ -8,19 +8,8 @@ collection-metapost
 collection-pictures
 collection-xetex
 collection-langchinese
-
-# collection-latexextra
-environ
-trimspaces
-xstring
-enumitem
-footmisc
-makecell
-multirow
-tocloft
-fontaxes
-soul
-diagbox
+collection-langjapanese
+collection-latexextra
 
 # collection-plaingeneric
 ulem
@@ -28,5 +17,6 @@ ulem
 # collection-fontsextra
 newtx
 newpx
+boondox
 
 latexmk

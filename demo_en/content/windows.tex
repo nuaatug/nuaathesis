@@ -1,0 +1,36 @@
+\chapter{Windows TIPS}\label{chap:win}
+
+\section{Install Simplified Chinese Fonts}
+
+Some document will not compile without simplified Chinese fonts from Windows.
+If \LaTeX{} cannot find files such as \verb|simsun.ttc|, \verb|simhei.ttf|,
+you can work around with it by adding \verb|fontset=fandol| to the template arguments,
+or install the simplified Chinese fonts with the following steps.
+
+\begin{enumerate}
+\item Open the Start menu, launch \verb|Windows PowerShell| with administrator privilege,
+\item Paste following commands:
+\begin{shell}
+Set-Service BITS -StartupType Automatic; Start-Service BITS
+Set-Service wuauserv -StartupType Automatic; Start-Service wuauserv
+Import-Module Dism
+Get-WindowsCapability -Online | where { $_.Name -match "Font" -and $_.Name -match "Hans" } | Add-WindowsCapability -Online
+\end{shell}
+\end{enumerate}
+
+\section{Using Mik\TeX}
+
+Mik\TeX{} is an easy-to-use \LaTeX{} environment, which can install missing packages automatically.
+But there are some bugs. Here is the recommended steps to avoid them:
+\begin{enumerate}
+\item Download the installer from \url{https://miktex.org/download},
+\item Launch the installer,
+\item When choosing ``Installation Scope'', make sure to choose ``Install MiKTeX only for me'',
+there are some privilege bugs with system-wide installation,
+\item Finish the installation
+\item Close MikTeX consoles before compiling documents.
+\end{enumerate}
+
+There are MikTeX mirrors in China,
+but they might be temporarily disabled/removed because of out-of-date synchronization.
+Choose Japan/USA mirrors, or try again another day.

@@ -1,0 +1,41 @@
+\documentclass[
+  lang=en,
+  degree=master,  % degree=[bachelor|master|doctor]
+  fontset=fandol,nobold,
+  openany,oneside  % for electronic reading
+  % openright,blankleft,twoside  % for double side printing
+]{nuaathesis}
+
+\graphicspath{{./fig/},{./logo/},{../logo/}}
+
+\input{global.tex}
+% \includeonly{content/start,}
+
+\begin{document}
+
+\makecover
+\makedeclare
+\frontmatter
+\makeabstract
+\nuaatableofcontents
+\nuaalistoffigurestables
+\include{content/abbr}
+
+\mainmatter
+
+\include{content/start}
+\include{content/windows}
+\include{content/intro}
+
+\appendix
+% include appendix here (if any)
+
+\backmatter
+\bibliographystyle{nuaathesis}   % biber style
+\bibliography{bib/sample}   % biber database
+\include{content/manref}    % if reference is hand-coded
+
+\include{content/acknowledge}
+\include{content/backmatter}
+
+\end{document}

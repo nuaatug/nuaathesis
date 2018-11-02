@@ -1,0 +1,33 @@
+\chapter{定理环境·下}
+
+本章演示使用 \cs{nuaatheoremchap} 定义的定理环境，注意它们的数字编号是可以重复的。
+
+\section{演示}
+
+\begin{nonsense}
+\label{non:dora}
+哆啦A梦写的论文被拒稿的可能性很高
+\footnote{出处：\url{https://www.math.kyoto-u.ac.jp/~arai/latex/presen2.pdf} 的最后一页}。
+\end{nonsense}
+
+\begin{exercise}
+\label{ex:oneplus}
+证明$1+1 = 2$。
+\footnote{Testing footnote with English spaces}
+\end{exercise}
+
+\begin{nonsense}[右边的胡诌是真的]
+“练习”与“胡诌”定理环境的编号是相互独立的，它们的数字编号允许重复，
+如“\autoref{non:dora}”和“\autoref{ex:oneplus}”。
+\end{nonsense}
+
+\begin{exercise}
+按照本文所演示的方法，利用 \cs{nuaatheorem(g|chap|chapu)} 来定义您的论文中所需要的定理环境。
+\end{exercise}
+
+\begin{lines}
+\label{s2}
+例句2
+\end{lines}
+
+\autoref{s2} 没有章节编号，它是全局编号的，它可以用在外国语学院论文中来枚举例句。

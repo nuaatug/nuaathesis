@@ -1,0 +1,38 @@
+\chapter{はじめに}
+
+日本語専修じゃないので、中国語で書きたいっと思います。
+
+\zhcn{除了中文、英文外，\nuaathesis{} 也支持日语论文，论文主体为日语，其中偶尔出现小段汉语。
+
+由于目标用户的母语是汉语，所以请读者参阅用汉语写的文档 nuaathesis.pdf。
+中文的示例文档中大部分内容是通用的，里面包含一些常用宏包的使用方法。
+本文档只介绍一些日语 \LaTeX{} 的使用注意事项。}
+
+
+\section{\zhcn{\LaTeX{} 环境准备}}
+
+\zhcn{请参照文档、中英文示例论文中介绍的方法，该方法也会一同安装日语 \LaTeX{} 所需要的工具、宏包。}
+
+\section{\zhcn{编译论文}}
+
+\zhcn{这一步与其他语言的论文有很大不同，由于使用了 \CTeX{} 来提供中文支持，
+因此只能使用 up\LaTeX{} 引擎来编译。编译前需要确认论文目录下存在以下文件：}
+\begin{itemize}
+  \item \zhcn{nuaathesis.cls、nuaathesis.bst 等文件（与其他语言相同）}
+  \item \zhcn{ctex-engine-uptex.def（请参阅 pdf 文档，里面描述了如何获取、修改该文件）}
+  \item \zhcn{.latexmkrc（如果打算使用 latexmk 来编译的话）}
+\end{itemize}
+
+\zhcn{编译文档时推荐使用 latexmk，假定论文的名字叫做 master.tex，具体执行的命令如下：}
+\begin{shell}
+latexmk -pdfdvi master
+\end{shell}
+
+\zhcn{实质上，它执行了以下几条命令：}
+\begin{shell}
+uplatex master
+upbibtex master
+uplatex master
+uplatex master
+dvipdfmx master
+\end{shell}

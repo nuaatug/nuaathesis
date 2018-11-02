@@ -1,0 +1,128 @@
+\iffalse
+  % 本块代码被上方的 iffalse 注释掉，如需使用，请改为 iftrue
+  % 使用 Noto 字体替换中文宋体、黑体
+  \setCJKfamilyfont{\CJKrmdefault}[BoldFont=Noto Serif CJK SC Bold]{Noto Serif CJK SC}
+  \renewcommand\songti{\CJKfamily{\CJKrmdefault}}
+  \setCJKfamilyfont{\CJKsfdefault}[BoldFont=Noto Sans CJK SC Bold]{Noto Sans CJK SC Medium}
+  \renewcommand\heiti{\CJKfamily{\CJKsfdefault}}
+\fi
+
+\iffalse
+  % 本块代码被上方的 iffalse 注释掉，如需使用，请改为 iftrue
+  % 在 XeLaTeX + ctexbook 环境下使用 Noto 日文字体
+  \setCJKfamilyfont{mc}[BoldFont=Noto Serif CJK JP Bold]{Noto Serif CJK JP}
+  \newcommand\mcfamily{\CJKfamily{mc}}
+  \setCJKfamilyfont{gt}[BoldFont=Noto Sans CJK JP Bold]{Noto Sans CJK JP}
+  \newcommand\gtfamily{\CJKfamily{gt}}
+\fi
+
+
+% 设置基本文档信息，\linebreak 前面不要有空格，否则在无需换行的场合，中文之间的空格无法消除
+\nuaaset{
+  title = {\nuaathesis{} 快速上手\linebreak 示例文档},
+  author = {nuaatug},
+  college = {\TeX{} 学院},
+  advisers = {Donald Knuth\quad 大师, tex.se 大牛们},
+  % applydate = {二〇一八年六月}  % 默认当前日期
+  %
+  % 本科
+  major = {\LaTeX{} 科学与技术},
+  studentid = {131810299},
+  classid = {1318001},
+  % 硕/博士
+  majorsubject = {\LaTeX},
+  researchfield = {\LaTeX 排版},
+  libraryclassid = {TP371},       % 中图分类号
+  subjectclassid = {080605},      % 学科分类号
+  thesisid = {1028704 18-S000},   % 论文编号
+}
+\nuaasetEn{
+  title = {\nuaathesis{} Quick Start\linebreak and Document Snippets},
+  author = {nuaatug},
+  college = {College of \TeX},
+  majorsubject = {\LaTeX{} Typesetting},
+  advisers = {Prof.~Donald Knuth, tex.se users},
+  degreefull = {Master of Art and Engineering},
+  % applydate = {June, 8012}
+}
+
+% 摘要
+\begin{abstract}
+本文介绍如何使用\nuaathesis{} 文档类撰写南京航空航天大学学位论文。
+
+首先介绍如何获取并编译本文档，然后展示论文部件的实例，最后列举部分常用宏包的使用方法。
+\end{abstract}
+\keywords{学位论文, 模板, \nuaathesis}
+
+\begin{abstractEn}
+This document introduces \nuaathesis, the \LaTeX{} document class for NUAA Thesis.
+
+First, we show how to get the source code and compile this document.
+Then we provide snippets for figures, tables, equations, etc.
+Finally we enforce some usage patterns.
+\end{abstractEn}
+\keywordsEn{NUAA thesis, document class, space is accepted here}
+
+
+% 请按自己的论文排版需求，随意修改以下全局设置
+
+\usepackage{subfig}
+\usepackage{rotating}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\usepackage{ifthen}
+\usepackage{longtable}
+\usepackage{siunitx}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage[bottom]{footmisc}
+\usepackage{pifont}
+
+\lstdefinestyle{lstStyleBase}{%
+  basicstyle=\small\ttfamily,
+  aboveskip=\medskipamount,
+  belowskip=\medskipamount,
+  lineskip=0pt,
+  boxpos=c,
+  showlines=false,
+  extendedchars=true,
+  upquote=true,
+  tabsize=2,
+  showtabs=false,
+  showspaces=false,
+  showstringspaces=false,
+  numbers=left,
+  numberstyle=\footnotesize,
+  linewidth=\linewidth,
+  xleftmargin=\parindent,
+  xrightmargin=0pt,
+  resetmargins=false,
+  breaklines=true,
+  breakatwhitespace=false,
+  breakindent=0pt,
+  breakautoindent=true,
+  columns=flexible,
+  keepspaces=true,
+  framesep=3pt,
+  rulesep=2pt,
+  framerule=1pt,
+  backgroundcolor=\color{gray!5},
+  stringstyle=\color{green!40!black!100},
+  keywordstyle=\bfseries\color{blue!50!black},
+  commentstyle=\slshape\color{black!60}}
+
+%\usetikzlibrary{external}
+%\tikzexternalize % activate!
+
+\newcommand\cs[1]{\texttt{\textbackslash#1}}
+\newcommand\pkg[1]{\texttt{#1}\textsuperscript{PKG}}
+\newcommand\env[1]{\texttt{#1}}
+
+\theoremstyle{nuaaplain}
+\nuaatheoremchapu{definition}{定义}
+\nuaatheoremchapu{assumption}{假设}
+\nuaatheoremchap{exercise}{练习}
+\nuaatheoremchap{nonsense}{胡诌}
+\nuaatheoremg[句]{lines}{句子}
