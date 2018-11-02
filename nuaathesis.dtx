@@ -69,7 +69,7 @@ and the derived files           nuaathesis.ins,
 \fi
 %</internal>
 %<*driver>
-\ProvidesFile{nuaathesis.drv}[2018/07/01 v2.1 NUAA thesis template]
+\ProvidesFile{nuaathesis.drv}[2018/11/01 v2.1 NUAA thesis template]
 \documentclass{ltxdoc}
 \usepackage{dtx-style}
 \EnableCrossrefs
@@ -80,7 +80,7 @@ and the derived files           nuaathesis.ins,
 \end{document}
 %</driver>
 % \fi
-% \CheckSum{0}
+% \CheckSum{1897}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -139,7 +139,7 @@ and the derived files           nuaathesis.ins,
 % \end{multicols}
 % \clearpage
 %
-% \changes{v2.1}{2018/10/10}{初步实现英文、日文论文格式，基本去除对 \CTeX{} 的依赖。}
+% \changes{v2.1}{2018/11/01}{初步实现英文、日文论文格式，基本去除对 \CTeX{} 的依赖。}
 % \changes{v2.0}{2017/9/17}{仿照 \cquthesis{}，使用 \textsc{DocStrip}，使用根据校 Word 模板直接计算出的行间距等距离，添加硕/博士模板，重写大部分代码。}
 % \changes{v1.0}{2017/6/22}{\nuaathesis{} 正式通过毕业设计审核，增加毕业设计/毕业论文选项，并调整页眉；针对双面打印选项调整页脚；细节调整。}
 % \changes{v0.92}{2017/6/5}{增加 biblatex 对 natbib 支持，如citep可以直接在行中引用编号， citet可以引用作者 (这里貌似仍然是个 bug, 理论上应该是引用题目，还没仔细研究。)； 添加subcaption和caption包，修复bicaption参数； 添加多列图片示例代码；多处细节调整。}
@@ -187,7 +187,7 @@ and the derived files           nuaathesis.ins,
 % 请根据 \verb|.ci/texlive.pkgs| 中列出的宏包清单，手工逐个安装。
 %
 % 除了 \TeX~Live 发行版外，
-% Windows 用户也可以使用 Mik\TeX 发行版，它会在编译文档时自动安装所需的依赖项
+% Windows 用户也可以使用 MiK\TeX 发行版，它会在编译文档时自动安装所需的依赖项
 % （也可以参考 \TeX~Live 的宏包列表手动安装）。
 %
 % \subsection{获取模板}
@@ -587,7 +587,7 @@ and the derived files           nuaathesis.ins,
 %<cls>\NeedsTeXFormat{LaTeX2e}
 %<cls>\ProvidesClass{nuaathesis}
 %<cfg>\ProvidesFile{nuaathesis.cfg}
-%<cls|cfg>[2018/06/01 v2.1 NUAA Thesis Template]
+%<cls|cfg>[2018/11/01 v2.1 NUAA Thesis Template]
 %    \end{macrocode}
 % \subsection{配置文件}
 % \changes{v2.1}{2018/06/01}{修改了配置文件作用，不再存放常量，加载顺序改为开头，默认内容为空。}
