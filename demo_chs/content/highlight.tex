@@ -42,7 +42,7 @@ d(\mathbf{p},\mathbf{q}) = d(\mathbf{q},\mathbf{p}) & = \sqrt{(q_1-p_1)^2 + (q_2
 由\cs{nuaatheorem(g|chap|chapu)}定义的定理环境支持 \cs{autoref}，
 比如在\autoref{def:distance}中，\autoref{equ:2}是\autoref{equ:1}的简写。
 
-但是 \cs{autoref} 只能在 \cs{ref} 加上前缀，无法加上后缀，前缀前的空格也难以消除。
+但是 \cs{autoref} 只能在 \cs{ref} 加上前缀，无法加上后缀。
 所以上一句话的后半部分，更推荐手工来写标注 “(\ref{equ:2}) 是 (\ref{equ:1}) 的简写”。
 
 定理环境里面可以换行，不过证明与其他定理环境稍有不同，它是单独定义实现的，
@@ -61,12 +61,15 @@ d(\mathbf{p},\mathbf{q}) = d(\mathbf{q},\mathbf{p}) & = \sqrt{(q_1-p_1)^2 + (q_2
 
 \section{参考文献}
 \label{sec:bib}
-重庆大学的要求是参考文献以上标的形式标注于论述之后，就像这样：
+参考文献应该以上标的形式标注于论述之后，就像这样：
 
-研究表明\cite{r1}，早睡早起有益身体健康。
+\begin{itemize}
+\item 研究表明\cite{r1}，早睡早起有益身体健康。
+\item 如果想同时引用多个文献\cite{r2,r3,r4,r6}，只需要在 \verb|cite{}| 中用逗号分开\texttt{citeKey}就好。
+\end{itemize}
 
-如果想同时引用多个文献\cite{r2,r3,r4,r6}，只需要在\verb|cite{}|中用逗号分开\texttt{citeKey}就好。
-\cquthesis 同时提供正文模式的参考文献引用功能\texttt{inlinecite}，适用于以下情况：
+本模板保留了 \cquthesis{} 里的 \texttt{inlinecite}，但请注意它不符合学校的要求，无论本科还是硕士、博士，
+请\textbf{谨慎}使用：
 文献\inlinecite{r6}表明，文献\inlinecite{r7,r8,r9}所述的情况是有理论依据的。
 
 \nuaathesis 格式测试，学校的参考文献格式并不是 GB7714-2015，所以追加一些测试样例。
