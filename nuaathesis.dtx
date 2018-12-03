@@ -1320,8 +1320,8 @@ and the derived files           nuaathesis.ins,
     {\linespread{1.5}\nuaa@font@title\fontsize{12bp}{15.6bp}\selectfont}
   \titlespacing*{\subsection}{0pt}{0bp}{0bp}
   \titleformat*{\subsubsection}
-    {\nuaa@font@title\fontsize{12bp}{20bp}\selectfont}
-  \titlespacing*{\subsubsection}{0pt}{7.8bp}{7.8bp}
+    {\linespread{1.5}\nuaa@font@title\fontsize{12bp}{15.6bp}\selectfont}
+  \titlespacing*{\subsubsection}{0pt}{0bp}{0bp}
 \else
   \titleformat{\chapter}
     {\centering\linespread{1.0}\nuaa@font@title\fontsize{15bp}{20bp}\selectfont}
@@ -1338,6 +1338,12 @@ and the derived files           nuaathesis.ins,
     {\linespread{1.0}\nuaa@font@title\fontsize{12bp}{20bp}\selectfont}
   \titlespacing*{\subsubsection}{0pt}{7.8bp}{7.8bp}
 \fi
+%    \end{macrocode}
+%
+% 正文中对大标题~三级标题（subsubsection）进行编号。
+% \changes{v2.1b}{2018/12/03}{修正三级标题的编号}
+%    \begin{macrocode}
+\setcounter{secnumdepth}{3}
 %    \end{macrocode}
 %
 % \subsubsection{目录}
