@@ -266,6 +266,10 @@ and the derived files           nuaathesis.ins,
 % \DescribeOption{type=}
 % 本科生指定文档是毕业论文 \option{paper} 或者是毕业设计 \option{design}。
 %
+% \DescribeOption{zhuanshuo}
+% 专硕，只会影响封面中的两个字段，默认不启用。
+% \sout{（因为想不出合适的英文翻译，所以就用拼音了）}
+%
 % \DescribeOption{blankleft}
 % 如果指定了 \option{openright} 并开启了本选项，左侧的空白页将变成没有页眉页脚的完全白纸。
 %
@@ -625,6 +629,8 @@ and the derived files           nuaathesis.ins,
 \newcommand\nuaa@label@researchername{研究生姓名}
 \newcommand\nuaa@label@majorsubject{学科、专业}
 \newcommand\nuaa@label@researchfield{研\hfill 究\hfill 方\hfill 向}
+\newcommand\nuaa@label@professionaltype{专\hfill 业\hfill 类\hfill 别}
+\newcommand\nuaa@label@professionalfield{专\hfill 业\hfill 领\hfill 域}
 \newcommand\nuaa@label@graduateschool{研究生院}
 \newcommand\nuaa@labelEn@nuaa{Nanjing University of Aeronautics and Astronautics}
 \newcommand\nuaa@labelEn@graduateschool{The Graduate School}
@@ -683,6 +689,10 @@ and the derived files           nuaathesis.ins,
 \newif\ifnuaa@doctor   \nuaa@doctorfalse
 \define@key{nuaa}{degree}{
   \expandafter\csname nuaa@#1true\endcsname}
+%    \end{macrocode}
+% 定义硕士类别（专硕）
+%    \begin{macrocode}
+\DeclareBoolOption[false]{zhuanshuo}
 %    \end{macrocode}
 % 定义论文的主语言
 %    \begin{macrocode}
@@ -2072,6 +2082,8 @@ and the derived files           nuaathesis.ins,
 % 这里不打算讨论版权问题，只从使用的角度出发，如果所有用户都要安装这一字体
 % 并在 \LaTeX 中使用，无疑会加大使用难度；本模板将所需的字形存放在 |pdf| 文件中，
 % 当作普通的图片插入封面中，能大幅降低使用难度，避免修改系统设置，并且尽可能规避版权问题。
+%
+% \changes{v2.1b}{2018/12/03}{添加专硕封面}
 %    \begin{macrocode}
 \newcommand\nuaa@make@cover@master@cn{
   \cleardoublepage
@@ -2101,8 +2113,13 @@ and the derived files           nuaathesis.ins,
   \linespread{1}\rmfamily\songti\fontsize{16bp}{31.2bp}\selectfont
   \begin{tabu} spread 0pc {@{\extracolsep{.5in}}cX<{\strut}}
     \nuaa@label@researchername & \nuaa@value@author \\
+\ifnuaa@zhuanshuo
+    \nuaa@label@professionaltype & \nuaa@value@majorsubject \\
+    \nuaa@label@professionalfield & \nuaa@value@researchfield \\
+\else
     \nuaa@label@majorsubject & \nuaa@value@majorsubject \\
     \nuaa@label@researchfield & \nuaa@value@researchfield \\
+\fi
     \nuaa@label@adviser & \nuaa@value@advisers \\
   \end{tabu}
   \end{center}

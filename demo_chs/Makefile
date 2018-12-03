@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := all
-all: bachelor.pdf master.pdf
+all: bachelor.pdf master.pdf master-SZ.pdf
 
 %.pdf: %.tex prepare
 	latexmk -xelatex $(basename $@)
