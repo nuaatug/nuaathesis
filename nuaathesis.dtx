@@ -80,7 +80,7 @@ and the derived files           nuaathesis.ins,
 \end{document}
 %</driver>
 % \fi
-% \CheckSum{1897}
+% \CheckSum{0}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -139,6 +139,7 @@ and the derived files           nuaathesis.ins,
 % \end{multicols}
 % \clearpage
 %
+% \changes{v2.1a}{2018/12/01}{TBD}
 % \changes{v2.1}{2018/11/01}{初步实现英文、日文论文格式，基本去除对 \CTeX{} 的依赖。}
 % \changes{v2.0}{2017/9/17}{仿照 \cquthesis{}，使用 \textsc{DocStrip}，使用根据校 Word 模板直接计算出的行间距等距离，添加硕/博士模板，重写大部分代码。}
 % \changes{v1.0}{2017/6/22}{\nuaathesis{} 正式通过毕业设计审核，增加毕业设计/毕业论文选项，并调整页眉；针对双面打印选项调整页脚；细节调整。}
@@ -1457,8 +1458,9 @@ and the derived files           nuaathesis.ins,
 % \begin{macro}{\mcite}
 % 配合使用 \cs{label} 来引用手工参考文献目录，只支持单个引用。
 % 本质就是 \cs{ref} 左右加方括号。
+% \changes{v2.1b}{2018/11/05}{根据学校的要求，将参考文献引用改为上标格式。}
 %    \begin{macrocode}
-\newcommand\mcite[1]{[\ref{#1}]}
+\newcommand\mcite[1]{\textsuperscript{[\ref{#1}]}}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{文档部件}
