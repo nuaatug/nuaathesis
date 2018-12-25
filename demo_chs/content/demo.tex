@@ -14,7 +14,8 @@
 效果可以参见\autoref{fig:tikzrot}；
 \item 其次推荐使用其他绘图工具生成的 \verb|PDF|、 \verb|EPS| 格式的矢量图，
 \verb|svg| 格式可以通过 inkscape 软件转换成带 \TeX{}文本代码的 \verb|PDF|。效果可以参见\autoref{fig:logo}；
-\item 当然，\verb|PNG|、 \verb|jpeg| 之类的位图格式也能做插图。
+\item 当然，\verb|PNG|、 \verb|jpeg| 之类的位图格式也能做插图；
+\item 最后，不要忘记论文是\textbf{单色印刷}的，请确保插图在黑白打印的情况下的清晰度。
 \end{enumerate}
 
 \begin{figure}[htb]
@@ -60,7 +61,7 @@
 不过直接多次使用 \cs{caption} 会在图表清单里产生多个重复条目，需要一点点小技巧
 （设置图表目录标题为空）。
 建议将浮动位置指定为 \verb|t|，以确保分散至多页的图能占用整个页面，手工分页才能靠谱。
-效果可以参见\autoref{fig:subfigss}的\autoref{fig:logo6}。
+效果可以参见\autoref{fig:subfigss} 的\autoref{fig:logo6}。
 
 \begin{figure}[t]
   \subfloat[校徽$\times 1$]{\includegraphics[width=4cm]{nuaa-logo.pdf}}\quad
@@ -85,7 +86,7 @@
 设置 \ang{90} 或 \ang{270} 旋转，可能需要编译两遍才能设置正确的旋转方向。
 不过可能有一个问题，\env{sidewaysfigure} 中使用 \cs{subfloat} 可能无法准确标号，
 需要手工重置 \texttt{subfigure} 计数器。
-效果参见\autoref{fig:fullpage1}和\autoref{fig:fullpage2}。
+效果参见\autoref{fig:fullpage1} 和\autoref{fig:fullpage2}。
 
 \setcounter{subfigure}{0}
 \begin{sidewaysfigure}
@@ -175,7 +176,7 @@
 \autoref{tab:performance} 是来自 \cquthesis{} 的一个长表格的例子。
 
 \begin{longtable}[c]{c*{6}{r}}
-	\caption[实验数据]{实验数据，这个题注十分的长，注意这在索引中的处理方式}\label{tab:performance}\\
+	\caption[实验数据]{实验数据，这个题注十分的长，注意这在索引中的处理方式，还有 \cs{caption} 后面的双反斜杠}\label{tab:performance}\\
 	\toprule
 	\multirow{2}{*}{测试程序} & \multicolumn{1}{c}{正常运行} & \multicolumn{1}{c}{同步} & \multicolumn{1}{c}{检查点} & \multicolumn{1}{c}{卷回恢复}
 	& \multicolumn{1}{c}{进程迁移} & \multicolumn{1}{c}{检查点} \\
@@ -247,4 +248,15 @@
   \item 重力加速度 $g=\SI{9.8}{\kg\per\square\second}$、
   $g=\SI[inter-unit-product=\ensuremath{{}\cdot{}}]{9.8}{\kg\per\square\second}$，
   亦或 $g=\SI[per-mode=symbol]{9.8}{\kg\per\square\second}$
+\end{itemize}
+
+\section{中英文之间空格}
+
+很遗憾，目前 \LaTeX{} 和 \CTeX{} 虽然能处理普通汉字与英文之间的间隔，
+但是汉字与宏之间的空格仍然需要手工调整，请务必按以下的规则撰写原稿：
+\begin{itemize}
+  \item[\ding{51}] 如\autoref{fig:sub2} 所示：\verb|如\autoref{fig:sub2} 所示|，这个宏返回的是“图 x.xx”，
+  所以前面两个汉字之间不能加空格，后面数字与汉字之间必须加空格；
+  \item[\ding{51}] 距离为 1.7~个天文单位：\verb|距离为 1.7~个天文单位|，前面可以不加空格（\CTeX 会修正），
+  后面必须加 \verb|~| 以防止在 “1.7”与“个”之间换行。此时更推荐写成 \SI{1.7}{au}：\verb|\SI{1.7}{au}|。
 \end{itemize}
