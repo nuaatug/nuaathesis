@@ -205,13 +205,14 @@ FUNCTION {fin.entry}
     'pop$
     'write$
   if$
+  "." write$
   newline$
 %  "\thudot" write$
 %  newline$
 }
 
 % FUNCTION {fin.entry}
-% { add.period$   
+% { add.period$
 %   write$
 %   %remove.dots
 %   newline$
@@ -313,7 +314,7 @@ FUNCTION {format.names}
     { namesleft #0 > }
     { s nameptr
       %"{ff }{ll}"
-      "{ll }{f{~}}"    
+      "{ll }{f{~}}"
       format.name$
       remove.dots
       %bibinfo bibinfo.check
@@ -354,11 +355,11 @@ FUNCTION {format.names}
                     { ", " * t * }
                     { lang "zh" =
                        { ", " * t * }
-                       'skip$                   
+                       'skip$
                      if$
                     }
                   if$
-                } 
+                }
               if$
             }
           if$
@@ -779,7 +780,7 @@ FUNCTION {format.title.type}
   if$
 }
 
-FUNCTION {book} 
+FUNCTION {book}
 { output.bibitem
   author empty$
     { format.editors "author and editor" output.check }
@@ -807,12 +808,12 @@ FUNCTION {book}
   format.edition output
   format.address.publisher output
   pages empty$
-    { format.date "year" output.check 
+    { format.date "year" output.check
       % new.sentence
       % format.pages output
     }
     { format.date ":" * format.pages * output }
-  if$  
+  if$
   fin.entry
 }
 
@@ -836,7 +837,7 @@ FUNCTION {article}
     }
   if$
   new.block
-  format.note output  
+  format.note output
   fin.entry
 }
 
@@ -895,7 +896,7 @@ FUNCTION {incollection}
 { output.bibitem
   format.authors "author" output.check
   new.block
-  format.title "[M]//" * title output.check
+  format.title "[M]. " * title output.check
   %format.title "title" output.check
   new.block
   crossref missing$
@@ -925,7 +926,7 @@ FUNCTION {inproceedings}
 { output.bibitem
   format.authors "author" output.check
   new.block
-  format.title "[C]//" * title output.check
+  format.title "[C]. " * title output.check
   %format.title "title" output.check
   new.block
   crossref missing$
@@ -941,7 +942,7 @@ FUNCTION {inproceedings}
       year output
     }
     { %address output.nonnull
-      format.address.publisher output  
+      format.address.publisher output
       %format.date "year" output.check
       year output
       new.sentence
@@ -958,7 +959,7 @@ FUNCTION {inproceedings}
     }
   if$
   new.block
-  note output  
+  note output
   fin.entry
 }
 
@@ -1015,7 +1016,7 @@ FUNCTION {mastersthesis}
   new.block
   format.address.school output
   %format.madd "address" output.check
-  %school "school" output.check  
+  %school "school" output.check
   format.date "year" output.check
   new.block
   note output
@@ -1041,7 +1042,7 @@ FUNCTION {phdthesis.type}
 { lang empty$
     { "[D]" }
     { "\thuphdbib" }
-  if$ 
+  if$
 }
 
 FUNCTION {phdthesis}
@@ -1053,7 +1054,7 @@ FUNCTION {phdthesis}
   new.block
   format.address.school output
   %address output
-  %school "school" output.check  
+  %school "school" output.check
   format.date "year" output.check
   new.block
   note output
