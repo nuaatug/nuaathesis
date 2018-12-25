@@ -7,7 +7,7 @@ all: bachelor.pdf master.pdf
 nuaathesis.cls: ../nuaathesis.cls
 	cp ../nuaathesis.cls .
 
-nuaathesis.bst: ../nuaathesis.bst
-	cp ../nuaathesis.bst .
+nuaabib.bst: ../nuaabib.bst
+	cp ../nuaabib.bst .
 
-prepare: nuaathesis.cls nuaathesis.bst
+prepare: nuaathesis.cls nuaabib.bst
