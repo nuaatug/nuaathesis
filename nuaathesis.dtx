@@ -1638,11 +1638,13 @@ and the derived files           nuaathesis.ins,
 %    \end{macrocode}
 % \end{macro}
 % 题注格式：编号与题注间隔，最后一行居中，以及字体。
+% \changes{v2.1b}{2018/12/26}{修正 subfigure 字体}
 %    \begin{macrocode}
 \captionsetup{labelsep=quad}
 \captionsetup{justification=centerlast}
 \DeclareCaptionFont{nuaacaption}{\nuaafontcaption}
 \captionsetup{font=nuaacaption}
+\captionsetup[subfigure]{font=nuaacaption}
 %    \end{macrocode}
 %
 % 表格，按模板设置三线表线条粗细，以及本科表格字体。
