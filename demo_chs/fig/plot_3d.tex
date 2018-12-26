@@ -1,0 +1,36 @@
+%\documentclass{minimal}
+%\usepackage{pgfplots}
+%\pgfplotsset{compat=1.16}
+%\begin{document}
+\begin{tikzpicture}
+  \pgfplotstableread[
+    % col sep=comma
+  ]{data/plot_3d.csv}{\Data}
+  \begin{axis}[
+    width=.45\textwidth,
+    view={-30}{30},
+    xmin=0, xmax=16, xtick distance=4,
+    xlabel={Num},
+    ymin=1, ymax=20, ytick distance=5,
+    ylabel={Round},
+    zmin=0, zmax=1, ztick distance=.2,
+    zlabel={PDF},
+    z tick label style={
+      /pgf/number format/.cd,
+        fixed,
+        fixed zerofill,
+        precision=1,
+      /tikz/.cd
+      },
+    grid=major,
+  ]
+    \addplot3[
+      surf,
+      mesh/rows=17,
+      patch type=rectangle,
+      opacity=1,fill opacity=0.1,
+      colormap/cool
+    ] table[x=num, y=round, z=p] {\Data};
+  \end{axis}
+\end{tikzpicture}
+%\end{document}
