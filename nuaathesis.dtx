@@ -1858,14 +1858,16 @@ and the derived files           nuaathesis.ins,
 % 最后仍然需要定义新的列类型。
 % 原本打算完全照用 Word 里的单元格宽度的，但它超过了页边距，所以稍作裁剪。
 %
-% 下方的论文信息就相对简单一些，用 \env{tabu} 环境绘制了 6行2列 的表格，右侧的格子下面划线。
+% 下方的论文信息就相对简单一些，用 \env{tabular} 环境绘制了 6行2列 的表格，右侧的格子下面划线。
 % 为了设置最小列宽，这里用了一点 hacking 的方法，给“班级”的值套上了固定宽度的 \cs{makebox}。
 % \cs{makebox}不会扩展宽度，但“班级”的值基本都是7位数字，所以应该没问题吧。
-% 如果“指导教师”很长，\env{tabu} 会加宽表格的列宽，整个表格仍然保持居中。
+% 如果“指导教师”很长，\env{tabular} 会加宽表格的列宽，整个表格仍然保持居中。
 %
 % 剩余的部分只需要按照 Word 模板设置字体字号，然后多余的垂直空间按比例填上空格。
 % 如果“题目”过长导致换行，模板会均匀地从多余的空间里抽出等比例的空间给标题用，
 % 不用像 Word 模板那样手工调整，也不用担心底部的日期跑到后一页去。
+%
+% \changes{v2.1b}{2018/12/26}{修正 \pkg{array} 更新导致 \pkg{tabu} 与 \pkg{floatrow} 不兼容的问题}
 %    \begin{macrocode}
 \newcommand\nuaa@make@cover@bachelor{
   \cleardoublepage
@@ -1901,14 +1903,14 @@ and the derived files           nuaathesis.ins,
     \vspace{\stretch{5}}
 
     \linespread{1}\sffamily\heiti\fontsize{16bp}{47.6bp}\selectfont
-    \begin{tabu} spread 0pt {X[-1,c]X[2,c]<{\strut}}
+    \begin{tabular} {cc}
       \nuaa@label@author & \nuaa@value@author \\ \cline{2-2}
       \nuaa@label@studentid & \nuaa@value@studentid \\ \cline{2-2}
       \nuaa@label@college & \nuaa@value@college \\ \cline{2-2}
       \nuaa@label@major & \nuaa@value@major \\ \cline{2-2}
       \nuaa@label@classid & \makebox[3.22in]{\nuaa@value@classid} \\ \cline{2-2}
       \nuaa@label@adviser & \nuaa@value@advisers \\ \cline{2-2}
-    \end{tabu}
+    \end{tabular}
     \vspace{\stretch{3}}
 
     \linespread{1}\sffamily\heiti\fontsize{16bp}{30bp}
@@ -2086,6 +2088,7 @@ and the derived files           nuaathesis.ins,
 % 当作普通的图片插入封面中，能大幅降低使用难度，避免修改系统设置，并且尽可能规避版权问题。
 %
 % \changes{v2.1b}{2018/12/03}{添加专硕封面}
+% \changes{v2.1b}{2018/12/26}{修正多个指导教师产生的对齐问题}
 %    \begin{macrocode}
 \newcommand\nuaa@make@cover@master@cn{
   \cleardoublepage
@@ -2113,7 +2116,7 @@ and the derived files           nuaathesis.ins,
 
   \begin{center}
   \linespread{1}\rmfamily\songti\fontsize{16bp}{31.2bp}\selectfont
-  \begin{tabu} spread 0pc {@{\extracolsep{.5in}}cX<{\strut}}
+  \begin{tabu} spread 0pc {@{\extracolsep{.5in}}cX[l]<{\strut}}
     \nuaa@label@researchername & \nuaa@value@author \\
 \ifnuaa@zhuanshuo
     \nuaa@label@professionaltype & \nuaa@value@majorsubject \\
@@ -2145,7 +2148,7 @@ and the derived files           nuaathesis.ins,
 % 硕/博士英文封面。值得一提的是，正是学校 Word 模板的这一页，
 % 导致了本模板 |v2.1| 放弃完美复刻 Word 模板的方针。
 %
-% 原因在于本页标题下面的三段字，加起来一共11行，原 Word 模板换了5次格式。
+% 原因在于本页标题下面的三段字，加起来一共11~行，原 Word 模板换了5~次格式。
 % 用空行来增加行间距、对齐到文档网络随意改，
 % 笔者实在解读不出原模板作者的意图，以及ta预期的格式。
 % 这种毫无逻辑的格式转变，让笔者觉得原模板作者根本不会在意数~pt 的误差，
