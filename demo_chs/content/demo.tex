@@ -127,14 +127,15 @@
 也可以使用 \env{tabu} 环境，它可以更灵活地设置列宽，但它有一些 bug，如\autoref{tab:tabu}。
 \begin{table}[htb]
   \caption{\env{tabu} 注意事项 \label{tab:tabu}}
-  \begin{tabu} spread 4pc {XX[2]<{\strut}} \toprule
+  \begin{tabu} to .9\textwidth {XX[2]<{\strut}} \toprule
     默认列 & 有修正的列 \\ \midrule
     \env{tabu} 的 bug? \par This line is BAD & 注意左侧最后一行后的垂直空格 \\ \midrule
     注意对比最后一行 &
       bug 会影响多行的 \env{tabu} 表格 \par
       bug 的修正方法是在段落后面加 \cs{strut} \par
       This line is Good \\ \midrule
-    但垂直居中没效果 & 改用 \env{tabular} \\ \bottomrule
+    垂直居中没效果 & 改用 \env{tabular} \\ \midrule
+    与新版 \pkg{array} 不兼容 & 谨慎使用，切勿用 \texttt{tabu spread} \\ \bottomrule
   \end{tabu}
 \end{table}
 
