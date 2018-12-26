@@ -69,7 +69,7 @@ and the derived files           nuaathesis.ins,
 \fi
 %</internal>
 %<*driver>
-\ProvidesFile{nuaathesis.drv}[2018/11/01 v2.1 NUAA thesis template]
+\ProvidesFile{nuaathesis.drv}[2018/12/26 v2.1b NUAA thesis template]
 \documentclass{ltxdoc}
 \usepackage{dtx-style}
 \EnableCrossrefs
@@ -139,7 +139,6 @@ and the derived files           nuaathesis.ins,
 % \end{multicols}
 % \clearpage
 %
-% \changes{v2.1a}{2018/12/01}{TBD}
 % \changes{v2.1}{2018/11/01}{初步实现英文、日文论文格式，基本去除对 \CTeX{} 的依赖。}
 % \changes{v2.0}{2017/9/17}{仿照 \cquthesis{}，使用 \textsc{DocStrip}，使用根据校 Word 模板直接计算出的行间距等距离，添加硕/博士模板，重写大部分代码。}
 % \changes{v1.0}{2017/6/22}{\nuaathesis{} 正式通过毕业设计审核，增加毕业设计/毕业论文选项，并调整页眉；针对双面打印选项调整页脚；细节调整。}
@@ -238,7 +237,7 @@ and the derived files           nuaathesis.ins,
 % \begin{tabular}{>{\ttfamily}l|p{8cm}} \toprule
 % {\heiti 文件（夹）} & {\heiti 功能描述}\\\midrule
 % nuaathesis.cls & 主模板 \\
-% nuaathesis.bst & 参考文献样式 \\
+% nuaabib.bst & 参考文献样式 \\
 % logo/ & 封面、页眉所需图片 \\ \midrule
 % nuaathesis.cfg & 修改主模板加载行为的配置文件（可选） \\
 % nuaathesis.pdf & 本文档（可选） \\ \bottomrule
@@ -452,6 +451,24 @@ and the derived files           nuaathesis.ins,
 % 但只在硕士封面上用于学院名称和日期。
 % 最后一种用到的“字体”是简启体，只用于硕士封面的校名，
 % 由于版权、安装使用不便、所需字形固定等各种原因，简启体的校名将作为 PDF 格式的图片插入。
+%
+% \section{更新方法}
+% 本节将介绍在保留论文代码基本不变的情况下，更新模板代码。
+%
+% 在更新原论文使用的模板之前，请务必先\textbf{完整备份}所有文件，
+% 以防意外导致无法还原、也无法用任何模板版本编译的情况。
+%
+% 如果版本号变化没有在本节中出现的话，直接将新版的 \texttt{nuaathesis.cls} 替换旧模板即可
+%（大概，如果版本号比较接近的话）；
+% 否则请务必按照本节中描述的步骤进行修改。
+%
+% \subsection{v2.1 $\rightarrow$ v2.1b}
+% \begin{enumerate}
+%   \item 用新版的 \texttt{nuaathesis.cls} 替换同名旧模板文件；
+%   \item 将 \texttt{nuaabib.bst} 解压到论文目录；
+%   \item 修改论文主文件，将 \cs{bibliographystyle}\texttt{\{nuaathesis\}} 改为 \cs{bibliographystyle}\texttt{\{nuaabib\}}；
+%   \item 对于专硕同学，在论文主文件开头的文档类选项中，添加 \texttt{zhuanshuo} 以使用专硕封面。
+% \end{enumerate}
 %
 % \section{外文特辑}
 % 本节将介绍外国语论文时的注意事项。
