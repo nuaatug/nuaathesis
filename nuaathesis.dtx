@@ -2079,9 +2079,17 @@ and the derived files           nuaathesis.ins,
 % \subsubsection{硕/博士封面}
 % \begin{macro}{\nuaa@make@cover@master@cn}
 % 硕/博士中文封面，难点比本科的封面少一个，只要把论文信息排好就行。
-% 由于用了 \env{tabu}，导师名字再长、要写两个导师都没问题。
+% \sout{由于用了 \env{tabu}，导师名字再长、要写两个导师都没问题。}
 %
-% 唯一有问题的是简启体的校名。首先，百度上确实有一个字体的全称叫“迷你简启体”，
+% 还是没有想象中简单，\pkg{tabu} 虽然很诱人，但实在不可靠，
+% 所以改用 \env{tabular} 的实现，仍然可以写多个导师的名字，
+% 但是表格宽度是固定的，不会自动调整，
+% 所有数字均是精确计算得出。
+% 整个 \env{tabular} 将占满整个页宽（$\SI{8.27}{inch} - \SI{30}{\mm} - \SI{28}{\mm}$），
+% 标签左侧空白宽度为 1\sfrac{1}{8}~inch，标签本身宽度为 $5\times \SI{16}{pt}$，
+% 右侧内容起始位置为 2\sfrac{7}{8}~inch，做一下单位换算和加减法就得到下面的代码。
+%
+% 另一个问题的是简启体的校名。首先，百度上确实有一个字体的全称叫“迷你简启体”，
 % 但稍再搜索下的话，不难发现这“迷你简启体”是“广捷居”对“方正启体简体”精简衍生版本。
 % 这里不打算讨论版权问题，只从使用的角度出发，如果所有用户都要安装这一字体
 % 并在 \LaTeX 中使用，无疑会加大使用难度；本模板将所需的字形存放在 |pdf| 文件中，
@@ -2116,7 +2124,8 @@ and the derived files           nuaathesis.ins,
 
   \begin{center}
   \linespread{1}\rmfamily\songti\fontsize{16bp}{31.2bp}\selectfont
-  \begin{tabu} spread 0pc {@{\extracolsep{.5in}}cX[l]<{\strut}}
+  \renewcommand\linebreak{\par}
+  \begin{tabular} {@{\hskip 1.125in}c@{\hskip .6389in}p{3.1115in}}
     \nuaa@label@researchername & \nuaa@value@author \\
 \ifnuaa@zhuanshuo
     \nuaa@label@professionaltype & \nuaa@value@majorsubject \\
@@ -2126,7 +2135,7 @@ and the derived files           nuaathesis.ins,
     \nuaa@label@researchfield & \nuaa@value@researchfield \\
 \fi
     \nuaa@label@adviser & \nuaa@value@advisers \\
-  \end{tabu}
+  \end{tabular}
   \end{center}
   \vspace{\stretch{3}}
 
@@ -2329,6 +2338,8 @@ headsep=3mm]{geometry}
 \RequirePackage{graphicx}
 \RequirePackage{xspace}
 \RequirePackage{pifont}
+\RequirePackage{siunitx}
+\RequirePackage{xfrac}
 
 \def\footnoterule{\vskip-3\p@\hrule\@width0.3\textwidth\@height0.4\p@\vskip2.6\p@}
 \let\cqu@footnotesize\footnotesize
