@@ -4,6 +4,14 @@
 
 UNOFFICIAL LaTeX thesis template for Nanjing University of Aeronautics and Astronautics
 
+### Build Status 
+
+| CI |   Platform   | Status |
+| ---- |---------- | --- |
+| CircleCI | ArchLinux |  [![CircleCI](https://circleci.com/gh/nuaatug/nuaathesis/tree/master.svg?style=svg)](https://circleci.com/gh/nuaatug/nuaathesis/tree/master) |
+| Appveyor | Windows       |  [![Build status](https://ci.appveyor.com/api/projects/status/t1sh0d9t01bvi83l/branch/master?svg=true)](https://ci.appveyor.com/project/summershrimp/nuaathesis/branch/master) |
+| TravisCI | Linux + MacOS    | [![Build Status](https://travis-ci.org/nuaatug/nuaathesis.svg?branch=master)](https://travis-ci.org/nuaatug/nuaathesis) |
+
 ## 特点
 
 * 模版(尽力)遵照南航官方论文模版排版要求
