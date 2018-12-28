@@ -1382,40 +1382,51 @@ and the derived files           nuaathesis.ins,
 %
 % \subsubsection{目录}
 % 本节利用 \pkg{titletoc} 来设置目录的格式，包括正文目录和图表的目录。
+% \begin{macro}{\nuaa@toc@dotstep}
+% 定义目录中两个点之间的距离。
+% \changes{v2.1c}{2018/12/27}{修正硕士目录中的点密度。}
+%    \begin{macrocode}
+\ifnuaa@bachelor
+  \newcommand\nuaa@toc@dotstep{5bp}
+\else
+  \newcommand\nuaa@toc@dotstep{2.5bp}
+\fi
+%    \end{macrocode}
+% \end{macro}
 %    \begin{macrocode}
 \ifnuaa@lang@en
   \titlecontents{chapter}[5pc]
     {\nuaa@font@toc}
     {\contentslabel[\chaptername~\thecontentslabel]{5pc}}
     {\renewcommand\thecontentslabel{\relax}\hspace*{-5pc}}
-    {\titlerule*[1ex]{.}\contentspage}
+    {\titlerule*[\nuaa@toc@dotstep]{.}\contentspage}
 \else
   \titlecontents{chapter}[3.5pc]
     {\nuaa@font@toc}
     {\contentslabel[\thecontentslabel]{3.5pc}}
     {\hspace*{-3.5pc}}
-    {\titlerule*[1ex]{.}\contentspage}
+    {\titlerule*[\nuaa@toc@dotstep]{.}\contentspage}
 \fi
 \titlecontents{section}[3pc]
   {\nuaa@font@toc}
   {\contentslabel[\thecontentslabel]{2pc}}
   {}
-  {\titlerule*[1ex]{.}\contentspage}
+  {\titlerule*[\nuaa@toc@dotstep]{.}\contentspage}
 \titlecontents{subsection}[5pc]
   {\nuaa@font@toc}
   {\contentslabel[\thecontentslabel]{3pc}}
   {}
-  {\titlerule*[1ex]{.}\contentspage}
+  {\titlerule*[\nuaa@toc@dotstep]{.}\contentspage}
 \titlecontents{figure}[\nuaa@indentloft]
   {\nuaa@font@toc}
   {\contentslabel[\figurename~\thecontentslabel]{\nuaa@indentloft}}
   {\figurename}
-  {\titlerule*[1ex]{.}\contentspage}
+  {\titlerule*[\nuaa@toc@dotstep]{.}\contentspage}
 \titlecontents{table}[\nuaa@indentloft]
   {\nuaa@font@toc}
   {\contentslabel[\tablename~\thecontentslabel]{\nuaa@indentloft}}
   {\tablename}
-  {\titlerule*[1ex]{.}\contentspage}
+  {\titlerule*[\nuaa@toc@dotstep]{.}\contentspage}
 %    \end{macrocode}
 % \subsubsection{参考文献}
 % \begin{macro}{\nuaa@font@bib}
