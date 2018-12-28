@@ -1418,14 +1418,24 @@ and the derived files           nuaathesis.ins,
   {\titlerule*[1ex]{.}\contentspage}
 %    \end{macrocode}
 % \subsubsection{参考文献}
+% \begin{macro}{\nuaa@font@bib}
+% 定义参考文献的字体
+% \changes{v2.1c}{2018/12/27}{修改硕士的参考文献字体与行间距}
+%    \begin{macrocode}
+\ifnuaa@bachelor
+  \newcommand\nuaa@font@bib{\linespread{1.0}\fontsize{10.5bp}{15.6bp}\selectfont}
+\else
+  \newcommand\nuaa@font@bib{\normalsize}
+\fi
+%    \end{macrocode}
+% \end{macro}
 %    \begin{macrocode}
 \pretocmd{\bibliography}
-  {\begingroup\linespread{1.0}\fontsize{10.5bp}{15.6bp}\selectfont}
+  {\begingroup\nuaa@font@bib}
   {}{}
 \apptocmd{\bibliography}
   {\endgroup}
   {}{}
-\newcommand\nuaa@font@bib{\linespread{1.0}\fontsize{10.5bp}{15.6bp}\selectfont}
 \renewcommand\@biblabel[1]{\nuaa@font@bib[#1]}
 \renewenvironment{thebibliography}[1]{
   \chapter*{\bibname}
