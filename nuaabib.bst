@@ -896,7 +896,7 @@ FUNCTION {incollection}
 { output.bibitem
   format.authors "author" output.check
   new.block
-  format.title "[M]. " * title output.check
+  format.title "[M]" * title output.check
   %format.title "title" output.check
   new.block
   crossref missing$
@@ -926,7 +926,7 @@ FUNCTION {inproceedings}
 { output.bibitem
   format.authors "author" output.check
   new.block
-  format.title "[C]. " * title output.check
+  format.title "[C]" * title output.check
   %format.title "title" output.check
   new.block
   crossref missing$
