@@ -266,7 +266,7 @@ and the derived files           nuaathesis.ins,
 % 本科生指定文档是毕业论文 \option{paper} 或者是毕业设计 \option{design}。
 %
 % \DescribeOption{zhuanshuo}
-% 专硕，只会影响封面中的两个字段，默认不启用。
+% 专硕，会影响封面中的两个字段和页眉，默认不启用。
 % \sout{（因为想不出合适的英文翻译，所以就用拼音了）}
 %
 % \DescribeOption{blankleft}
@@ -633,6 +633,7 @@ and the derived files           nuaathesis.ins,
 \newcommand\nuaa@label@worktype@design{毕业设计}
 \newcommand\nuaa@label@worktype@master{硕士学位论文}
 \newcommand\nuaa@label@worktype@doctor{博士学位论文}
+\newcommand\nuaa@label@worktype@zhuanshuo{全日制专业学位}
 \newcommand\nuaa@label@thesisnum{编号}
 \newcommand\nuaa@label@title{题\quad 目}
 \newcommand\nuaa@label@teamname{团队名称}
@@ -1301,6 +1302,7 @@ and the derived files           nuaathesis.ins,
 %
 % 定义正文页眉页脚。为了在 |oneside| 模式下，硕/博的页眉也能奇偶页不同，
 % 因此不能用 \cs{fancyhead} 的 |EC| |OC| 选项，而是在代码里判断页码的奇偶性，输出对应的内容。
+% \changes{v2.1c}{2018/12/27}{修改专硕的名称（用于页眉）}
 %    \begin{macrocode}
 \fancypagestyle{style@main}{
   \fancyhead{}
@@ -1314,7 +1316,11 @@ and the derived files           nuaathesis.ins,
     \fancyhead[R]{\songti\zihao{4}\nuaa@label@reportpaper\hspace{1\ccwd}}
   \else
     \fancyhead[C]{\ifodd\value{page}
-      {\mbox{\songti\zihao{5}\nuaa@university\nuaa@worktypecn}}
+      {\mbox{\songti\zihao{5}\nuaa@university%
+        {\ifnuaa@zhuanshuo%
+          \nuaa@label@worktype@zhuanshuo
+        \fi}%
+      \nuaa@worktypecn}}
     \else
       {\mbox{\zihao{5}\nuaa@title}}
     \fi}
