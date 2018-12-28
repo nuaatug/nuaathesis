@@ -1185,6 +1185,7 @@ and the derived files           nuaathesis.ins,
 % \subsubsection{文档组成声明}
 % \LaTeX 文档可以拆分成 \mac{frontmatter}, \mac{mainmatter}, \mac{appendix}, \mac{backmatter}
 % 并由这些宏来调整文档格式。本文档类也需要利用这些信息来调整文档格式，于是重新定义了这些宏。
+% \changes{v2.1c}{2018/12/28}{修正 frontmatter 页码格式}
 %    \begin{macrocode}
 \newif\if@frontmatter
 \newif\if@backmatter
@@ -1196,7 +1197,7 @@ and the derived files           nuaathesis.ins,
   \nuaa@frontmatter
   \@frontmattertrue
   \@backmatterfalse
-  \ifnuaa@bachelor\pagenumbering{roman}\else\pagenumbering{Roman}\fi
+  \pagenumbering{roman}
   \pagestyle{style@main}
 }
 \renewcommand{\mainmatter}{
