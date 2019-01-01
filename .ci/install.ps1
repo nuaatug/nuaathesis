@@ -18,11 +18,12 @@ if ((Get-Command "tlmgr" -ErrorAction SilentlyContinue) -eq $null) {
 	curl.exe -fsSL -o install-tl.zip "http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip"
 	7z.exe x install-tl.zip -y
 	Remove-Item install-tl.zip
-	Remove-Item -Path "$tldir" -recurse --Force
+	Remove-Item -Path "$tldir" -recurse
 	mkdir -Force "$tldir"
 	copy .\texlive-windows.profile "$tldir\texlive.profile"
-	dir | where { $_ -match "$install-tl" -and $_ -notmatch "install-tl.zip" } | Rename-Item -NewName "install-tl"
-	.\install-tl\install-tl-windows.bat -profile "$tldir\texlive.profile"
+	dir | where { $_ -match "$install-tl" -and $_ -notmatch "install-tl.zip" } | Rename-Item -NewName "..\.install-tl"
+	..\.install-tl\install-tl-windows.bat -profile "$tldir\texlive.profile"
+	Remove-Item -Path "..\.install-tl" -recurse
 }
 
 # update texlive
