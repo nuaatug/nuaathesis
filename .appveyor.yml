@@ -15,13 +15,20 @@ build_script:
 after_build:
   - C:\msys64\usr\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER && .ci/pack.sh"
 
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-
 artifacts:
   - path: '*.pdf'
   - path: 'nuaathesis.tar.gz'
   - path: 'nuaathesis.zip'
 
+# Note about cache:
+# a fresh texlive install takes about 6min to download 2050 packages,
+# caching reduces initial setup time, but here are some problems yet to solve:
+#   1. size of cache: currently 400MB with LZMA2, fastest. Quota=1GB across all projects in one account.
+#   2. tlmgr update: not clear how unattended tlmgr base update works, might break the CI.
+# size/performance hint:
+# -mx1: fastest, ~1min, 400MB
+# -mx3: fast, ~1.5min, 370MB
+# -mx5: normal, ~5min, 300MB
+# build time limit: 60min
 cache:
   - C:\texlive
