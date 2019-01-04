@@ -5,17 +5,20 @@
 # This script packs files for end user, who can starts writing thesis right away.
 # To make user easy to start up, the pack should be as small as possible.
 
-TMP_DIR_REL=.pack/nuaathesis
-rm -rf $TMP_DIR
-mkdir -p $TMP_DIR_REL
-TMP_DIR=$(realpath $TMP_DIR_REL)
+${TEMP_DIR:=$(mktemp -d || echo .pack)/nuaathesis}
 
-cp -r .git $TMP_DIR
-(cd $TMP_DIR && git reset --hard && git clean -Xf && rm -rf .* || true)
-cp -r .ci $TMP_DIR
+mkdir -p "$TEMP_DIR"
+git --git-dir=${PWD}/.git -C "$TEMP_DIR" reset --hard
 
-find . -not -path '*/\.*' -type f \( -name '*.pdf' -o -name '*.cls' -o -name '*.bst' \) -exec cp --parents '{}' $TMP_DIR \;
-# curl -o $TMP_DIR/.gitignore https://raw.githubusercontent.com/github/gitignore/master/TeX.gitignore
-# 7z a nuaathesis.zip $TMP_DIR
-(cd .pack && tar cf ../nuaathesis.tar.gz nuaathesis)
-(cd .pack && 7z a ../nuaathesis.zip nuaathesis)
+# copy compiled results
+cp ${PWD}/nuaathesis.cls "$TEMP_DIR"
+find . -not -path '*/\.*' -type f \( -name '*.pdf' \) -exec cp --parents '{}' $TEMP_DIR \;
+find "$TEMP_DIR" -type d \( -name 'demo_*' \) -exec make -C '{}' prepare \;
+# curl -o "$TEMP_DIR"/.gitignore https://raw.githubusercontent.com/github/gitignore/master/TeX.gitignore
+
+# pack
+tar czf nuaathesis.tar.gz --directory="$TEMP_DIR/.." nuaathesis
+7z a nuaathesis.zip "$TEMP_DIR"
+
+# clean up
+rm -rf "$TEMP_DIR"
