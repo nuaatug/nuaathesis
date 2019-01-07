@@ -29,7 +29,7 @@ install:
 
 script:
   # close stdin to latexmk, avoid waiting for user input
-  - echo | ./build.sh all
+  - echo | ./build.sh
 
 notifications:
   email: false

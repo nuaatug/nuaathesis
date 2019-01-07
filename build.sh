@@ -1,14 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 
-xelatex nuaathesis.dtx &&\
-makeindex -s gind.ist -o nuaathesis.ind nuaathesis.idx &&\
-makeindex -s gglo.ist -o nuaathesis.gls nuaathesis.glo &&\
-xelatex nuaathesis.dtx &&\
-xelatex nuaathesis.dtx &&\
-xelatex nuaathesis.dtx
+# Q: Why exists this file?
+# A: To match the document, we have `build.bat` for Windows without MinGW,
+# and `build.sh` for others, even if an alias to make.
 
-if [ $1 = "all" ]; then
-  make -C demo_chs &&\
-  make -C demo_en &&\
-  make -C demo_ja
-fi
+make all

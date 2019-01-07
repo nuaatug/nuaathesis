@@ -16,7 +16,7 @@ jobs:
       - checkout
       - run:
           name: 'Build texdoc'
-          command: 'source /etc/profile.d/perlbin.sh && (echo | ./build.sh all)'
+          command: 'source /etc/profile.d/perlbin.sh && (echo | ./build.sh)'
       - run:
           name: 'Prepare artifacts'
           command: |
