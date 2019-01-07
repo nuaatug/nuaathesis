@@ -4,30 +4,10 @@ clone_depth: 5
 
 environment:
   Path: '%Path%;C:\texlive\bin\win32'
+  APPVEYOR_CACHE_ENTRY_ZIP_ARGS: '-t7z -mx1'
 
 install:
-  # install Chinese Simplified fonts
-  - ps: Set-Service BITS -StartupType Automatic; Set-Service wuauserv -StartupType Automatic
-  - ps: Start-Service BITS; Start-Service wuauserv
-  - ps: Import-Module Dism; Get-WindowsCapability -Online | where { $_.Name -match "Font" -and $_.Name -match "Hans" } | Add-WindowsCapability -Online
-
-  # get online installer
-  - curl -fsSL -o install-tl.zip "http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip"
-  # unzip
-  - 7z x install-tl.zip -y
-  - rm install-tl.zip
-
-  # install basic texlive components
-  #
-  # step 1: copy the profile to an absolute path
-  - mkdir C:\texlive && copy .ci\texlive-windows.profile C:\texlive\texlive.profile
-  # step 2: rename the install directory to a fixed name
-  - ps: dir | where { $_ -match "$install-tl" -and $_ -notmatch "install-tl.zip" } | Rename-Item -NewName "install-tl"
-  # step 3: invoke installer in CMD instead of PS
-  - echo "" | install-tl\install-tl-windows.bat -profile C:\texlive\texlive.profile
-
-  # install everything else
-  - ps: tlmgr install (Get-Content .\.ci\texlive.pkgs | where { $_ -notmatch "(^\s*#)|(^\s*$)" })
+  - ps: cd .\.ci; .\install.ps1
 
 build_script:
   - C:\msys64\usr\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER && ./build.sh"
@@ -39,3 +19,16 @@ artifacts:
   - path: '*.pdf'
   - path: 'nuaathesis.tar.gz'
   - path: 'nuaathesis.zip'
+
+# Note about cache:
+# a fresh texlive install takes about 6min to download 2050 packages,
+# caching reduces initial setup time, but here are some problems yet to solve:
+#   1. size of cache: currently 400MB with LZMA2, fastest. Quota=1GB across all projects in one account.
+#   2. tlmgr update: not clear how unattended tlmgr base update works, might break the CI.
+# size/performance hint:
+# -mx1: fastest, ~1min, 400MB
+# -mx3: fast, ~1.5min, 370MB
+# -mx5: normal, ~5min, 300MB
+# build time limit: 60min
+cache:
+  - C:\texlive
