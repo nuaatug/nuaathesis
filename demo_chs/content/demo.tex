@@ -100,7 +100,7 @@
 \begin{sidewaysfigure}
   \subfloat[First caption]{\includegraphics[height=2cm]{nuaa-jianqi.pdf}} \\
   \subfloat[Second caption]{\includegraphics[width=.8\textheight]{nuaa-jianqi.pdf}}
-  \caption{又一幅占用完整页面的图片}
+  \caption[又一幅占用完整页面的图片]{又一幅占用完整页面的图片，请注意双面打印时，与前一幅插图的角度变化}
   \label{fig:fullpage2}
 \end{sidewaysfigure}
 
@@ -256,8 +256,12 @@
 很遗憾，目前 \LaTeX{} 和 \CTeX{} 虽然能处理普通汉字与英文之间的间隔，
 但是汉字与宏之间的空格仍然需要手工调整，请务必按以下的规则撰写原稿：
 \begin{itemize}
-  \item[\ding{51}] 如\autoref{fig:sub2} 所示：\verb|如\autoref{fig:sub2} 所示|，这个宏返回的是“图 x.xx”，
-  所以前面两个汉字之间不能加空格，后面数字与汉字之间必须加空格；
-  \item[\ding{51}] 距离为 1.7~个天文单位：\verb|距离为 1.7~个天文单位|，前面可以不加空格（\CTeX 会修正），
-  后面必须加 \verb|~| 以防止在 “1.7”与“个”之间换行。此时更推荐写成 \SI{1.7}{au}：\verb|\SI{1.7}{au}|。
+  \item[\ding{51}] 如\autoref{fig:sub2} 所示：\verb|如\autoref{fig:sub2} 所示| \\
+    这个宏返回的是“图 x.xx”，
+    所以前面两个汉字之间不能加空格，后面数字与汉字之间必须加空格；
+  \item[\ding{51}] 距离为 1.7~个天文单位：\verb|距离为 1.7~个天文单位| \\
+    数字前面可以不加空格（\CTeX 会修正），
+    后面必须加 \verb|~| 以防止在 “1.7”与“个”之间换行。此时更推荐写成 \SI{1.7}{au}：\verb|\SI{1.7}{au}|；
+  \item[\ding{51}] \LaTeX{} 发行版：\verb|\LaTeX{} 发行版| \\
+    宏的结尾务必使用花括号。
 \end{itemize}
