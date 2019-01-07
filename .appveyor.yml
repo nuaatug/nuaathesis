@@ -17,8 +17,8 @@ after_build:
 
 artifacts:
   - path: '*.pdf'
-  - path: 'nuaathesis.tar.gz'
-  - path: 'nuaathesis.zip'
+  - path: 'nuaathesis-*.tar.gz'
+  - path: 'nuaathesis-*.zip'
 
 # Note about cache:
 # a fresh texlive install takes about 6min to download 2050 packages,
