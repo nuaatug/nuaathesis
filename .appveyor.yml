@@ -30,5 +30,7 @@ artifacts:
 # -mx3: fast, ~1.5min, 370MB
 # -mx5: normal, ~5min, 300MB
 # build time limit: 60min
-cache:
-  - C:\texlive
+
+# Cache is NOT enabled, uncomment following lines to enable.
+#cache:
+#  - C:\texlive
