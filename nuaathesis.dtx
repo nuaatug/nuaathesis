@@ -631,6 +631,7 @@ and the derived files           nuaathesis.ins,
 \newcommand\nuaa@label@nuaajc{南京航空航天大学金城学院}
 \newcommand\nuaa@label@worktype@paper{毕业论文}
 \newcommand\nuaa@label@worktype@design{毕业设计}
+\newcommand\nuaa@label@worktype@mixed{毕业设计（论文）}
 \newcommand\nuaa@label@worktype@master{硕士学位论文}
 \newcommand\nuaa@label@worktype@doctor{博士学位论文}
 \newcommand\nuaa@label@worktype@zhuanshuo{全日制专业学位}
@@ -1913,6 +1914,7 @@ and the derived files           nuaathesis.ins,
 % 不用像 Word 模板那样手工调整，也不用担心底部的日期跑到后一页去。
 %
 % \changes{v2.1b}{2018/12/26}{修正 \pkg{array} 更新导致 \pkg{tabu} 与 \pkg{floatrow} 不兼容的问题}
+% \changes{v2.1c}{2019/01/30}{使用源自 Word 导出的粗体标题字体}
 %    \begin{macrocode}
 \newcommand\nuaa@make@cover@bachelor{
   \cleardoublepage
@@ -1926,11 +1928,15 @@ and the derived files           nuaathesis.ins,
 
   \begin{center}
     \linespread{1}\kaishu\fontsize{22bp}{30bp}\selectfont
-    \nuaa@textbf{\nuaa@university}
+    \includegraphics{nuaa-boldk.pdf}
     \vspace{\stretch{3}}
 
     \linespread{1}\songti\fontsize{55bp}{55bp}\selectfont
-    \nuaa@textbf{\nuaa@worktypecn}
+    \ifnuaa@worktype@paper%
+      \includegraphics{bold-paper.pdf}%
+    \else\ifnuaa@worktype@design%
+      \includegraphics{bold-design.pdf}%
+    \fi\fi%
     \vspace{\stretch{5}}
   \end{center}
 
@@ -1983,14 +1989,14 @@ and the derived files           nuaathesis.ins,
   \begin{center}
     \linespread{1.0}\heiti\fontsize{18bp}{31.2bp}\selectfont
     \nuaa@textbf{\nuaa@university} \par
-    \nuaa@textbf{本科\nuaa@worktypecn 诚信承诺书}
+    \nuaa@textbf{本科\nuaa@label@worktype@mixed 诚信承诺书}
   \end{center}
 
   \begingroup
     \linespread{1.0}\songti\fontsize{14bp}{31.2bp}\selectfont
     \setlength\parindent{2\ccwd}\indent
 
-    本人郑重声明：所呈交的\nuaa@worktypecn
+    本人郑重声明：所呈交的\nuaa@label@worktype@mixed
     （题目：{%
       \renewcommand\linebreak{}%
       \ifnuaa@lang@cn{\expandafter\uline\expandafter{\nuaa@value@title}}\else%
@@ -1999,8 +2005,8 @@ and the derived files           nuaathesis.ins,
       \fi\fi\fi%
     }）
     是本人在导师的指导下独立进行研究所取得的成果。
-    尽本人所知，除了\nuaa@worktypecn 中特别加以标注引用的内容外，
-    本\nuaa@worktypecn 不包含任何其他个人或集体已经发表或撰写的成果作品。
+    尽本人所知，除了\nuaa@label@worktype@mixed 中特别加以标注引用的内容外，
+    本\nuaa@label@worktype@mixed 不包含任何其他个人或集体已经发表或撰写的成果作品。
 
     \vspace{31.2bp}
 
