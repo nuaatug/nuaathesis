@@ -324,6 +324,10 @@ and the derived files           nuaathesis.ins,
 %
 % \DescribeOption{classid=} 班号；
 %
+% \DescribeOption{declarepage=} 原创承诺书整页扫描的图像路径；
+%
+% \DescribeOption{declaresign=} 原创承诺书签名、日期区域的图像路径；
+%
 % \textbf{硕/博士}还支持以下参数：
 %
 % \DescribeOption{libraryclassid=} 中图分类号，如果需要指定多个，请手动添加合适的分隔符，
@@ -886,6 +890,11 @@ and the derived files           nuaathesis.ins,
   \nuaa@define{value@thesisid}
   \nuaa@define{value@majorsubject}
   \nuaa@define{value@researchfield}
+%    \end{macrocode}
+% \changes{v2.1c}{2019/03/25}{添加声明页扫描图像的参数}
+%    \begin{macrocode}
+  \nuaa@define{value@declarepage}
+  \nuaa@define{value@declaresign}
 %    \end{macrocode}
 %
 % 文档的英文信息
@@ -1832,11 +1841,20 @@ and the derived files           nuaathesis.ins,
 % 绘制承诺书
 %    \begin{macrocode}
 \newcommand\makedeclare{
-  \ifnuaa@bachelor
-    \nuaa@make@declare@bachelor
-  \else
-    \nuaa@make@declare@master
-  \fi
+  \expandafter\ifblank\expandafter{\nuaa@value@declarepage}{
+    \ifnuaa@bachelor
+      \nuaa@make@declare@bachelor
+    \else
+      \nuaa@make@declare@master
+    \fi
+  }{
+    \cleardoublepage
+    \newgeometry{margin=0pt}
+    \includegraphics[
+        width=.99\paperwidth,height=.99\paperheight,keepaspectratio
+      ]{\nuaa@value@declarepage}
+    \restoregeometry
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2019,11 +2037,15 @@ and the derived files           nuaathesis.ins,
     \vspace{31.2bp}
 
     \begin{flushright}
-      \setlength{\tabcolsep}{0bp}
-      \begin{tabular}{rcr}
-      作者签名： & \hspace{7.5em} & \hspace{2em} 年 \hspace{0.75em} 月 \hspace{0.75em} 日 \\
-      （学号）： & \hspace{7.5em} & \\
-      \end{tabular}
+      \expandafter\ifblank\expandafter{\nuaa@value@declaresign}{
+        \setlength{\tabcolsep}{0bp}
+        \begin{tabular}{rcr}
+        作者签名： & \hspace{7.5em} & \hspace{2em} 年 \hspace{0.75em} 月 \hspace{0.75em} 日 \\
+        （学号）： & \hspace{7.5em} & \\
+        \end{tabular}
+      }{
+        \includegraphics{\nuaa@value@declaresign}
+      }
     \end{flushright}
 
   \endgroup
@@ -2289,9 +2311,13 @@ and the derived files           nuaathesis.ins,
 
   \vfill
   \begin{flushright}
-  \linespread{1.0}\songti\fontsize{14bp}{25bp}\selectfont
-  \makebox[5\ccwd][c]{作者签名：} \underline{\hspace{7em}} \par
-  \makebox[5\ccwd][c]{日 \hfill 期：} \underline{\hspace{7em}} \par
+    \expandafter\ifblank\expandafter{\nuaa@value@declaresign}{
+      \linespread{1.0}\songti\fontsize{14bp}{25bp}\selectfont
+      \makebox[5\ccwd][c]{作者签名：} \underline{\hspace{7em}} \par
+      \makebox[5\ccwd][c]{日 \hfill 期：} \underline{\hspace{7em}} \par
+    }{
+      \includegraphics{\nuaa@value@declaresign}
+    }
   \end{flushright}
   \vfill
 }
