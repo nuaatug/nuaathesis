@@ -959,6 +959,10 @@ and the derived files           nuaathesis.ins,
 \ExplSyntaxOff
 %    \end{macrocode}
 % 加载文档类之前，确保文档类不会干扰数学字体。
+%    \begin{macrocode}
+\RequirePackage{amsmath}
+%    \end{macrocode}
+% \pkg{ctex} 与 \pkg{amsmath} 貌似有些不兼容，需要提前加载 \pkg{amsmath}\footnote{\url{https://github.com/ElegantLaTeX/ElegantBook/issues/59}}。
 %
 % \subsubsection{中文的文档类}
 % 直接使用 \cls{ctexbook}
@@ -1131,7 +1135,6 @@ and the derived files           nuaathesis.ins,
 \RequirePackage{hyperref}
 \RequirePackage{ifxetex}
 \RequirePackage{siunitx}
-\RequirePackage{amsmath}
 \RequirePackage{amsthm}
 \RequirePackage{amssymb}
 \RequirePackage{aliascnt} % newaliascnt/aliascntresetthe
@@ -2338,6 +2341,7 @@ and the derived files           nuaathesis.ins,
 \RequirePackage[bottom,perpage,hang,]{footmisc}
 \RequirePackage{hypdoc}
 \PassOptionsToPackage{no-math}{fontspec}
+\RequirePackage{amsmath}
 \RequirePackage[UTF8,scheme=chinese]{ctex}
 \RequirePackage{newpxtext}
 \RequirePackage{newpxmath}

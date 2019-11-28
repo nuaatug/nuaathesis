@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/nuaathesis
     docker:
-      - image: base/archlinux:latest
+      - image: archlinux/base:latest
     steps:
       - run:
           name: 'Install texlive'
