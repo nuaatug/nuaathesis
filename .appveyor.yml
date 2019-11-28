@@ -30,7 +30,7 @@ install:
   - ps: tlmgr install (Get-Content .\.ci\texlive.pkgs | where { $_ -notmatch "(^\s*#)|(^\s*$)" })
 
 build_script:
-  - C:\msys64\usr\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER && ./build.sh all"
+  - C:\msys64\usr\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER && echo | ./build.sh all"
 
 after_build:
   - C:\msys64\usr\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER && .ci/pack.sh"
