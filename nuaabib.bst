@@ -1000,7 +1000,7 @@ FUNCTION {manual}
   fin.entry
 }
 
-FUNCTION {masterthesis.type}
+FUNCTION {mastersthesis.type}
 { lang empty$
     { "[D]" }
     { "\thumasterbib" }
@@ -1011,8 +1011,9 @@ FUNCTION {mastersthesis}
 { output.bibitem
   format.authors "author" add.period$ output.check
   new.block
-  % format.title remove.dots ": " * masterthesis.type * output
-  format.title remove.dots masterthesis.type * output
+  % format.title remove.dots ": " * mastersthesis.type * output
+  % format.title remove.dots mastersthesis.type * output
+  format.title remove.dots "[D]" * output
   new.block
   format.address.school output
   %format.madd "address" output.check
@@ -1050,7 +1051,8 @@ FUNCTION {phdthesis}
   format.authors "author" add.period$ output.check
   new.block
   % format.title remove.dots ": " * phdthesis.type * output
-  format.title remove.dots phdthesis.type * output
+  % format.title remove.dots phdthesis.type * output
+  format.title remove.dots "[D]" * output
   new.block
   format.address.school output
   %address output
