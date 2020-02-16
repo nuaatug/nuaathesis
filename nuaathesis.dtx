@@ -1104,6 +1104,14 @@ and the derived files           nuaathesis.ins,
     \def\pgfsysdriver{pgfsys-dvipdfm.def}
   }{}
 }
+%    \end{macrocode}
+% 对于日文，在加载完 ctex 后恢复默认字体。
+%    \begin{macrocode}
+\sys_if_engine_uptex:T{
+  \renewcommand \CJKrmdefault { mc }
+  \renewcommand \CJKsfdefault { gt }
+  \renewcommand \CJKttdefault { mc }
+}
 \ExplSyntaxOff
 %    \end{macrocode}
 % \begin{macro}{\nuaa@textbf}
@@ -1162,14 +1170,16 @@ and the derived files           nuaathesis.ins,
 % False 分支都输出到 PDF 书签里，结果一个书签里的中文重复出现了若干遍。
 %
 % 注：原本打算命名为 \cs{chs} (CHinese Simplified) 的，但是这个名字被占用了。
+%
+% \changes{v2.1}{2020/02/08}{修正 \mac{str\_if\_eq\_x:nnTF} 被 deprecated 导致编译失败的问题（不兼容旧版 \TeX~Live 2017）。}
 %    \begin{macrocode}
 \ExplSyntaxOn
 \cs_set:Npn \zhcn #1{
-  \str_if_eq_x:nnTF{\f@family}{\rmdefault}
+  \str_if_eq:eeTF{\f@family}{\rmdefault}
   {{\songti#1}}{
-  \str_if_eq_x:nnTF{\f@family}{\sfdefault}
+  \str_if_eq:eeTF{\f@family}{\sfdefault}
   {{\heiti#1}}{
-  \str_if_eq_x:nnTF{\f@family}{\ttdefault}
+  \str_if_eq:eeTF{\f@family}{\ttdefault}
   {{\kaiti#1}}{#1}
   }}}
 %    \end{macrocode}
@@ -1178,9 +1188,9 @@ and the derived files           nuaathesis.ins,
 % 同理设置一个日文的字体转换宏，主要用于日文论文的中文摘要环境下，偶尔出现的日语。
 %    \begin{macrocode}
 \cs_set:Npn \jpn #1{
-  \str_if_eq_x:nnTF{\f@family}{\rmdefault}
+  \str_if_eq:eeTF{\f@family}{\rmdefault}
   {{\mcfamily#1}}{
-  \str_if_eq_x:nnTF{\f@family}{\sfdefault}
+  \str_if_eq:eeTF{\f@family}{\sfdefault}
   {{\gtfamily#1}}{#1}
   }}
 \ExplSyntaxOff
