@@ -1104,6 +1104,14 @@ and the derived files           nuaathesis.ins,
     \def\pgfsysdriver{pgfsys-dvipdfm.def}
   }{}
 }
+%    \end{macrocode}
+% 对于日文，在加载完 ctex 后恢复默认字体。
+%    \begin{macrocode}
+\sys_if_engine_uptex:T{
+  \renewcommand \CJKrmdefault { mc }
+  \renewcommand \CJKsfdefault { gt }
+  \renewcommand \CJKttdefault { mc }
+}
 \ExplSyntaxOff
 %    \end{macrocode}
 % \begin{macro}{\nuaa@textbf}
