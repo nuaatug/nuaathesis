@@ -281,6 +281,18 @@ and the derived files           nuaathesis.ins,
 % \DescribeOption{fontset=}
 % 指定 \CTeX{} 使用的中文字体，这个参数将原样传递给 \CTeX，具体的用法请参阅 \CTeX{} 文档。
 %
+% \DescribeOption{AutoFakeBold}
+% 也会传递给 \CTeX{}，具体用法请参阅 xeCJK 或 fontspec 的手册。
+%
+% \warn{
+% 某些 \LaTeX{} 环境在启用 AutoFakeBold 后，会导致 PDF 复制文本的结果是乱码，影响论文的查重。
+% 启用后，请务必检查 PDF 导出 TXT 的结果，如果乱码，请尝试更新 \LaTeX{} 宏包，或者禁用本选项。
+% }
+%
+% \DescribeOption{nobold}
+% 禁止本模板使用粗体。在不启用 \option{AutoFakeBold} 的情况下，如果字体不自带粗体，会产生
+% \texttt{LaTeX Font Warning}。此时可以通过本选项，来消除这些警告。
+%
 % \DescribeOption{*}
 % 其他参数将传递给对应的底层文档类，常用的有 \option{openany}、\option{openright}、\option{oneside}、\option{twoside} 等。
 %
@@ -498,32 +510,8 @@ and the derived files           nuaathesis.ins,
 % 因为使用了 \CTeX，所以本模板只能使用 \verb|uplatex+dvipdfmx| 进行编译。
 %
 % 由于当多的中/日汉字共用相同的编码，且在不同语言中有字形差别，因此必须根据文字语言选择正确的字体。
-% 但是 \CTeX 宏包会无条件 hook 掉 \cs{rmfamily} 等宏，
-% 将后面替换成中文字体，导致无法使用原本的日文字体。
-% 苦于没有找到正确的 unhook 方法，目前需要将 \verb|ctex-engine-uptex.def| 复制到工作目录下，
-% 并注释/删除以下 $16+1$ 行：
-% \begin{latex}
-% \ctex_preto_cmd:NnnTF \rmfamily { \ExplSyntaxOff }
-%   { \kanjifamily { \CJKrmdefault } }
-%   { }
-%   { \ctex_patch_failure:N \rmfamily }
-% \ctex_preto_cmd:NnnTF \sffamily { \ExplSyntaxOff }
-%   { \kanjifamily { \CJKsfdefault } }
-%   { }
-%   { \ctex_patch_failure:N \sffamily }
-% \ctex_preto_cmd:NnnTF \ttfamily { \ExplSyntaxOff }
-%   { \kanjifamily { \CJKttdefault } }
-%   { }
-%   { \ctex_patch_failure:N \ttfamily }
-% \ctex_preto_cmd:NnnTF \normalfont { \ExplSyntaxOff }
-%   { \kanjifamily { \CJKfamilydefault } }
-%   { \cs_set_eq:NN \reset@font \normalfont }
-%   { \ctex_patch_failure:N \normalfont }
-% \end{latex}
-% 以及
-% \begin{latex}
-% \tl_set:Nn \kanjifamilydefault { \CJKfamilydefault }
-% \end{latex}
+% 本模板会在加载完 \CTeX{} 后，将默认字体恢复成 mc 和 gt。
+% 如果论文指定了其他字体的话，请重新定义 \cs{CJKrmdefault}、\cs{CJKsfdefault} 和 \cs{CJKttdefault}。
 %
 % 以后版本可能会考虑使用别的中文方案，比如 \pkg{pxbabel}
 % \footnote{\href{https://qiita.com/zr_tex8r/items/5c14042078b20edbfb07\#\%E4\%B8\%AD\%E5\%9B\%BD\%E8\%AA\%9E\%E9\%9F\%93\%E5\%9B\%BD\%E8\%AA\%9E\%E3\%81\%AE\%E6\%89\%B1\%E3\%81\%84}{https://qiita.com/zr\_tex8r/items/5c14042078b20edbfb07\#中国語韓国語の扱い}}。
@@ -579,8 +567,7 @@ and the derived files           nuaathesis.ins,
 % \renewcommand\uline[1]{\Underline{#1}}
 % \end{latex}
 %
-% 此外，目前不支持在 biber 中指定字体，如果日文字体不包括中文的话，部分中文汉字会无法显示。
-% 所以推荐使用字符较全的字体，比如 Source Hans CJK。
+% 此外，在使用 \cs{em} 宏时会出错，导致无法使用 biber。
 %
 % \section{已知问题}
 % \begin{itemize}
@@ -2156,7 +2143,7 @@ and the derived files           nuaathesis.ins,
   \begin{center}
   \linespread{1}\rmfamily\songti\fontsize{16bp}{31.2bp}\selectfont
   \renewcommand\linebreak{\par}
-  \begin{tabular} {@{\hskip 1.125in}c@{\hskip .6389in}p{3.1115in}}
+  \begin{tabular} {@{\hskip 1.125in}c@{\hskip .6389in}p{3.0in}}
     \nuaa@label@researchername & \nuaa@value@author \\
 \ifnuaa@zhuanshuo
     \nuaa@label@professionaltype & \nuaa@value@majorsubject \\
@@ -2474,6 +2461,8 @@ headsep=3mm]{geometry}
     \marginpar{\raggedleft\color{purple}\bfseries\strut #1}}
 \newcommand{\note}[1]{{%
         \color{magenta}{\noindent\bfseries 说明：}\emph{#1}}}
+\newcommand{\warn}[1]{{%
+        \color{red}{\noindent\bfseries 警告：}\emph{#1}}}
 \DeclareDocumentCommand{\cls}{m}{\texttt{#1}\xspace}
 
 \setlength\IndexMin{100pt}

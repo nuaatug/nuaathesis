@@ -11,7 +11,7 @@ UNOFFICIAL LaTeX thesis template for Nanjing University of Aeronautics and Astro
 | master | [![CircleCI][i1]][l1] | [![TravisCI][i2]][l2] | [![AppVeyor][i3]][l3] |
 
 [link_rel]: https://github.com/nuaatug/nuaathesis/releases
-[link_dev]: https://ci.appveyor.com/project/summershrimp/nuaathesis/branch/developing/artifacts
+[link_dev]: https://ci.appveyor.com/project/summershrimp/nuaathesis/build/artifacts
 [l1]: https://circleci.com/gh/nuaatug/nuaathesis/tree/master
 [i1]: https://circleci.com/gh/nuaatug/nuaathesis/tree/master.svg?style=svg
 [l2]: https://ci.appveyor.com/project/summershrimp/nuaathesis/branch/master
