@@ -618,6 +618,7 @@ and the derived files           nuaathesis.ins,
 \newcommand\nuaa@label@nuaajc{南京航空航天大学金城学院}
 \newcommand\nuaa@label@worktype@paper{毕业论文}
 \newcommand\nuaa@label@worktype@design{毕业设计}
+\newcommand\nuaa@label@worktype@bachelor{本科毕业设计（论文）}
 \newcommand\nuaa@label@worktype@master{硕士学位论文}
 \newcommand\nuaa@label@worktype@doctor{博士学位论文}
 \newcommand\nuaa@label@thesisnum{编号}
@@ -641,14 +642,14 @@ and the derived files           nuaathesis.ins,
 %    \end{macrocode}
 % 摘要页用到的字符串：
 %    \begin{macrocode}
-\newcommand\nuaa@label@abstract{摘\quad 要}
+\newcommand\nuaa@label@abstract{摘\qquad 要}
 \newcommand\nuaa@label@abstractshort{摘要}
 \newcommand\nuaa@label@keywords{关键词：}
 \newcommand\nuaa@label@keywordsep{，}
 \newcommand\nuaa@label@abstract@toc{摘要}
 \newcommand\nuaa@labelEn@abstract{Abstract}
 \newcommand\nuaa@labelEn@ABSTRACT{ABSTRACT}
-\newcommand\nuaa@labelEn@KeyWords{Key Words: }
+\newcommand\nuaa@labelEn@KeyWords{KEY WORDS: }
 \newcommand\nuaa@labelEn@keywords{Keywords: }
 \newcommand\nuaa@labelEn@keywordsep{, }
 \newcommand\nuaa@labelJa@abstract{要 旨}
@@ -662,6 +663,7 @@ and the derived files           nuaathesis.ins,
 % 语言相关
 %    \begin{macrocode}
 \ifnuaa@lang@cn
+  \renewcommand\contentsname{目\qquad 录}
   \newcommand\listfiguretablename{图表清单}
   \def\equationautorefname{式}
   \def\AMSautorefname{式}
@@ -792,11 +794,7 @@ and the derived files           nuaathesis.ins,
 %    \begin{macrocode}
 \newcommand\nuaa@worktypecn{%
   \ifnuaa@bachelor%
-    \ifnuaa@worktype@paper%
-      \nuaa@label@worktype@paper%
-    \else%
-      \nuaa@label@worktype@design%
-    \fi%
+    \nuaa@label@worktype@bachelor%
   \else%
     \ifnuaa@master%
       \nuaa@label@worktype@master%
@@ -917,7 +915,6 @@ and the derived files           nuaathesis.ins,
 \else\ifnuaa@lang@ja
   \newcommand\nuaa@title{\nuaa@valueJa@title}
 \fi\fi\fi
-\newcommand\nuaa@font@toc{\normalsize}
 %    \end{macrocode}
 % \subsection{主文档类}
 % 本节将第二次解析参数、加载基文档类、设置全局的格式，如页面大小、字号、行间距等，并定义标题字体。
@@ -925,11 +922,11 @@ and the derived files           nuaathesis.ins,
 % 首先解释一下本节会出现的几个 Magic Number，以及它们是如何计算出来的。
 %
 % 根据要求，本科生论文字号为小四(12~pt)，行间距为1.5~倍。
-% 考虑到学校提供的 Word 模板启用了文档网络，跨度为 15.6~pt，所以小四号字只占用一行，
-% 行间距需修正为 $15.6 \times 1.5 = 23.4$~pt\footnote{\url{https://www.zhihu.com/question/26397264/answer/48165229}}。
+% 考虑到学校提供的 Word 模板启用了文档网络，跨度为 15.874016~pt，所以小四号字只占用一行，
+% 行间距需修正为 $15.874 \times 1.5 = 23.811$~pt\footnote{\url{https://www.zhihu.com/question/26397264/answer/48165229}}。
 % 再考虑到用 \verb|\zihao| 在选择字号时，\CTeX 会将 \verb|\f@baselineskip|
 % 设置成 \verb|\f@size| 的 1.2 倍，
-% 所以最终设置行间距为 $23.4 \div (12 \times 1.2) = 1.625$。
+% 所以最终设置行间距为 $23.811 \div (12 \times 1.2) = 1.653543$。
 %
 % 同理，硕/博士论文字号为五号(10.5~pt)，行间距为20~pt。
 % 因为行间距是固定值，所以 Word 的文档网络不会影响行间距。
@@ -958,7 +955,7 @@ and the derived files           nuaathesis.ins,
   \DeclareDefaultOption{\PassOptionsToClass{\CurrentOption}{ctexbook}}
   \ProcessKeyvalOptions*
   \ifnuaa@bachelor
-    \PassOptionsToClass{zihao=-4,linespread=1.625}{ctexbook}
+    \PassOptionsToClass{zihao=-4,linespread=1.653543}{ctexbook}
   \else
     \PassOptionsToClass{zihao=5,linespread=1.5873}{ctexbook}
   \fi
@@ -1189,6 +1186,7 @@ and the derived files           nuaathesis.ins,
 %    \begin{macrocode}
 \newif\if@frontmatter
 \newif\if@backmatter
+\newif\ifnuaa@mainmatter
 \let\nuaa@frontmatter\frontmatter
 \let\nuaa@mainmatter\mainmatter
 \let\nuaa@appendix\appendix
@@ -1197,23 +1195,37 @@ and the derived files           nuaathesis.ins,
   \nuaa@frontmatter
   \@frontmattertrue
   \@backmatterfalse
-  \ifnuaa@bachelor\pagenumbering{roman}\else\pagenumbering{Roman}\fi
-  \pagestyle{style@main}
+  \nuaa@mainmatterfalse
+  \ifnuaa@bachelor
+    \pagenumbering{roman}
+    \assignpagestyle{\chapter}{style@footonly}
+  \else
+    \pagenumbering{Roman}
+    \pagestyle{style@main}
+  \fi
 }
 \renewcommand{\mainmatter}{
   \nuaa@mainmatter
   \@frontmatterfalse
   \@backmatterfalse
+  \nuaa@mainmattertrue
   \pagenumbering{arabic}
   \pagestyle{style@main}
   \setlength\leftskip{\nuaaparleft}
+  \assignpagestyle{\chapter}{style@main}
 }
 \renewcommand{\backmatter}{
   \nuaa@backmatter
   \@frontmatterfalse
   \@backmattertrue
+  \nuaa@mainmatterfalse
   \setlength\nuaaparleft{0pt}
   \setlength\leftskip{\nuaaparleft}
+}
+\renewcommand{\appendix}{
+  \nuaa@appendix
+  \nuaa@mainmatterfalse
+  \message{enter appendix}
 }
 %    \end{macrocode}
 %
@@ -1228,7 +1240,7 @@ and the derived files           nuaathesis.ins,
 %    \begin{macrocode}
 \newlength\nuaaparleft
 \ifnuaa@bachelor
-  \setlength\nuaaparleft{2\ccwd}
+  \setlength\nuaaparleft{0pt}
 \else
   \setlength\nuaaparleft{0pt}
 \fi
@@ -1257,13 +1269,10 @@ and the derived files           nuaathesis.ins,
 \ifnuaa@bachelor \geometry{
   top=2.5cm,
   bottom=2cm,
-  left=2cm,
+  left=2.5cm,
   right=2cm,
-  headheight=0.75cm,
-  headsep=2bp,
-  %footskip=0.8cm,
-  includehead,
-  includefoot
+  headheight=15.874bp,
+  headsep=1.75bp,
 } \else \geometry{
   top=3.3cm,
   bottom=3.3cm,
@@ -1299,26 +1308,39 @@ and the derived files           nuaathesis.ins,
 }
 %    \end{macrocode}
 %
+% 定义本科摘要、目录用的样式。
+%    \begin{macrocode}
+\fancypagestyle{style@footonly}{
+  \fancyhf{}
+  \fancyfoot{}
+  \if@twoside
+    \fancyfoot[OR,EL]{\footnotesize{\nuaa@footerpagenum@decorate{\thepage}}}
+  \else
+    \fancyfoot[R]{\footnotesize{\nuaa@footerpagenum@decorate{\thepage}}}
+  \fi
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+%    \end{macrocode}
+%
 % 定义正文页眉页脚。为了在 |oneside| 模式下，硕/博的页眉也能奇偶页不同，
 % 因此不能用 \cs{fancyhead} 的 |EC| |OC| 选项，而是在代码里判断页码的奇偶性，输出对应的内容。
 %    \begin{macrocode}
 \fancypagestyle{style@main}{
   \fancyhead{}
-  \ifnuaa@bachelor
-    \fancyhead[L]{
-      \setlength{\unitlength}{1mm}
-      \begin{picture}(0,0)
-        \put(7.3,1.5){\includegraphics[width=6cm]{\nuaa@universityLogo}}
-      \end{picture}
-    }
-    \fancyhead[R]{\songti\zihao{4}\nuaa@label@reportpaper\hspace{1\ccwd}}
+  \fancyhead[C]{\ifodd\value{page}
+    {\mbox{\songti\zihao{5}\nuaa@university\nuaa@worktypecn}}
   \else
-    \fancyhead[C]{\ifodd\value{page}
-      {\mbox{\songti\zihao{5}\nuaa@university\nuaa@worktypecn}}
+    \ifnuaa@bachelor
+      \ifnuaa@mainmatter
+        {\mbox{\leftmark}}
+      \else
+        {\mbox{\songti\zihao{5}\nuaa@university\nuaa@worktypecn}}
+      \fi
     \else
       {\mbox{\zihao{5}\nuaa@title}}
-    \fi}
-  \fi
+    \fi
+  \fi}
   \fancyfoot{}
   \if@twoside
     \fancyfoot[OR,EL]{\footnotesize{\nuaa@footerpagenum@decorate{\thepage}}}
@@ -1326,10 +1348,10 @@ and the derived files           nuaathesis.ins,
     \fancyfoot[R]{\footnotesize{\nuaa@footerpagenum@decorate{\thepage}}}
   \fi
   \renewcommand{\headrulewidth}{0.75bp}
-  \ifnuaa@bachelor
-    \renewcommand{\footrulewidth}{0.75bp}
-  \fi
+  \renewcommand{\footrulewidth}{0pt}
 }
+\renewcommand\chaptermark[1]{%
+  \markleft{\CTEXifname{\nuaa@chaptername~}{}#1}}
 %    \end{macrocode}
 % \subsubsection{各级标题}
 % 本节设置各级标题的字体、字号、行间距、编号格式等。
@@ -1337,18 +1359,17 @@ and the derived files           nuaathesis.ins,
 %    \begin{macrocode}
 \ifnuaa@bachelor
   \titleformat{\chapter}
-    {\centering\linespread{2.41}\nuaa@font@title\fontsize{15bp}{15.6bp}\selectfont}
+    {\centering\linespread{1}\nuaa@font@title\fontsize{15bp}{31.748bp}\selectfont}
     {\nuaa@chaptername}{1em}{}
-  \titlespacing*{\chapter}{0pt}{23.7bp}{16.5bp}
-  \assignpagestyle{\chapter}{style@main}
+  \titlespacing*{\chapter}{0pt}{\ifnuaa@mainmatter{-5bp}\else{-20.874bp}\fi}{0bp}
   \titleformat*{\section}
-    {\linespread{1.5}\nuaa@font@title\fontsize{14bp}{20.8bp}\selectfont}
+    {\linespread{1.0}\nuaa@font@title\fontsize{14bp}{31.748bp}\selectfont}
   \titlespacing*{\section}{0pt}{0bp}{0bp}
   \titleformat*{\subsection}
-    {\linespread{1.5}\nuaa@font@title\fontsize{12bp}{15.6bp}\selectfont}
+    {\linespread{1.0}\nuaa@font@title\fontsize{12bp}{23.811bp}\selectfont}
   \titlespacing*{\subsection}{0pt}{0bp}{0bp}
   \titleformat*{\subsubsection}
-    {\linespread{1.5}\nuaa@font@title\fontsize{12bp}{15.6bp}\selectfont}
+    {\linespread{1.5}\nuaa@font@title\fontsize{12bp}{15.874bp}\selectfont}
   \titlespacing*{\subsubsection}{0pt}{0bp}{0bp}
 \else
   \titleformat{\chapter}
@@ -1377,39 +1398,41 @@ and the derived files           nuaathesis.ins,
 % \subsubsection{目录}
 % 本节利用 \pkg{titletoc} 来设置目录的格式，包括正文目录和图表的目录。
 %    \begin{macrocode}
+\newcommand\nuaa@toc@font{\normalsize}
+\newcommand\nuaa@toc@rule{.57ex}
 \ifnuaa@lang@en
   \titlecontents{chapter}[5pc]
-    {\nuaa@font@toc}
+    {\nuaa@toc@font}
     {\contentslabel[\chaptername~\thecontentslabel]{5pc}}
     {\renewcommand\thecontentslabel{\relax}\hspace*{-5pc}}
-    {\titlerule*[1ex]{.}\contentspage}
+    {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
 \else
   \titlecontents{chapter}[3.5pc]
-    {\nuaa@font@toc}
+    {\nuaa@toc@font}
     {\contentslabel[\thecontentslabel]{3.5pc}}
     {\hspace*{-3.5pc}}
-    {\titlerule*[1ex]{.}\contentspage}
+    {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
 \fi
 \titlecontents{section}[3pc]
-  {\nuaa@font@toc}
+  {\nuaa@toc@font}
   {\contentslabel[\thecontentslabel]{2pc}}
   {}
-  {\titlerule*[1ex]{.}\contentspage}
+  {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
 \titlecontents{subsection}[5pc]
-  {\nuaa@font@toc}
+  {\nuaa@toc@font}
   {\contentslabel[\thecontentslabel]{3pc}}
   {}
-  {\titlerule*[1ex]{.}\contentspage}
+  {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
 \titlecontents{figure}[\nuaa@indentloft]
-  {\nuaa@font@toc}
+  {\nuaa@toc@font}
   {\contentslabel[\figurename~\thecontentslabel]{\nuaa@indentloft}}
   {\figurename}
-  {\titlerule*[1ex]{.}\contentspage}
+  {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
 \titlecontents{table}[\nuaa@indentloft]
-  {\nuaa@font@toc}
+  {\nuaa@toc@font}
   {\contentslabel[\tablename~\thecontentslabel]{\nuaa@indentloft}}
   {\tablename}
-  {\titlerule*[1ex]{.}\contentspage}
+  {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
 %    \end{macrocode}
 % \subsubsection{参考文献}
 %    \begin{macrocode}
@@ -1648,7 +1671,7 @@ and the derived files           nuaathesis.ins,
 %    \begin{macrocode}
 \newcommand\nuaafontcaption{
   \ifnuaa@bachelor
-    \nuaa@font@title\fontsize{10.5bp}{15.6bp}\selectfont
+    \nuaa@font@title\fontsize{10.5bp}{15.874bp}\selectfont
   \else
     \normalfont
   \fi
@@ -1671,7 +1694,8 @@ and the derived files           nuaathesis.ins,
 \setlength\lightrulewidth{0.5bp}
 \setlength\cmidrulewidth{0.5bp}
 \ifnuaa@bachelor
-  \DeclareFloatFont{bachelor}{\linespread{1.5}\fontsize{10.5bp}{15.6bp}\selectfont}
+  \setlength\heavyrulewidth{1.5bp}
+  \DeclareFloatFont{bachelor}{\linespread{1.5}\fontsize{10.5bp}{15.874bp}\selectfont}
   \floatsetup[table]{font=bachelor}
 \fi
 %    \end{macrocode}
@@ -1734,6 +1758,15 @@ and the derived files           nuaathesis.ins,
     }
   }
 \fi
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\dunderline}
+% 可自定义粗细的下划线。
+%    \begin{macrocode}
+\newcommand\dunderline[3][-1pt]{{%
+  \setbox0=\hbox{#3}
+  \ooalign{\copy0\cr\rule[\dimexpr#1-#2\relax]{\wd0}{#2}}}}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -1837,7 +1870,7 @@ and the derived files           nuaathesis.ins,
   \cleardoublepage
   \chapter*{
     \ifnuaa@bachelor
-      \linespread{1.5}\fontsize{16bp}{15.6bp}\selectfont
+      \linespread{1.0}\fontsize{15bp}{31.748bp}\selectfont
     \fi
     \contentsname}
   \@starttoc{toc}
@@ -1889,22 +1922,23 @@ and the derived files           nuaathesis.ins,
 %    \begin{macrocode}
 \newcommand\nuaa@make@cover@bachelor{
   \cleardoublepage
-  \newgeometry{top=1.0in, bottom=1.0in, left=1.25in, right=1.25in}
+  \linespread{1}\fontsize{12bp}{15.874bp}\selectfont
 
   \begin{flushright}
-    \linespread{1.25}\sffamily\heiti\fontsize{14bp}{16.8bp}\selectfont
-    \nuaa@label@thesisnum\underline{\hspace{60bp}}
-    \vspace{\stretch{4}}
+    \sffamily\heiti\fontsize{15bp}{31.748bp}\selectfont
+    \setlength\arrayrulewidth{.75bp}
+    \begin{tabular} {cc}
+      \nuaa@label@thesisnum & \makebox[1.6in]{\nuaa@value@thesisid} \\ \cline{2-2}
+    \end{tabular}
   \end{flushright}
-
+  \vspace{20bp}
   \begin{center}
-    \linespread{1}\kaishu\fontsize{22bp}{30bp}\selectfont
-    \nuaa@textbf{\nuaa@university}
-    \vspace{\stretch{3}}
+    \begin{tabular}{c}
+    \raisebox{4.011bp}{\includegraphics[height=0.55in]{nuaa-logo.pdf}}\hspace{12bp}
+    \raisebox{10.401bp}{\includegraphics[height=.4in]{nuaa.pdf}} \\
 
-    \linespread{1}\songti\fontsize{55bp}{55bp}\selectfont
-    \nuaa@textbf{\nuaa@worktypecn}
-    \vspace{\stretch{5}}
+    \includegraphics{bachelor-title.pdf} \\
+    \end{tabular}
   \end{center}
 
   \begin{center}
@@ -1920,18 +1954,19 @@ and the derived files           nuaathesis.ins,
     \end{tabular}
     \vspace{\stretch{5}}
 
-    \linespread{1}\sffamily\heiti\fontsize{16bp}{47.6bp}\selectfont
+    \sffamily\heiti\fontsize{15bp}{.51in}\selectfont
+    \setlength\arrayrulewidth{.5bp}
     \begin{tabular} {cc}
       \nuaa@label@author & \nuaa@value@author \\ \cline{2-2}
       \nuaa@label@studentid & \nuaa@value@studentid \\ \cline{2-2}
       \nuaa@label@college & \nuaa@value@college \\ \cline{2-2}
       \nuaa@label@major & \nuaa@value@major \\ \cline{2-2}
-      \nuaa@label@classid & \makebox[3.22in]{\nuaa@value@classid} \\ \cline{2-2}
+      \nuaa@label@classid & \makebox[2.59in]{\nuaa@value@classid} \\ \cline{2-2}
       \nuaa@label@adviser & \nuaa@value@advisers \\ \cline{2-2}
     \end{tabular}
     \vspace{\stretch{3}}
 
-    \linespread{1}\sffamily\heiti\fontsize{16bp}{30bp}
+    \sffamily\heiti\fontsize{15bp}{31.748bp}
     \ifdefempty{\nuaa@value@applydate}{\nuaa@dateCn}{\nuaa@value@applydate}
   \end{center}
   \restoregeometry
@@ -1949,49 +1984,79 @@ and the derived files           nuaathesis.ins,
 %
 % 由于本页面会出现在所有语言的论文中，所以要单独设置中文的段落缩进。
 %    \begin{macrocode}
+\newcommand\nuaa@datefield{%
+  \dunderline{.5bp}{20\hspace{24bp}} 年
+  \dunderline{.5bp}{\hspace{24bp}} 月
+  \dunderline{.5bp}{\hspace{24bp}} 日}
 \newcommand\nuaa@make@declare@bachelor{
   \cleardoublepage
-  \newgeometry{top=1.0in, bottom=1.0in, left=1.25in, right=1.25in}
+  %\@makeschapterhead\relax\vskip -40pt
 
   \begin{center}
-    \linespread{1.0}\heiti\fontsize{18bp}{31.2bp}\selectfont
+    \linespread{1.0}\heiti\fontsize{15bp}{31.748bp}\selectfont
     \nuaa@textbf{\nuaa@university} \par
-    \nuaa@textbf{本科\nuaa@worktypecn 诚信承诺书}
+    \nuaa@textbf{本科毕业设计（论文）诚信承诺书}
   \end{center}
 
   \begingroup
-    \linespread{1.0}\songti\fontsize{14bp}{31.2bp}\selectfont
+    \linespread{1.0}\songti\fontsize{12bp}{23.811bp}\selectfont
     \setlength\parindent{2\ccwd}\indent
+    本人郑重声明：所呈交的毕业设计（论文）是本人在导师的指导下独立进行研究所取得的成果。
+    尽我所知，除了文中特别加以标注和致谢的内容外，
+    本设计（论文）不包含任何其他个人或集体已经发表或撰写的成果作品。
+    对本设计（论文）所涉及的研究工作作出贡献的其他个人和集体，均已在文中以明确方式标明。
 
-    本人郑重声明：所呈交的\nuaa@worktypecn
-    （题目：{%
-      \renewcommand\linebreak{}%
-      \ifnuaa@lang@cn{\expandafter\uline\expandafter{\nuaa@value@title}}\else%
-      \ifnuaa@lang@en{\expandafter\uline\expandafter{\nuaa@valueEn@title}}\else%
-      \ifnuaa@lang@ja{\mcfamily\expandafter\uline\expandafter{\nuaa@valueJa@title}}%
-      \fi\fi\fi%
-    }）
-    是本人在导师的指导下独立进行研究所取得的成果。
-    尽本人所知，除了\nuaa@worktypecn 中特别加以标注引用的内容外，
-    本\nuaa@worktypecn 不包含任何其他个人或集体已经发表或撰写的成果作品。
-
-    \vspace{31.2bp}
+    \par
 
     \begin{flushright}
-      \setlength{\tabcolsep}{0bp}
-      \begin{tabular}{rcr}
-      作者签名： & \hspace{7.5em} & \hspace{2em} 年 \hspace{0.75em} 月 \hspace{0.75em} 日 \\
-      （学号）： & \hspace{7.5em} & \\
+      \linespread{1.0}\fontsize{12bp}{.59in}\selectfont
+      \setlength{\tabcolsep}{0pt}
+      \begin{tabular}{cl}
+      \makebox[5\ccwd][c]{作者签名：} & \hspace{2.17in} \\ \cline{2-2}
+      \makebox[5\ccwd][c]{日\hfill 期 ：} & \nuaa@datefield \\
       \end{tabular}
     \end{flushright}
 
   \endgroup
-  \restoregeometry
+
+  \begin{center}
+    \linespread{1.0}\heiti\fontsize{15bp}{31.748bp}\selectfont
+    \par\par
+    \nuaa@textbf{\nuaa@university} \par
+    \nuaa@textbf{毕业设计（论文）使用授权书}
+  \end{center}
+
+  \begingroup
+    \linespread{1.0}\songti\fontsize{12bp}{23.811bp}\selectfont
+    \setlength\parindent{2\ccwd}\indent
+    本人完全了解南京航空航天大学有关收集、保留和使用本人所送交的毕业设计（论文）的规定，
+    即：本科生在校攻读学位期间毕业设计（论文）工作的知识产权单位属南京航空航天大学。
+    学校有权保留并向国家有关部门或机构送交毕业设计（论文）的复印件和电子版，
+    允许论文被查阅和借阅，可以公布论文的全部或部分内容，
+    可以采用影印、缩印或扫描等复制手段保存、汇编论文。保密的论文在解密后适用本声明。
+
+    论文涉密情况：
+
+    $\square$ 不保密
+
+    $\square$ 保密，保密期（起讫日期：\hspace{131bp}）
+
+    \begin{center}
+      \linespread{1.0}\fontsize{12bp}{.59in}\selectfont
+      \setlength{\tabcolsep}{0pt}
+      \begin{tabular}{clccl}
+      \makebox[5\ccwd][c]{作者签名：} & \hspace{2.17in} & \makebox[.2in]{} &
+      \makebox[5\ccwd][c]{导师签名：} & \hspace{2.17in} \\ \cline{2-2} \cline{5-5}
+      \makebox[5\ccwd][c]{日\hfill 期 ：} & \nuaa@datefield & &
+      \makebox[5\ccwd][c]{日\hfill 期 ：} & \nuaa@datefield \\
+      \end{tabular}
+    \end{center}
+
+  \endgroup
 }
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{本科摘要}
-% 本科的摘要页顶部需要有论文的标题，所以不能用\cs{chapter*}，因为它会自动换页。
 % \begin{macro}{\nuaa@make@abstract@bachelor@cn}
 % 本科的中文摘要页。
 %    \begin{macrocode}
@@ -2002,25 +2067,14 @@ and the derived files           nuaathesis.ins,
     \clearpage
   \fi
 
-  \begin{center}
-    \vspace*{-4.3pt}\sffamily\heiti\zihao{2}
-    \phantomsection
-    \addcontentsline{toc}{chapter}{\nuaa@label@abstractshort}
-    \nuaa@value@title
-  \end{center}
-
-  \begin{center}
-    \sffamily\heiti\zihao{-3}\vspace{1em}
-    \nuaa@label@abstract
-  \end{center}
+  \chapter*{\heiti\nuaa@label@abstract}
 
   \begingroup
     \setlength\parindent{2\ccwd}\songti\indent
-
     \nuaa@abstract
   \endgroup
 
-  \vspace{3em}
+  \vspace{\baselineskip} % TODO
 
   \nuaa@put@kw{\nuaa@textbf{\heiti\zihao{-3}\nuaa@label@keywords}}{\songti\nuaa@keywords}
 }
@@ -2036,27 +2090,16 @@ and the derived files           nuaathesis.ins,
     \clearpage
   \fi
 
-  \begin{center}
-    \vspace*{-4.3pt}\sffamily\heiti\zihao{2}
-    \phantomsection
-    \addcontentsline{toc}{chapter}{\nuaa@labelEn@abstract}
-    \nuaa@valueEn@title
-  \end{center}
-
-  \begin{center}
-    \sffamily\heiti\zihao{-3}\vspace{18pt}
-    \nuaa@labelEn@abstract
-    \vspace{10pt}
-  \end{center}
+  \chapter*{\textrm{\nuaa@textbf{\nuaa@labelEn@ABSTRACT}}}
 
   \begingroup
     \setlength\parindent{1em}\rmfamily\songti
     \nuaa@abstractEn
   \endgroup
 
-  \vspace{3em}
+  \vspace{\baselineskip} % TODO
 
-  \nuaa@put@kw{\nuaa@textbf{\zihao{-3}\nuaa@labelEn@KeyWords}}{\nuaa@keywordsEn}
+  \nuaa@put@kw{\zihao{-3}\nuaa@labelEn@KeyWords}{\nuaa@keywordsEn}
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2070,25 +2113,14 @@ and the derived files           nuaathesis.ins,
     \clearpage
   \fi
 
-  \begin{center}
-    \vspace*{-4.3pt}\sffamily\gtfamily\zihao{2}
-    \phantomsection
-    \addcontentsline{toc}{chapter}{\nuaa@labelJa@abstract}
-    \nuaa@valueJa@title
-  \end{center}
-
-  \begin{center}
-    \sffamily\gtfamily\zihao{-3}\vspace{18pt}
-    \nuaa@labelJa@abstract
-    \vspace{10pt}
-  \end{center}
+  \chapter*{\nuaa@labelJa@abstract}
 
   \begingroup
     \setlength\parindent{1em}\rmfamily\mcfamily
     \nuaa@abstractJa
   \endgroup
 
-  \vspace{3em}
+  \vspace{\baselineskip} % TODO
 
   \nuaa@put@kw{\nuaa@textbf{\zihao{-3}\nuaa@labelJa@keywords}}{\nuaa@keywordsJa}
 }
