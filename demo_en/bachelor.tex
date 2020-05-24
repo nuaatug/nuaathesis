@@ -1,9 +1,9 @@
 \documentclass[
   lang=en,
-  degree=bachelor,type=paper,
-  fontset=fandol,nobold,
-  openany,oneside
-  % openright,blankleft,twoside
+  degree=bachelor,
+  fontset=fandol,
+  % openany,oneside
+  openany,twoside
 ]{nuaathesis}
 
 \graphicspath{{./fig/},{./logo/},{../logo/}}
@@ -26,13 +26,12 @@
 \include{content/intro}
 
 \appendix
-% 如果需要附录的话
-
-\backmatter
 \bibliographystyle{nuaabib}   % biber style
 \bibliography{bib/sample}   % biber database
 \include{content/manref}    % if reference is hand-coded
+% include appendix here
 
+\backmatter
 \include{content/acknowledge}
 
 \end{document}

@@ -24,7 +24,7 @@ See http://www.apache.org/licenses/LICENSE-2.0
 \endpreamble
 \postamble
 
-Copyright (C) 2018 by nuaatug
+Copyright (C) 2020 by nuaatug
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -69,7 +69,7 @@ and the derived files           nuaathesis.ins,
 \fi
 %</internal>
 %<*driver>
-\ProvidesFile{nuaathesis.drv}[2018/12/26 v2.1b NUAA thesis template]
+\ProvidesFile{nuaathesis.drv}[2020/05/24 v2.2 NUAA thesis template]
 \documentclass{ltxdoc}
 \usepackage{dtx-style}
 \EnableCrossrefs
@@ -139,6 +139,7 @@ and the derived files           nuaathesis.ins,
 % \end{multicols}
 % \clearpage
 %
+% \changes{v2.2}{2020/05/24}{同步学校的新本科模板。}
 % \changes{v2.1}{2018/11/01}{初步实现英文、日文论文格式，基本去除对 \CTeX{} 的依赖。}
 % \changes{v2.0}{2017/9/17}{仿照 \cquthesis{}，使用 \textsc{DocStrip}，使用根据校 Word 模板直接计算出的行间距等距离，添加硕/博士模板，重写大部分代码。}
 % \changes{v1.0}{2017/6/22}{\nuaathesis{} 正式通过毕业设计审核，增加毕业设计/毕业论文选项，并调整页眉；针对双面打印选项调整页脚；细节调整。}
@@ -193,6 +194,9 @@ and the derived files           nuaathesis.ins,
 % \subsection{获取模板}
 % 您可以从 \url{https://github.com/nuaatug/nuaathesis} 获取本模板的源代码，
 % 或者从 Release 里下载代码压缩包（强烈推荐后者）。
+%
+% 如果您正在用这份模板来撰写学位论文，建议您利用 GitHub 的 Watch 按钮，
+% 订阅模板的讨论与更新信息。
 %
 % 表~\ref{tab:contents} 列出了 \nuaathesis{} 的主要文件及其功能：
 % \begin{table}[H]
@@ -474,12 +478,24 @@ and the derived files           nuaathesis.ins,
 %（大概，如果版本号比较接近的话）；
 % 否则请务必按照本节中描述的步骤进行修改。
 %
-% \subsection{v2.1 $\rightarrow$ v2.1b}
+% \subsection{v2.1 更新至 v2.1b}
 % \begin{enumerate}
 %   \item 用新版的 \texttt{nuaathesis.cls} 替换同名旧模板文件；
 %   \item 将 \texttt{nuaabib.bst} 解压到论文目录；
 %   \item 修改论文主文件，将 \cs{bibliographystyle}\texttt{\{nuaathesis\}} 改为 \cs{bibliographystyle}\texttt{\{nuaabib\}}；
 %   \item 对于专硕同学，在论文主文件开头的文档类选项中，添加 \texttt{zhuanshuo} 以使用专硕封面。
+% \end{enumerate}
+%
+% \subsection{v2.1b 更新至 v2.2}
+% 本次更新适配了 2020 年新版的本科模板。
+% \begin{enumerate}
+%   \item 复制或替换下列文件（夹）：\texttt{nuaathesis.cls}、\texttt{nuaabib.bst} 和 \texttt{logo/}；
+%   \item 修改 \texttt{bachelor.tex}：把开头的模板类选项里的 \texttt{openany,oneside} 修改为 \texttt{openany,twoside}；
+% 根据新模板样例，调整 \mac{appendix} 以后内容的顺序；
+%   \item 修改 \texttt{global.tex}：将 \mac{nuaaset} 中的 \texttt{classid} 修改为实际班级的名称（而不是编号），
+% 添加或修改 \texttt{thesisid}，删除 \texttt{footmisc} 宏包的导入；
+%   \item 修改 \texttt{manref.tex} 和 \texttt{acknowledge.tex} 的标题，将原来的 \mac{chapter}
+% 修改成新模板样例中的 \mac{chapter*} 和 \mac{addcontentsline}（如果存在）。
 % \end{enumerate}
 %
 % \section{外文特辑}
@@ -577,6 +593,12 @@ and the derived files           nuaathesis.ins,
 % \footnote{\url{https://github.com/CTeX-org/ctex-kit/issues/364}}。
 % 这是一个比较尴尬且麻烦的中文 \TeX{} 问题，本模板目前不考虑做任何处理。
 % 如果使用 \XeLaTeX{} 引擎的话，可以在中文标点前加上 \cs{xeCJKnobreak} 来防止换行。
+%
+% \item 间距不一致：
+% 由于 \LaTeX{} 的常用排版算法与 Word 有些差异，如果要像素级复现学校模板，
+% 需要对已有的宏包的内部实现做进一步定制，难度很大也不利于维护。
+%
+% \item 参考文献
 % \end{itemize}
 %\StopEventually{
 %  \PrintChanges
@@ -596,7 +618,7 @@ and the derived files           nuaathesis.ins,
 %<cls>\NeedsTeXFormat{LaTeX2e}
 %<cls>\ProvidesClass{nuaathesis}
 %<cfg>\ProvidesFile{nuaathesis.cfg}
-%<cls|cfg>[2018/11/01 v2.1 NUAA Thesis Template]
+%<cls|cfg>[2020/05/24 v2.2 NUAA Thesis Template]
 %    \end{macrocode}
 % \subsection{配置文件}
 % \changes{v2.1}{2018/06/01}{修改了配置文件作用，不再存放常量，加载顺序改为开头，默认内容为空。}
@@ -755,13 +777,6 @@ and the derived files           nuaathesis.ins,
 % 本科生必须指定文档类型；硕士、博士默认为论文，且必须选择论文。
 %    \begin{macrocode}
 \ifnuaa@bachelor
-  \ifnuaa@worktype@paper\relax\else
-    \ifnuaa@worktype@design\relax\else
-      \ClassError{nuaathesis}{
-        Thesis Type must be specified: \MessageBreak
-        type=[paper|design]}
-    \fi
-  \fi
 \else
   \ifnuaa@worktype@design
     \ClassError{nuaathesis}{You should submit paper instead of design}
@@ -1113,6 +1128,7 @@ and the derived files           nuaathesis.ins,
 %    \begin{macrocode}
 \RequirePackage{geometry}  % 页边距
 \RequirePackage{fancyhdr}  % 页眉页脚
+\RequirePackage[perpage,flushmargin]{footmisc}  % 脚注
 \RequirePackage{titlesec}  % 各级标题
 \RequirePackage{titletoc}  % 目录
 \RequirePackage[numbers,square,comma,super,sort&compress]{natbib}
@@ -1232,7 +1248,7 @@ and the derived files           nuaathesis.ins,
 %
 % \subsubsection{段落左侧缩进}
 %
-% \sout{特色}残缺功能，本科论文特有要求。
+% \sout{特色}残缺功能，曾经本科论文的需求。
 %
 % 这个功能只适配了部分定理环境、列表项，所有会改动段落缩进的地方都需要单独适配；
 % 可以参考本模板中 \cs{nuaafontparleft} 的用法，来适配您所需要的环境。
@@ -1293,6 +1309,7 @@ and the derived files           nuaathesis.ins,
 %    \begin{macrocode}
 \newcommand\nuaa@footerpagenum@decorate[1]{%
 \ifnuaa@bachelor%
+  \fontsize{10.5bp}{15.874bp}\selectfont%
   \if@frontmatter{#1}\else{- #1 -}\fi%
 \else%
   {#1}%
@@ -1351,14 +1368,21 @@ and the derived files           nuaathesis.ins,
   \renewcommand{\headrulewidth}{0.75bp}
   \renewcommand{\footrulewidth}{0pt}
 }
-\renewcommand\chaptermark[1]{%
-  \markleft{\CTEXifname{\nuaa@chaptername~}{}#1}}
+%    \end{macrocode}
+%
+% 脚注：设置单倍行间距，取消脚注到页脚的间隔。
+%    \begin{macrocode}
+\renewcommand*{\footnotelayout}{\linespread{1}\fontsize{9bp}{15.874bp}\selectfont}
+%\setlength{\footnotesep}{6.374bp}
 %    \end{macrocode}
 % \subsubsection{各级标题}
 % 本节设置各级标题的字体、字号、行间距、编号格式等。
 % \mac{chapter} 会在页首引入一定空格，计算方法未知，除此以外都是仿照 Word 的格式准确设置。
 %    \begin{macrocode}
+\renewcommand\chaptermark[1]{%
+  \markleft{\CTEXifname{\nuaa@chaptername~}{}#1}}
 \ifnuaa@bachelor
+  \renewcommand\thesubsubsection{（\arabic{subsubsection}）}
   \titleformat{\chapter}
     {\centering\linespread{1}\nuaa@font@title\fontsize{15bp}{31.748bp}\selectfont}
     {\nuaa@chaptername}{1em}{}
@@ -1370,7 +1394,7 @@ and the derived files           nuaathesis.ins,
     {\linespread{1.0}\nuaa@font@title\fontsize{12bp}{23.811bp}\selectfont}
   \titlespacing*{\subsection}{0pt}{0bp}{0bp}
   \titleformat*{\subsubsection}
-    {\linespread{1.5}\nuaa@font@title\fontsize{12bp}{15.874bp}\selectfont}
+    {\linespread{1.0}\fontsize{12bp}{23.811bp}\selectfont}
   \titlespacing*{\subsubsection}{0pt}{0bp}{0bp}
 \else
   \titleformat{\chapter}
@@ -1399,45 +1423,78 @@ and the derived files           nuaathesis.ins,
 % \subsubsection{目录}
 % 本节利用 \pkg{titletoc} 来设置目录的格式，包括正文目录和图表的目录。
 %    \begin{macrocode}
+\newcommand\nuaa@toc@rule{.57ex}
 \ifnuaa@bachelor
   \newcommand\nuaa@toc@font{\fontsize{12bp}{15.874bp}\selectfont}
-\else
-  \newcommand\nuaa@toc@font{\normalsize}
-\fi
-\newcommand\nuaa@toc@rule{.57ex}
-\ifnuaa@lang@en
-  \titlecontents{chapter}[5pc]
-    {\nuaa@toc@font}
-    {\contentslabel[\chaptername~\thecontentslabel]{5pc}}
-    {\renewcommand\thecontentslabel{\relax}\hspace*{-5pc}}
-    {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
-\else
-  \titlecontents{chapter}[3.5pc]
+  \ifnuaa@lang@en
+    \titlecontents{chapter}[5pc]
+      {\nuaa@toc@font}
+      {\contentslabel[\chaptername~\thecontentslabel]{5pc}}
+      {\renewcommand\thecontentslabel{\relax}\hspace*{-5pc}}
+      {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
+  \else
+    \titlecontents{chapter}[5.5pc]
+      {\nuaa@toc@font}
+      {\contentslabel[\thecontentslabel]{3.5pc}}
+      {\hspace*{-3.5pc}}
+      {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
+  \fi
+  \titlecontents{section}[6.5pc]
     {\nuaa@toc@font}
     {\contentslabel[\thecontentslabel]{3.5pc}}
-    {\hspace*{-3.5pc}}
+    {}
+    {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
+  \titlecontents{subsection}[7.5pc]
+    {\nuaa@toc@font}
+    {\contentslabel[\thecontentslabel]{3.5pc}}
+    {}
+    {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
+  \titlecontents{figure}[\nuaa@indentloft]
+    {\nuaa@toc@font}
+    {\contentslabel[\figurename~\thecontentslabel]{\nuaa@indentloft}}
+    {\figurename}
+    {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
+  \titlecontents{table}[\nuaa@indentloft]
+    {\nuaa@toc@font}
+    {\contentslabel[\tablename~\thecontentslabel]{\nuaa@indentloft}}
+    {\tablename}
+    {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
+\else
+  \newcommand\nuaa@toc@font{\normalsize}
+  \ifnuaa@lang@en
+    \titlecontents{chapter}[5pc]
+      {\nuaa@toc@font}
+      {\contentslabel[\chaptername~\thecontentslabel]{5pc}}
+      {\renewcommand\thecontentslabel{\relax}\hspace*{-5pc}}
+      {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
+  \else
+    \titlecontents{chapter}[3.5pc]
+      {\nuaa@toc@font}
+      {\contentslabel[\thecontentslabel]{3.5pc}}
+      {\hspace*{-3.5pc}}
+      {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
+  \fi
+  \titlecontents{section}[3pc]
+    {\nuaa@toc@font}
+    {\contentslabel[\thecontentslabel]{2pc}}
+    {}
+    {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
+  \titlecontents{subsection}[5pc]
+    {\nuaa@toc@font}
+    {\contentslabel[\thecontentslabel]{3pc}}
+    {}
+    {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
+  \titlecontents{figure}[\nuaa@indentloft]
+    {\nuaa@toc@font}
+    {\contentslabel[\figurename~\thecontentslabel]{\nuaa@indentloft}}
+    {\figurename}
+    {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
+  \titlecontents{table}[\nuaa@indentloft]
+    {\nuaa@toc@font}
+    {\contentslabel[\tablename~\thecontentslabel]{\nuaa@indentloft}}
+    {\tablename}
     {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
 \fi
-\titlecontents{section}[3pc]
-  {\nuaa@toc@font}
-  {\contentslabel[\thecontentslabel]{2pc}}
-  {}
-  {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
-\titlecontents{subsection}[5pc]
-  {\nuaa@toc@font}
-  {\contentslabel[\thecontentslabel]{3pc}}
-  {}
-  {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
-\titlecontents{figure}[\nuaa@indentloft]
-  {\nuaa@toc@font}
-  {\contentslabel[\figurename~\thecontentslabel]{\nuaa@indentloft}}
-  {\figurename}
-  {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
-\titlecontents{table}[\nuaa@indentloft]
-  {\nuaa@toc@font}
-  {\contentslabel[\tablename~\thecontentslabel]{\nuaa@indentloft}}
-  {\tablename}
-  {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
 %    \end{macrocode}
 % \subsubsection{参考文献}
 %    \begin{macrocode}
@@ -1945,7 +2002,7 @@ and the derived files           nuaathesis.ins,
   \vspace{20bp}
   \begin{center}
     \begin{tabular}{c}
-    \raisebox{4.011bp}{\includegraphics[height=0.55in]{nuaa-logo.pdf}}\hspace{12bp}
+    \raisebox{4.011bp}{\includegraphics[height=0.55in]{nuaa-logo-black.pdf}}\hspace{12bp}
     \raisebox{10.401bp}{\includegraphics[height=.4in]{nuaa.pdf}} \\
     \includegraphics{bachelor-title.pdf} \\
     \end{tabular}
@@ -2088,7 +2145,7 @@ and the derived files           nuaathesis.ins,
     \nuaa@abstract
   \endgroup
 
-  \vspace{\baselineskip} % TODO
+  \vspace{23.811bp minus 20bp}
 
   \nuaa@put@kw{\heiti\zihao{-3}\nuaa@label@keywords}{\songti\nuaa@keywords}
 }
@@ -2107,7 +2164,7 @@ and the derived files           nuaathesis.ins,
     \nuaa@abstractEn
   \endgroup
 
-  \vspace{\baselineskip} % TODO
+  \vspace{23.811bp minus 20bp}
 
   \nuaa@put@kw{\zihao{-3}\nuaa@labelEn@KeyWords}{\nuaa@keywordsEn}
 }
@@ -2126,7 +2183,7 @@ and the derived files           nuaathesis.ins,
     \nuaa@abstractJa
   \endgroup
 
-  \vspace{\baselineskip} % TODO
+  \vspace{23.811bp minus 20bp}
 
   \nuaa@put@kw{\nuaa@textbf{\zihao{-3}\nuaa@labelJa@keywords}}{\nuaa@keywordsJa}
 }
