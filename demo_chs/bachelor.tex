@@ -1,8 +1,8 @@
 \documentclass[
   lang=cn,
-  degree=bachelor,type=paper,
-  openany,oneside
-  % openright,blankleft,twoside
+  degree=bachelor,
+  %openany,oneside
+  openany,twoside
 ]{nuaathesis}
 
 \graphicspath{{./fig/},{./logo/},{../logo/}}
@@ -28,17 +28,17 @@
 \include{content/demo}
 
 \appendix
-% 如果需要附录的话，在这里 include
-\include{content/ex_duplicate}
-\include{content/ex_postscript}
-
-\backmatter
 % 如果参考文献使用 biber
 \bibliographystyle{nuaabib}   % 参考文献的样式
 \bibliography{bib/sample}   % 参考文献，即 bib/sample.bib 文件（纯文本）
 % 如果打算手写参考文献
 \include{content/manref}
 
+% 如果需要附录的话，在这里 include
+\include{content/ex_duplicate}
+\include{content/ex_postscript}
+
+\backmatter
 \include{content/acknowledge}
 
 \end{document}

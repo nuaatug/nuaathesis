@@ -19,6 +19,7 @@
 
 % 设置基本文档信息，\linebreak 前面不要有空格，否则在无需换行的场合，中文之间的空格无法消除
 \nuaaset{
+  thesisid = {1028704 18-S000},   % 论文编号
   title = {\nuaathesis{} 快速上手\linebreak 示例文档},
   author = {nuaatug},
   college = {\TeX{} 学院},
@@ -28,13 +29,12 @@
   % 本科
   major = {\LaTeX{} 科学与技术},
   studentid = {131810299},
-  classid = {1318001},
+  classid = {应用技术},           % 班级的名称
   % 硕/博士
   majorsubject = {\LaTeX},
   researchfield = {\LaTeX 排版},
   libraryclassid = {TP371},       % 中图分类号
   subjectclassid = {080605},      % 学科分类号
-  thesisid = {1028704 18-S000},   % 论文编号
 }
 \nuaasetEn{
   title = {\nuaathesis{} Quick Start\linebreak and Document Snippets},
@@ -80,7 +80,6 @@ Finally we enforce some usage patterns.
 \usepackage{siunitx}
 \usepackage{listings}
 \usepackage{multirow}
-\usepackage[bottom]{footmisc}
 \usepackage{pifont}
 
 \lstdefinestyle{lstStyleBase}{%
