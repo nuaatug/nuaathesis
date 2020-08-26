@@ -1003,7 +1003,11 @@ FUNCTION {manual}
 FUNCTION {mastersthesis.type}
 { lang empty$
     { "[D]" }
-    { "\thumasterbib" }
+    { lang "zh" =
+       { ", [硕士学位论文]" }
+       'skip$
+      if$
+    }
   if$
 }
 
@@ -1012,8 +1016,7 @@ FUNCTION {mastersthesis}
   format.authors "author" add.period$ output.check
   new.block
   % format.title remove.dots ": " * mastersthesis.type * output
-  % format.title remove.dots mastersthesis.type * output
-  format.title remove.dots "[D]" * output
+  format.title remove.dots mastersthesis.type * output
   new.block
   format.address.school output
   %format.madd "address" output.check
@@ -1042,7 +1045,11 @@ FUNCTION {misc}
 FUNCTION {phdthesis.type}
 { lang empty$
     { "[D]" }
-    { "\thuphdbib" }
+    { lang "zh" =
+       { ", [博士学位论文]" }
+       'skip$
+      if$
+    }
   if$
 }
 
@@ -1051,8 +1058,7 @@ FUNCTION {phdthesis}
   format.authors "author" add.period$ output.check
   new.block
   % format.title remove.dots ": " * phdthesis.type * output
-  % format.title remove.dots phdthesis.type * output
-  format.title remove.dots "[D]" * output
+  format.title remove.dots phdthesis.type * output
   new.block
   format.address.school output
   %address output
