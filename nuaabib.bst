@@ -603,12 +603,12 @@ FUNCTION {format.in.ed.booktitle}
     { "" }
     { editor empty$
     { lang empty$
-        { "Proceedings of " booktitle * }
+        { " " booktitle * }
         { " " booktitle * }
       if$
     }
     { lang empty$
-        { collection.in format.editors * ". Proceedings of " * booktitle * }
+        { collection.in format.editors * ". " * booktitle * }
         { collection.in format.editors * ". " * booktitle * }
       if$
     }
@@ -638,6 +638,17 @@ FUNCTION {format.thesis.type}
 FUNCTION {format.tr.number}
 { type empty$
     { "Technical Report" }
+    'type
+  if$
+  number empty$
+    { "t" change.case$ }
+    { number tie.or.space.connect }
+  if$
+}
+
+FUNCTION {format.sd.number}
+{ type empty$
+    { "" }
     'type
   if$
   number empty$
@@ -792,7 +803,7 @@ FUNCTION {book}
     }
   if$
   new.block
-  format.btitle "[M]" * title output.check
+  format.btitle title output.check
   %format.btitle "title" output.check
   crossref missing$
     { format.bvolume output
@@ -821,7 +832,7 @@ FUNCTION {article}
 { output.bibitem
   format.authors "author" output.check
   new.block
-  format.title "[J]" * title output.check
+  format.title title output.check
   %format.title "title" output.check
   new.block
   crossref missing$
@@ -867,7 +878,7 @@ FUNCTION {inbook}
     }
   if$
   new.block
-  format.btitle "[M]" * title output.check
+  format.btitle title output.check
   %format.btitle "title" output.check
   crossref missing$
     { format.bvolume output
@@ -896,7 +907,7 @@ FUNCTION {incollection}
 { output.bibitem
   format.authors "author" output.check
   new.block
-  format.title "[M]. " * title output.check
+  format.title ". " * title output.check
   %format.title "title" output.check
   new.block
   crossref missing$
@@ -926,7 +937,7 @@ FUNCTION {inproceedings}
 { output.bibitem
   format.authors "author" output.check
   new.block
-  format.title "[C]. " * title output.check
+  format.title ". " * title output.check
   %format.title "title" output.check
   new.block
   crossref missing$
@@ -941,8 +952,8 @@ FUNCTION {inproceedings}
       %format.date "year" output.check
       year output
     }
-    { %address output.nonnull
-      format.address.publisher output
+    { address output.nonnull
+      %format.address.publisher output
       %format.date "year" output.check
       year output
       new.sentence
@@ -978,7 +989,7 @@ FUNCTION {manual}
     { format.authors output.nonnull }
   if$
   new.block
-  format.btitle "[M]" * title output.check
+  format.btitle title output.check
   %format.btitle "title" output.check
   author empty$
     { organization empty$
@@ -1059,6 +1070,7 @@ FUNCTION {phdthesis}
   new.block
   % format.title remove.dots ": " * phdthesis.type * output
   format.title remove.dots phdthesis.type * output
+  % format.title remove.dots "[D]" * output
   new.block
   format.address.school output
   %address output
@@ -1076,7 +1088,7 @@ FUNCTION {proceedings}
     { format.editors output.nonnull }
   if$
   new.block
-  format.btitle "[C]" * title output.check
+  format.btitle title output.check
   %format.btitle "title" output.check
   format.bvolume output
   format.number.series output
@@ -1109,10 +1121,10 @@ FUNCTION {techreport}
 { output.bibitem
   format.authors "author" output.check
   new.block
-  format.title "[R]" * title output.check
+  format.title title output.check
   %format.title "title" output.check
   new.block
-  format.tr.number output.nonnull
+  %format.tr.number output.nonnull
   institution "institution" output.check
   address output
   format.date "year" output.check
@@ -1132,6 +1144,16 @@ FUNCTION {unpublished}
   format.date output
   fin.entry
 }
+
+FUNCTION {standard}
+{ output.bibitem
+  format.authors "author" output.check
+  format.sd.number output.nonnull
+  format.title title output.check
+  note output
+  fin.entry
+}
+
 
 FUNCTION {default.type} { misc }
 
