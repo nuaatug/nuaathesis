@@ -1013,7 +1013,7 @@ FUNCTION {manual}
 
 FUNCTION {mastersthesis.type}
 { lang empty$
-    { "[D]" }
+    { ", [Dissertation for Master's Degree]" }
     { lang "zh" =
        { ", [硕士学位论文]" }
        'skip$
@@ -1055,7 +1055,7 @@ FUNCTION {misc}
 
 FUNCTION {phdthesis.type}
 { lang empty$
-    { "[D]" }
+    { ", [Dissertation for Doctoral Degree]" }
     { lang "zh" =
        { ", [博士学位论文]" }
        'skip$
