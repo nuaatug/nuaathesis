@@ -16,6 +16,12 @@
   \newcommand\gtfamily{\CJKfamily{gt}}
 \fi
 
+\iffalse
+  % 本块代码被上方的 iffalse 注释掉，如需使用，请改为 iftrue
+  % 使用中易宋体时，实现硕博论文“关键词”三个字或其他文字的加粗
+  \setCJKfamilyfont{zhsong}[AutoFakeBold = {2.17}]{SimSun}
+  \renewcommand*{\songti}{\CJKfamily{zhsong}}
+\fi
 
 % 设置基本文档信息，\linebreak 前面不要有空格，否则在无需换行的场合，中文之间的空格无法消除
 \nuaaset{
