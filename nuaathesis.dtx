@@ -1379,8 +1379,6 @@ and the derived files           nuaathesis.ins,
 % 本节设置各级标题的字体、字号、行间距、编号格式等。
 % \mac{chapter} 会在页首引入一定空格，计算方法未知，除此以外都是仿照 Word 的格式准确设置。
 %    \begin{macrocode}
-\renewcommand\chaptermark[1]{%
-  \markleft{\CTEXifname{\nuaa@chaptername~}{}#1}}
 \ifnuaa@bachelor
   \renewcommand\thesubsubsection{（\arabic{subsubsection}）}
   \titleformat{\chapter}
@@ -2435,6 +2433,7 @@ and the derived files           nuaathesis.ins,
 \RequirePackage{hypdoc}
 \PassOptionsToPackage{no-math}{fontspec}
 \RequirePackage{amsmath}
+\RequirePackage{ulem}
 \RequirePackage[UTF8,scheme=chinese]{ctex}
 \RequirePackage{newpxtext}
 \RequirePackage{newpxmath}
