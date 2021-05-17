@@ -274,6 +274,10 @@ and the derived files           nuaathesis.ins,
 % 专硕，只会影响封面中的两个字段，默认不启用。
 % \sout{（因为想不出合适的英文翻译，所以就用拼音了）}
 %
+% \DescribeOption{blindtrail}
+% \changes{v2.3}{2021/05/16}{添加盲审开关}
+% 盲审，将会用 $\times\times\times$ 代替学校与个人信息。
+%
 % \DescribeOption{blankleft}
 % 如果指定了 \option{openright} 并开启了本选项，左侧的空白页将变成没有页眉页脚的完全白纸。
 %
@@ -726,6 +730,10 @@ and the derived files           nuaathesis.ins,
 %    \begin{macrocode}
 \DeclareBoolOption[false]{zhuanshuo}
 %    \end{macrocode}
+% 定义盲审开关。
+%    \begin{macrocode}
+\DeclareBoolOption[false]{blindtrail}
+%    \end{macrocode}
 % 定义论文的主语言
 %    \begin{macrocode}
 \newif\ifnuaa@lang@cn \nuaa@lang@cnfalse
@@ -802,10 +810,10 @@ and the derived files           nuaathesis.ins,
 % 根据学校信息，定义对应图标。
 %    \begin{macrocode}
 \iffalse
-  \newcommand\nuaa@university{\nuaa@label@nuaajc}
+  \newcommand\nuaa@university{\secretize{\nuaa@label@nuaajc}}
   \newcommand\nuaa@universityLogo{nuaa-jc.jpg}
 \else
-  \newcommand\nuaa@university{\nuaa@label@nuaa}
+  \newcommand\nuaa@university{\secretize{\nuaa@label@nuaa}}
   \newcommand\nuaa@universityLogo{nuaa.pdf}
 \fi
 %    \end{macrocode}
@@ -840,6 +848,12 @@ and the derived files           nuaathesis.ins,
     \expandafter\gdef\csname nuaa@#1\endcsname{##1}}
   \csname #1\endcsname{}
 }
+\def\nuaa@define@sec #1{
+  \define@key{nuaa}{#1}{\csname #1\endcsname{##1}}
+  \expandafter\gdef\csname #1\endcsname##1{
+    \expandafter\gdef\csname nuaa@#1\endcsname{\secretize{##1}}}
+  \csname #1\endcsname{}
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -865,6 +879,27 @@ and the derived files           nuaathesis.ins,
     \expandafter\gdef\csname nuaa@#1@pdf\endcsname{##1}
   }
 }
+\def\nuaa@define@list@sec#1#2{
+  \define@key{nuaa}{#1}{\csname #1\endcsname{##1}}
+  \expandafter\gdef\csname nuaa@#1\endcsname{}
+  \expandafter\gdef\csname nuaa@#1@pdf\endcsname{}
+  \expandafter\gdef\csname #1\endcsname##1{
+    \ifnuaa@blindtrail
+      \expandafter\gdef\csname nuaa@#1\endcsname{\secretize{}}
+    \else
+      \@for\reserved@a:=##1\do{
+        \expandafter\ifx\csname nuaa@#1\endcsname\@empty\else
+          \expandafter\g@addto@macro\csname nuaa@#1\endcsname{%
+            \ignorespaces #2}
+          \expandafter\g@addto@macro\csname nuaa@#1@pdf\endcsname{,}
+        \fi
+        \expandafter\expandafter\expandafter\g@addto@macro%
+          \expandafter\csname nuaa@#1\expandafter\endcsname\expandafter{\reserved@a}
+      }
+      \expandafter\gdef\csname nuaa@#1@pdf\endcsname{##1}
+    \fi
+  }
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -873,19 +908,19 @@ and the derived files           nuaathesis.ins,
 % \changes{v2.3}{2021/05/16}{添加企业导师 industrialadvisers}
 %    \begin{macrocode}
 \nuaa@define{value@title}
-\nuaa@define{value@author}
-\nuaa@define{value@college}
+\nuaa@define@sec{value@author}
+\nuaa@define@sec{value@college}
 \nuaa@define{value@applydate}
 \ifnuaa@bachelor
-  \nuaa@define@list{value@advisers}{、}
-  \nuaa@define@list{value@industrialadvisers}{、}
+  \nuaa@define@list@sec{value@advisers}{、}
+  \nuaa@define@list@sec{value@industrialadvisers}{、}
 \else
-  \nuaa@define@list{value@advisers}{\linebreak}
-  \nuaa@define@list{value@industrialadvisers}{、}
+  \nuaa@define@list@sec{value@advisers}{\linebreak}
+  \nuaa@define@list@sec{value@industrialadvisers}{、}
 \fi
-  \nuaa@define{value@major}
-  \nuaa@define{value@studentid}
-  \nuaa@define{value@classid}
+  \nuaa@define@sec{value@major}
+  \nuaa@define@sec{value@studentid}
+  \nuaa@define@sec{value@classid}
   \nuaa@define{value@libraryclassid}
   \nuaa@define{value@subjectclassid}
   \nuaa@define{value@thesisid}
@@ -899,10 +934,10 @@ and the derived files           nuaathesis.ins,
 \ifnuaa@bachelor\relax
 \else
 \fi
-  \nuaa@define{valueEn@college}
+  \nuaa@define@sec{valueEn@college}
   \nuaa@define{valueEn@majorsubject}
-  \nuaa@define{valueEn@author}
-  \nuaa@define{valueEn@advisers}
+  \nuaa@define@sec{valueEn@author}
+  \nuaa@define@sec{valueEn@advisers}
   \nuaa@define{valueEn@degreefull}
   \nuaa@define{valueEn@applydate}
 %    \end{macrocode}
@@ -1846,6 +1881,16 @@ and the derived files           nuaathesis.ins,
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\secretize}
+% 如果开启盲审模式，会把参数替换成星号，否则原样输出。
+%    \begin{macrocode}
+\ifnuaa@blindtrail
+  \newcommand{\secretize}[1]{$\times\times\times$}
+\else
+  \newcommand{\secretize}[1]{#1}
+\fi
+%    \end{macrocode}
+% \end{macro}
 % \subsubsection*{绘制关键词}
 % 摘要页的关键词部分，如果关键词换行了，需要与第一个关键词左对齐。
 %    \begin{macrocode}
@@ -2007,8 +2052,10 @@ and the derived files           nuaathesis.ins,
   \vspace{20bp}
   \begin{center}
     \begin{tabular}{c}
-    \raisebox{4.011bp}{\includegraphics[height=0.55in]{nuaa-logo-black.pdf}}\hspace{12bp}
-    \raisebox{10.401bp}{\includegraphics[height=.4in]{nuaa.pdf}} \\
+    \secretize{
+      \raisebox{4.011bp}{\includegraphics[height=0.55in]{nuaa-logo-black.pdf}}\hspace{12bp}
+      \raisebox{10.401bp}{\includegraphics[height=.4in]{nuaa.pdf}}
+     } \\
     \includegraphics{bachelor-title.pdf} \\
     \end{tabular}
   \end{center}
@@ -2107,8 +2154,8 @@ and the derived files           nuaathesis.ins,
   \begingroup
     \linespread{1.0}\songti\fontsize{12bp}{23.811bp}\selectfont
     \setlength\parindent{2\ccwd}\indent
-    本人完全了解南京航空航天大学有关收集、保留和使用本人所送交的毕业设计（论文）的规定，
-    即：本科生在校攻读学位期间毕业设计（论文）工作的知识产权单位属南京航空航天大学。
+    本人完全了解\nuaa@university{}有关收集、保留和使用本人所送交的毕业设计（论文）的规定，
+    即：本科生在校攻读学位期间毕业设计（论文）工作的知识产权单位属\nuaa@university{}。
     学校有权保留并向国家有关部门或机构送交毕业设计（论文）的复印件和电子版，
     允许论文被查阅和借阅，可以公布论文的全部或部分内容，
     可以采用影印、缩印或扫描等复制手段保存、汇编论文。保密的论文在解密后适用本声明。
@@ -2261,10 +2308,11 @@ and the derived files           nuaathesis.ins,
 
   \begin{center}
     \linespread{1}
-    \includegraphics{nuaa-jianqi.pdf}
+    \kaishu\fontsize{18bp}{31.2bp}\selectfont
+    \secretize{\includegraphics{nuaa-jianqi.pdf}}
 
     \kaishu\fontsize{18bp}{31.2bp}\selectfont
-    \nuaa@label@graduateschool\quad \nuaa@value@college
+    \secretize{\nuaa@label@graduateschool\quad \nuaa@value@college}
 
     \kaishu\fontsize{16bp}{31.2bp}\selectfont
     \ifdefempty{\nuaa@value@applydate}{\nuaa@dateCn}{\nuaa@value@applydate}
@@ -2290,8 +2338,8 @@ and the derived files           nuaathesis.ins,
 
   \begin{center}
     \linespread{1.5}\fontsize{14bp}{14bp}\rmfamily\selectfont
-    \nuaa@labelEn@nuaa \par
-    \nuaa@labelEn@graduateschool \par
+    \secretize{\nuaa@labelEn@nuaa} \par
+    \secretize{\nuaa@labelEn@graduateschool} \par
     \nuaa@valueEn@college \vspace{\stretch{1}}
 
     \linespread{1}\fontsize{22bp}{31.2bp}\rmfamily\selectfont
@@ -2339,9 +2387,9 @@ and the derived files           nuaathesis.ins,
 
   本人声明所呈交的\nuaa@worktypecn 是本人在导师指导下进行的研究工作及取得的研究成果。
   除了文中特别加以标注和致谢的地方外，论文中不包含其他人已经发表或撰写过的研究成果，
-  也不包含为获得\nuaa@label@nuaa 或其他教育机构的学位或证书而使用过的材料。
+  也不包含为获得\secretize{\nuaa@label@nuaa} 或其他教育机构的学位或证书而使用过的材料。
 
-  本人授权\nuaa@label@nuaa 可以将学位论文的全部或部分内容编入有关数据库进行检索，
+  本人授权\secretize{\nuaa@label@nuaa} 可以将学位论文的全部或部分内容编入有关数据库进行检索，
   可以采用影印、缩印或扫描等复制手段保存、汇编学位论文。
 
   （保密的学位论文在解密后适用本承诺书）
