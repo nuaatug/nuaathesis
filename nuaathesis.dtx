@@ -69,7 +69,7 @@ and the derived files           nuaathesis.ins,
 \fi
 %</internal>
 %<*driver>
-\ProvidesFile{nuaathesis.drv}[2020/05/24 v2.2 NUAA thesis template]
+\ProvidesFile{nuaathesis.drv}[2021/05/16 v2.3 NUAA thesis template]
 \documentclass{ltxdoc}
 \usepackage{dtx-style}
 \EnableCrossrefs
@@ -139,6 +139,7 @@ and the derived files           nuaathesis.ins,
 % \end{multicols}
 % \clearpage
 %
+% \changes{v2.3}{2021/05/16}{根据 2021 年本科模板更新封面。}
 % \changes{v2.2}{2020/05/24}{同步学校的新本科模板。}
 % \changes{v2.1}{2018/11/01}{初步实现英文、日文论文格式，基本去除对 \CTeX{} 的依赖。}
 % \changes{v2.0}{2017/9/17}{仿照 \cquthesis{}，使用 \textsc{DocStrip}，使用根据校 Word 模板直接计算出的行间距等距离，添加硕/博士模板，重写大部分代码。}
@@ -339,6 +340,8 @@ and the derived files           nuaathesis.ins,
 % \DescribeOption{studentid=} 学号；
 %
 % \DescribeOption{classid=} 班号；
+%
+% \DescribeOption{industrialadvisers=} 企业导师；
 %
 % \textbf{硕/博士}还支持以下参数：
 %
@@ -618,7 +621,7 @@ and the derived files           nuaathesis.ins,
 %<cls>\NeedsTeXFormat{LaTeX2e}
 %<cls>\ProvidesClass{nuaathesis}
 %<cfg>\ProvidesFile{nuaathesis.cfg}
-%<cls|cfg>[2020/05/24 v2.2 NUAA Thesis Template]
+%<cls|cfg>[2021/05/16 v2.3 NUAA Thesis Template]
 %    \end{macrocode}
 % \subsection{配置文件}
 % \changes{v2.1}{2018/06/01}{修改了配置文件作用，不再存放常量，加载顺序改为开头，默认内容为空。}
@@ -653,6 +656,7 @@ and the derived files           nuaathesis.ins,
 \newcommand\nuaa@label@major{专\hfill 业}
 \newcommand\nuaa@label@classid{班\hfill 级}
 \newcommand\nuaa@label@adviser{指\hfill 导\hfill 教\hfill 师}
+\newcommand\nuaa@label@industrialadviser{企\hfill 业\hfill 导\hfill 师}
 \newcommand\nuaa@label@researchername{研究生姓名}
 \newcommand\nuaa@label@majorsubject{学科、专业}
 \newcommand\nuaa@label@researchfield{研\hfill 究\hfill 方\hfill 向}
@@ -866,6 +870,7 @@ and the derived files           nuaathesis.ins,
 %
 % 文档的中文信息
 % \changes{v2.1}{2018/06/01}{修正 typo: advisor->adviser}
+% \changes{v2.3}{2021/05/16}{添加企业导师 industrialadvisers}
 %    \begin{macrocode}
 \nuaa@define{value@title}
 \nuaa@define{value@author}
@@ -873,8 +878,10 @@ and the derived files           nuaathesis.ins,
 \nuaa@define{value@applydate}
 \ifnuaa@bachelor
   \nuaa@define@list{value@advisers}{、}
+  \nuaa@define@list{value@industrialadvisers}{、}
 \else
   \nuaa@define@list{value@advisers}{\linebreak}
+  \nuaa@define@list{value@industrialadvisers}{、}
 \fi
   \nuaa@define{value@major}
   \nuaa@define{value@studentid}
@@ -2030,6 +2037,8 @@ and the derived files           nuaathesis.ins,
       \nuaa@label@major & \nuaa@value@major \\ \cline{2-2}
       \nuaa@label@classid & \makebox[2.59in]{\nuaa@value@classid} \\ \cline{2-2}
       \nuaa@label@adviser & \nuaa@value@advisers \\ \cline{2-2}
+      \ifdefempty{\nuaa@value@industrialadvisers}{}{%
+      \nuaa@label@industrialadviser & \nuaa@value@industrialadvisers \\ \cline{2-2}}
     \end{tabular}
     \vspace{31.748bp}
 
