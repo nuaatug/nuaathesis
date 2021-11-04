@@ -141,30 +141,37 @@
 
 如果需要对某一列的小数点对齐，或者带有单位，或者需要做四舍五入的处理，可以尝试配合 \pkg{siunitx} 一起使用。
 非常推荐看一下 \pkg{siunitx} 文档的，至少看一下“Hints for using siunitx”一节的输出结果，
-\autoref{tab:xmpl:mixed} 来自于该文档的 7.14 节。
+\autoref{tab:xmpl:mixed} 来自于该文档的 9.11 节 Creating a column with numbers and units。
 
 \begin{table}[htb]
   \caption{Tables where numbers have different units}
   \label{tab:xmpl:mixed}
   \begin{tabular}
     {
+      @{}
       >{$}l<{$}
-      S[table-format = 2.3(1)]
       S[table-format = 3.3(1)]
+      S[table-format = 3.3(1)]
+      @{}
     }
     \toprule
       & {One} & {Two} \\
     \midrule
-    a / \si{\angstrom}   &  1.234(2) &   5.678(4) \\
-    \beta / \si{\degree} & 90.34(4)  & 104.45(5)  \\
-    \mu / \si{\per\mm}   &  0.532    &   0.894    \\
+    a / \unit{\pm}         &  123.4(2) &   567.8(4) \\
+    \beta / \unit{\degree} & 90.34(4)  & 104.45(5)  \\
+    \mu / \unit{\per\mm}   &  0.532    &   0.894    \\
     \bottomrule
   \end{tabular}
   \hfil
   \begin{tabular}
-    {S[table-format=1.3]@{\,}s[table-unit-alignment = left]}
+    {
+      @{}
+      S[table-format=1.3]@{\,}
+      >{\collectcell\unit}l<{\endcollectcell}
+      @{}
+    }
     \toprule
-    \multicolumn{2}{c}{Heading} \\
+    \multicolumn{2}{@{}c}{Heading} \\
     \midrule
     1.234 & \metre   \\
     0.835 & \candela \\
@@ -244,7 +251,7 @@
 
 \begin{itemize}
   \item 旋转角度为 \ang{90}、\ang{270}
-  \item 分辨率 \num{1920x1080} 的像素数量约为 \num{2.07e6}
+  \item 分辨率 \numproduct{1920x1080} 的像素数量约为 \num{2.07e6}
   \item 电脑显示器的像素间距为 \SI{1.8}{\nm}、\SI{180}{\um} 还是 \SI{18}{\mm}？
   \item 重力加速度 $g=\SI{9.8}{\kg\per\square\second}$、
   $g=\SI[inter-unit-product=\ensuremath{{}\cdot{}}]{9.8}{\kg\per\square\second}$，
