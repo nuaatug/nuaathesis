@@ -1413,7 +1413,7 @@ and the derived files           nuaathesis.ins,
 \fancypagestyle{style@main}{
   \fancyhead{}
   \fancyhead[C]{\ifodd\value{page}
-    {\mbox{\songti\zihao{5}\nuaa@university\nuaa@worktypecn}}
+    {\mbox{\songti\zihao{5}\nuaa@university\nuaa@label@majortype\nuaa@worktypecn}}
   \else
     \ifnuaa@bachelor
       \ifnuaa@mainmatter
@@ -1461,19 +1461,26 @@ and the derived files           nuaathesis.ins,
     {\linespread{1.0}\fontsize{12bp}{23.811bp}\selectfont}
   \titlespacing*{\subsubsection}{0pt}{0bp}{0bp}
 \else
+  \newcommand{\nuaa@chapterbeforesep}{\if@frontmatter{-7bp}\else{10.4bp}\fi}
+  \newcommand{\nuaa@chapteraftersep}{\if@frontmatter{5bp}\else{15.4bp}\fi}
   \titleformat{\chapter}
     {\centering\linespread{1.0}\nuaa@font@title\fontsize{15bp}{20bp}\selectfont}
-    {\nuaa@chaptername}{1em}{}
-  \titlespacing*{\chapter}{0pt}{10.4bp}{23.4bp}
+    {\nuaa@chaptername}{0.5em}{}
+  \titlespacing*{\chapter}{0pt}
+    {\nuaa@chapterbeforesep}
+    {\nuaa@chapteraftersep}
   \assignpagestyle{\chapter}{style@main}
-  \titleformat*{\section}
+  \titleformat{\section}
     {\linespread{1.0}\nuaa@font@title\fontsize{14pt}{20pt}\selectfont}
+    {\thesection}{0.5em}{}
   \titlespacing*{\section}{0pt}{7.8bp}{7.8bp}
-  \titleformat*{\subsection}
+  \titleformat{\subsection}
     {\linespread{1.0}\nuaa@font@title\fontsize{12bp}{20bp}\selectfont}
+    {\thesubsection}{0.3em}{}
   \titlespacing*{\subsection}{0pt}{7.8bp}{7.8bp}
-  \titleformat*{\subsubsection}
+  \titleformat{\subsubsection}
     {\linespread{1.0}\nuaa@font@title\fontsize{12bp}{20bp}\selectfont}
+    {\thesubsubsection}{0.3em}{}
   \titlespacing*{\subsubsection}{0pt}{7.8bp}{7.8bp}
 \fi
 %    \end{macrocode}
@@ -1531,21 +1538,21 @@ and the derived files           nuaathesis.ins,
       {\contentslabel[\chaptername~\thecontentslabel]{5pc}}
       {\renewcommand\thecontentslabel{\relax}\hspace*{-5pc}}
       {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
-  \else
-    \titlecontents{chapter}[3.5pc]
+   \else
+    \titlecontents{chapter}[3.0pc]
       {\nuaa@toc@font}
-      {\contentslabel[\thecontentslabel]{3.5pc}}
-      {\hspace*{-3.5pc}}
+      {\contentslabel[\thecontentslabel]{3.0pc}}
+      {\renewcommand\thecontentslabel{\relax}\hspace*{-3pc}}
       {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
   \fi
-  \titlecontents{section}[3pc]
+  \titlecontents{section}[2.5pc]
     {\nuaa@toc@font}
-    {\contentslabel[\thecontentslabel]{2pc}}
+    {\contentslabel[\thecontentslabel]{2.5pc}}
     {}
     {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
-  \titlecontents{subsection}[5pc]
+  \titlecontents{subsection}[4pc]
     {\nuaa@toc@font}
-    {\contentslabel[\thecontentslabel]{3pc}}
+    {\contentslabel[\thecontentslabel]{2.5pc}}
     {}
     {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
   \titlecontents{figure}[\nuaa@indentloft]
@@ -2333,7 +2340,7 @@ and the derived files           nuaathesis.ins,
   \begin{center}
     \linespread{1}
     \kaishu\fontsize{22bp}{31.2bp}\selectfont
-    \secretize{\nuaa@label@nuaa} 
+    \secretize{\includegraphics{nuaa-jianqi.pdf}}
 
     \songti\fontsize{14bp}{31.2bp}\selectfont
     \secretize{\nuaa@label@graduateschool\quad \nuaa@value@college}
