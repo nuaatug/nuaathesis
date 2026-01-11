@@ -1,4 +1,4 @@
-name: CI
+name: Pre-Release
 
 on: [push]
 
@@ -11,14 +11,10 @@ jobs:
       with:
         scheme: full
         run: ./build.sh all
-    - name: Install 7z
-      run: sudo apt-get update && sudo apt-get install -y p7zip-full
     - name: Pack
       run: chmod +x .github/pack.sh && ./.github/pack.sh
     - uses: actions/upload-artifact@v4
       with:
         name: artifacts
         path: |
-          nuaathesis.tar.gz
-          nuaathesis.zip
-          nuaathesis.pdf
+          .pack/nuaathesis

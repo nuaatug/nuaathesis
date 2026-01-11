@@ -16,6 +16,3 @@ cp -r .git $TMP_DIR
 
 find . -not -path '*/\.*' -type f \( -name '*.pdf' -o -name '*.cls' -o -name '*.bst' \) -exec cp --parents '{}' $TMP_DIR \;
 # curl -o $TMP_DIR/.gitignore https://raw.githubusercontent.com/github/gitignore/master/TeX.gitignore
-# 7z a nuaathesis.zip $TMP_DIR
-(cd .pack && tar cf ../nuaathesis.tar.gz nuaathesis)
-(cd .pack && 7z a ../nuaathesis.zip nuaathesis)
