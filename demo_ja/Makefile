@@ -2,12 +2,15 @@
 all: bachelor.pdf master.pdf
 
 %.pdf: %.tex prepare
-	latexmk -pdfdvi $(basename $@)
+	-latexmk -pdfdvi -f -interaction=nonstopmode $(basename $@)
 
 nuaathesis.cls: ../nuaathesis.cls
 	cp ../nuaathesis.cls .
 
-nuaabib.bst: ../nuaabib.bst
-	cp ../nuaabib.bst .
+bachelorbib.bst: ../bachelorbib.bst
+	cp ../bachelorbib.bst .
+	
+masterbib.bst: ../masterbib.bst
+	cp ../masterbib.bst .
 
-prepare: nuaathesis.cls nuaabib.bst
+prepare: nuaathesis.cls bachelorbib.bst masterbib.bst
