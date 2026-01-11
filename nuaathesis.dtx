@@ -1472,15 +1472,15 @@ and the derived files           nuaathesis.ins,
   \assignpagestyle{\chapter}{style@main}
   \titleformat{\section}
     {\linespread{1.0}\nuaa@font@title\fontsize{14pt}{20pt}\selectfont}
-    {\thesection}{0.5em}{}
+    {\sffamily\heiti\thesection}{0.5em}{}
   \titlespacing*{\section}{0pt}{7.8bp}{7.8bp}
   \titleformat{\subsection}
     {\linespread{1.0}\nuaa@font@title\fontsize{12bp}{20bp}\selectfont}
-    {\thesubsection}{0.3em}{}
+    {\sffamily\heiti\thesubsection}{0.3em}{}
   \titlespacing*{\subsection}{0pt}{7.8bp}{7.8bp}
   \titleformat{\subsubsection}
     {\linespread{1.0}\nuaa@font@title\fontsize{12bp}{20bp}\selectfont}
-    {\thesubsubsection}{0.3em}{}
+    {\sffamily\heiti\thesubsubsection}{0.3em}{}
   \titlespacing*{\subsubsection}{0pt}{7.8bp}{7.8bp}
 \fi
 %    \end{macrocode}
@@ -1547,12 +1547,12 @@ and the derived files           nuaathesis.ins,
   \fi
   \titlecontents{section}[2.5pc]
     {\nuaa@toc@font}
-    {\contentslabel[\thecontentslabel]{2.5pc}}
+    {\contentslabel[\sffamily\heiti\thecontentslabel]{2.5pc}}
     {}
     {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
   \titlecontents{subsection}[4pc]
     {\nuaa@toc@font}
-    {\contentslabel[\thecontentslabel]{2.5pc}}
+    {\contentslabel[\sffamily\heiti\thecontentslabel]{2.5pc}}
     {}
     {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
   \titlecontents{figure}[\nuaa@indentloft]
