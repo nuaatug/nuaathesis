@@ -4,20 +4,12 @@
 
 UNOFFICIAL LaTeX thesis template for Nanjing University of Aeronautics and Astronautics
 
+[![构建状态](https://github.com/bismarckkk/nuaathesis/actions/workflows/ci.yml/badge.svg)](https://github.com/bismarckkk/nuaathesis/actions)
+
 下载: [“稳定版”][link_rel], [最新开发分支构建][link_dev]
 
-| Branch | ArchLinux | TeXLive on Linux | TeXLive on Win |
-| :----: | :-------: | :--------------: | :------------: |
-| master | [![CircleCI][i1]][l1] | [![TravisCI][i2]][l2] | [![AppVeyor][i3]][l3] |
-
 [link_rel]: https://github.com/nuaatug/nuaathesis/releases
-[link_dev]: https://ci.appveyor.com/project/summershrimp/nuaathesis/build/artifacts
-[l1]: https://circleci.com/gh/nuaatug/nuaathesis/tree/master
-[i1]: https://circleci.com/gh/nuaatug/nuaathesis/tree/master.svg?style=svg
-[l2]: https://ci.appveyor.com/project/summershrimp/nuaathesis/branch/master
-[i2]: https://ci.appveyor.com/api/projects/status/t1sh0d9t01bvi83l/branch/master?svg=true
-[l3]: https://travis-ci.org/nuaatug/nuaathesis
-[i3]: https://travis-ci.org/nuaatug/nuaathesis.svg?branch=master
+[link_dev]: https://github.com/bismarckkk/nuaathesis/actions
 
 ## 特点
 
