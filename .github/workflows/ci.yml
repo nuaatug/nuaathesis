@@ -1,0 +1,25 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: xu-cheng/texlive-action@v3
+      with:
+        scheme: full
+    - name: Install 7z
+      run: sudo apt-get update && sudo apt-get install -y p7zip-full
+    - name: Build
+      run: ./build.sh all
+    - name: Pack
+      run: ./.github/pack.sh
+    - uses: actions/upload-artifact@v4
+      with:
+        name: artifacts
+        path: |
+          nuaathesis.tar.gz
+          nuaathesis.zip
+          nuaathesis.pdf
