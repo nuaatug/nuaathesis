@@ -648,6 +648,8 @@ and the derived files           nuaathesis.ins,
 \newcommand\nuaa@label@worktype@paper{毕业论文}
 \newcommand\nuaa@label@worktype@design{毕业设计}
 \newcommand\nuaa@label@worktype@bachelor{本科毕业设计（论文）}
+\newcommand\nuaa@label@majortype@zhuanye{专业学位}
+\newcommand\nuaa@label@majortype@xueshu{学术学位}
 \newcommand\nuaa@label@worktype@master{硕士学位论文}
 \newcommand\nuaa@label@worktype@doctor{博士学位论文}
 \newcommand\nuaa@label@thesisnum{编号}
@@ -662,13 +664,15 @@ and the derived files           nuaathesis.ins,
 \newcommand\nuaa@label@adviser{指\hfill 导\hfill 教\hfill 师}
 \newcommand\nuaa@label@industrialadviser{企\hfill 业\hfill 导\hfill 师}
 \newcommand\nuaa@label@researchername{研究生姓名}
-\newcommand\nuaa@label@majorsubject{学科、专业}
+\newcommand\nuaa@label@majorsubject{学\hfill 科\hfill 专\hfill 业}
 \newcommand\nuaa@label@researchfield{研\hfill 究\hfill 方\hfill 向}
 \newcommand\nuaa@label@professionaltype{专\hfill 业\hfill 类\hfill 别}
 \newcommand\nuaa@label@professionalfield{专\hfill 业\hfill 领\hfill 域}
 \newcommand\nuaa@label@graduateschool{研究生院}
 \newcommand\nuaa@labelEn@nuaa{Nanjing University of Aeronautics and Astronautics}
 \newcommand\nuaa@labelEn@graduateschool{The Graduate School}
+\newcommand\nuaa@labelEn@thesis@doctor{Dissertation}
+\newcommand\nuaa@labelEn@thesis@master{Thesis}
 %    \end{macrocode}
 % 摘要页用到的字符串：
 %    \begin{macrocode}
@@ -816,6 +820,26 @@ and the derived files           nuaathesis.ins,
   \newcommand\nuaa@university{\secretize{\nuaa@label@nuaa}}
   \newcommand\nuaa@universityLogo{nuaa.pdf}
 \fi
+%    \end{macrocode}
+% 根据学位类型，定义论文英文类型名。
+%    \begin{macrocode}
+\newcommand\nuaa@labelEn@thesis{%
+  \ifnuaa@master%
+    \nuaa@labelEn@thesis@master%
+  \else%
+    \nuaa@labelEn@thesis@doctor%
+  \fi%
+}
+%    \end{macrocode}
+% 根据文档类型，设置文档的学位名称。
+%    \begin{macrocode}
+\newcommand\nuaa@label@majortype{%
+  \ifnuaa@zhuanshuo%
+    \nuaa@label@majortype@zhuanye%
+  \else%
+    \nuaa@label@majortype@xueshu%
+  \fi%
+}
 %    \end{macrocode}
 % 根据文档类型，设置文档的中文名称。
 %    \begin{macrocode}
@@ -1389,7 +1413,7 @@ and the derived files           nuaathesis.ins,
 \fancypagestyle{style@main}{
   \fancyhead{}
   \fancyhead[C]{\ifodd\value{page}
-    {\mbox{\songti\zihao{5}\nuaa@university\nuaa@worktypecn}}
+    {\mbox{\songti\zihao{5}\nuaa@university\nuaa@label@majortype\nuaa@worktypecn}}
   \else
     \ifnuaa@bachelor
       \ifnuaa@mainmatter
@@ -1437,19 +1461,26 @@ and the derived files           nuaathesis.ins,
     {\linespread{1.0}\fontsize{12bp}{23.811bp}\selectfont}
   \titlespacing*{\subsubsection}{0pt}{0bp}{0bp}
 \else
+  \newcommand{\nuaa@chapterbeforesep}{\if@frontmatter{-7bp}\else{10.4bp}\fi}
+  \newcommand{\nuaa@chapteraftersep}{\if@frontmatter{5bp}\else{15.4bp}\fi}
   \titleformat{\chapter}
     {\centering\linespread{1.0}\nuaa@font@title\fontsize{15bp}{20bp}\selectfont}
-    {\nuaa@chaptername}{1em}{}
-  \titlespacing*{\chapter}{0pt}{10.4bp}{23.4bp}
+    {\nuaa@chaptername}{0.5em}{}
+  \titlespacing*{\chapter}{0pt}
+    {\nuaa@chapterbeforesep}
+    {\nuaa@chapteraftersep}
   \assignpagestyle{\chapter}{style@main}
-  \titleformat*{\section}
+  \titleformat{\section}
     {\linespread{1.0}\nuaa@font@title\fontsize{14pt}{20pt}\selectfont}
+    {\sffamily\heiti\thesection}{0.5em}{}
   \titlespacing*{\section}{0pt}{7.8bp}{7.8bp}
-  \titleformat*{\subsection}
+  \titleformat{\subsection}
     {\linespread{1.0}\nuaa@font@title\fontsize{12bp}{20bp}\selectfont}
+    {\sffamily\heiti\thesubsection}{0.3em}{}
   \titlespacing*{\subsection}{0pt}{7.8bp}{7.8bp}
-  \titleformat*{\subsubsection}
+  \titleformat{\subsubsection}
     {\linespread{1.0}\nuaa@font@title\fontsize{12bp}{20bp}\selectfont}
+    {\sffamily\heiti\thesubsubsection}{0.3em}{}
   \titlespacing*{\subsubsection}{0pt}{7.8bp}{7.8bp}
 \fi
 %    \end{macrocode}
@@ -1507,21 +1538,21 @@ and the derived files           nuaathesis.ins,
       {\contentslabel[\chaptername~\thecontentslabel]{5pc}}
       {\renewcommand\thecontentslabel{\relax}\hspace*{-5pc}}
       {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
-  \else
-    \titlecontents{chapter}[3.5pc]
+   \else
+    \titlecontents{chapter}[3.0pc]
       {\nuaa@toc@font}
-      {\contentslabel[\thecontentslabel]{3.5pc}}
-      {\hspace*{-3.5pc}}
+      {\contentslabel[\thecontentslabel]{3.0pc}}
+      {\renewcommand\thecontentslabel{\relax}\hspace*{-3pc}}
       {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
   \fi
-  \titlecontents{section}[3pc]
+  \titlecontents{section}[2.5pc]
     {\nuaa@toc@font}
-    {\contentslabel[\thecontentslabel]{2pc}}
+    {\contentslabel[\sffamily\heiti\thecontentslabel]{2.5pc}}
     {}
     {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
-  \titlecontents{subsection}[5pc]
+  \titlecontents{subsection}[4pc]
     {\nuaa@toc@font}
-    {\contentslabel[\thecontentslabel]{3pc}}
+    {\contentslabel[\sffamily\heiti\thecontentslabel]{2.5pc}}
     {}
     {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
   \titlecontents{figure}[\nuaa@indentloft]
@@ -2052,10 +2083,7 @@ and the derived files           nuaathesis.ins,
   \vspace{20bp}
   \begin{center}
     \begin{tabular}{c}
-    \secretize{
-      \raisebox{4.011bp}{\includegraphics[height=0.55in]{nuaa-logo-black.pdf}}\hspace{12bp}
-      \raisebox{10.401bp}{\includegraphics[height=.4in]{nuaa.pdf}}
-     } \\
+    \secretize{ \hspace{14bp} \raisebox{-10bp}{\includegraphics[height=.78in]{nuaa-logo-black.pdf}} } \\[-8bp]
     \includegraphics{bachelor-title.pdf} \\
     \end{tabular}
   \end{center}
@@ -2282,7 +2310,7 @@ and the derived files           nuaathesis.ins,
   \vspace{\stretch{2}}
 
   \begin{center}
-    \linespread{1}\songti\fontsize{42bp}{62.4bp}\selectfont\nuaa@worktypecn
+    \linespread{1}\songti\fontsize{34bp}{62.4bp}\selectfont\nuaa@label@majortype\nuaa@worktypecn
     \vspace{\stretch{2}}
 
     \linespread{1}\sffamily\heiti\fontsize{26bp}{46.8bp}\selectfont\nuaa@value@title
@@ -2308,13 +2336,13 @@ and the derived files           nuaathesis.ins,
 
   \begin{center}
     \linespread{1}
-    \kaishu\fontsize{18bp}{31.2bp}\selectfont
+    \kaishu\fontsize{22bp}{31.2bp}\selectfont
     \secretize{\includegraphics{nuaa-jianqi.pdf}}
 
-    \kaishu\fontsize{18bp}{31.2bp}\selectfont
+    \songti\fontsize{14bp}{31.2bp}\selectfont
     \secretize{\nuaa@label@graduateschool\quad \nuaa@value@college}
 
-    \kaishu\fontsize{16bp}{31.2bp}\selectfont
+    \songti\fontsize{14bp}{31.2bp}\selectfont
     \ifdefempty{\nuaa@value@applydate}{\nuaa@dateCn}{\nuaa@value@applydate}
 
   \end{center}
@@ -2350,17 +2378,17 @@ and the derived files           nuaathesis.ins,
     \fi \par \vspace{\stretch{1}}
 
     \linespread{1.75}\fontsize{14bp}{16.8bp}\rmfamily\selectfont
-    A Thesis in \\
-    \nuaa@valueEn@majorsubject \\
+    A \nuaa@labelEn@thesis\ in \\
+    \nuaa@valueEn@majorsubject \par \bigskip
     by \\
-    \nuaa@valueEn@author \\
+    \nuaa@valueEn@author \par \bigskip
     Advised by \\
     \nuaa@valueEn@advisers \par \bigskip
 
     Submitted in Partial Fulfillment \\
     of the Requirements \\
     for the Degree of \\
-    \nuaa@valueEn@degreefull \par\bigskip
+    \nuaa@valueEn@degreefull \par \bigskip
 
     \ifdefempty{\nuaa@valueEn@applydate}{\nuaa@dateEn}{\nuaa@valueEn@applydate}
   \end{center}
@@ -2377,7 +2405,7 @@ and the derived files           nuaathesis.ins,
   \begin{center}
   \linespread{1.0}\songti\fontsize{22bp}{62.4bp}\selectfont
   \vspace*{25.5bp} \vspace{-\parskip}\vspace{-\baselineskip}
-  承诺书 \par
+  独创性声明 \par
   \end{center}
 
   \begingroup
@@ -2389,19 +2417,42 @@ and the derived files           nuaathesis.ins,
   除了文中特别加以标注和致谢的地方外，论文中不包含其他人已经发表或撰写过的研究成果，
   也不包含为获得\secretize{\nuaa@label@nuaa} 或其他教育机构的学位或证书而使用过的材料。
 
-  本人授权\secretize{\nuaa@label@nuaa} 可以将学位论文的全部或部分内容编入有关数据库进行检索，
-  可以采用影印、缩印或扫描等复制手段保存、汇编学位论文。
+  \endgroup
 
-  （保密的学位论文在解密后适用本承诺书）
+  \vspace*{15.7bp} \vspace{-\parskip}\vspace{-\baselineskip}
+  \begin{flushright}
+  \linespread{1.0}\rmfamily\songti\fontsize{16bp}{30bp}\selectfont
+  研究生签名： \underline{\hspace{7em}} \hspace{1em}
+  日期： \underline{\hspace{7em}} \par
+  \end{flushright}
+
+  \begin{center}
+  \linespread{1.0}\songti\fontsize{22bp}{62.4bp}\selectfont
+  \vspace*{62.8bp} \vspace{-\parskip}\vspace{-\baselineskip}
+  使用授权声明 \par
+  \end{center}
+
+  \begingroup
+  \vspace*{31.4bp} \vspace{-\parskip}\vspace{-\baselineskip}
+  \linespread{1.0}\rmfamily\songti\fontsize{16bp}{30bp}\selectfont
+  \setlength\parindent{2\ccwd}
+
+  本人完全了解\secretize{\nuaa@label@nuaa} 有关保留、使用学位论文的规定，
+  即学校有权保留并向国家有关部门或机构送交论文的复印件和电子版，
+  允许论文被查阅和借阅。
+  本人授权\secretize{\nuaa@label@nuaa} 可以将本学位论文的全部内容编入有关数据库进行检索，
+  可以采用影印、缩印或扫描等复制手段保存、汇编学位论文。
 
   \endgroup
 
-  \vfill
+  \vspace*{15.7bp} \vspace{-\parskip}\vspace{-\baselineskip}
   \begin{flushright}
-  \linespread{1.0}\songti\fontsize{14bp}{25bp}\selectfont
-  \makebox[5\ccwd][c]{作者签名：} \underline{\hspace{7em}} \par
-  \makebox[5\ccwd][c]{日 \hfill 期：} \underline{\hspace{7em}} \par
+  \linespread{1.0}\rmfamily\songti\fontsize{16bp}{30bp}\selectfont
+  研究生签名： \underline{\hspace{3.5em}} \hspace{0.5em}
+  导师签名： \underline{\hspace{3.5em}} \hspace{0.5em}
+  日期： \underline{\hspace{3.5em}} \par
   \end{flushright}
+
   \vfill
 }
 %    \end{macrocode}

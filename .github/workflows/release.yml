@@ -1,0 +1,25 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: xu-cheng/texlive-action@v3
+      with:
+        scheme: full
+        run: ./build.sh all
+    - name: Pack
+      run: chmod +x .github/pack.sh && ./.github/pack.sh
+    - name: Create ZIP Archive
+      run: cd .pack && zip -r nuaathesis.zip nuaathesis
+    - name: Upload Release Assets
+      uses: softprops/action-gh-release@v1
+      with:
+        files: .pack/nuaathesis.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

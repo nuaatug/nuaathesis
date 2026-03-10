@@ -74,3 +74,7 @@
 
 如果论文需要双面打印的话，请务必修改文档类选项，编译双面打印用的 PDF 文件。
 具体地说，在主文件的头部，将 \texttt{openany, oneside} 改成 \texttt{openany, twoside}。
+
+注意检查论文的粗体有没有正常生效，尤其是中文摘要下方的“关键词”应该是粗体。
+如果粗体不能生效，需要在文档类中设置 \verb|AutoFakeBold| 选项，或是安装支持粗体的中文字体，然后在 \verb|global.tex| 顶部进行设置。
+\verb|AutoFakeBold| 选项可能导致PDF文件中的粗体复制出来乱码影响查重，请开启后务必检查。

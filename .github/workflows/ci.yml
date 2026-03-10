@@ -1,0 +1,20 @@
+name: Pre-Release
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: xu-cheng/texlive-action@v3
+      with:
+        scheme: full
+        run: ./build.sh all
+    - name: Pack
+      run: chmod +x .github/pack.sh && ./.github/pack.sh
+    - uses: actions/upload-artifact@v4
+      with:
+        name: artifacts
+        path: |
+          .pack/nuaathesis
