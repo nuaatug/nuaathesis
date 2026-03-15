@@ -4,6 +4,15 @@ on:
   push:
     branches:
       - '**'
+    paths:
+      - '**/*.tex'
+      - '**/*.bst'
+      - '**/Makefile'
+      - '**/latexmkrc'
+      - '**/*.cls'
+      - '**/*.dtx'
+      - '**/*.bat'
+      - '**/*.sh'
     tags-ignore:
       - '*'
 
