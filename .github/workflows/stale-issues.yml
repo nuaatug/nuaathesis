@@ -79,11 +79,8 @@ jobs:
                   repository(owner: $owner, name: $repo) {
                     pinnedIssues(first: 100, after: $cursor) {
                       nodes {
-                        content {
-                          __typename
-                          ... on Issue {
-                            number
-                          }
+                        issue {
+                          number
                         }
                       }
                       pageInfo {
@@ -99,8 +96,8 @@ jobs:
 
               const nodes = result.repository.pinnedIssues.nodes || [];
               for (const n of nodes) {
-                if (n.content?.__typename === 'Issue' && typeof n.content.number === 'number') {
-                  pinnedIssueNumbers.push(n.content.number);
+                if (typeof n.issue?.number === 'number') {
+                  pinnedIssueNumbers.push(n.issue.number);
                 }
               }
 
