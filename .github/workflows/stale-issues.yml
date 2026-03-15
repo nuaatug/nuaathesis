@@ -40,7 +40,6 @@ jobs:
 
   stale:
     needs: check-branch-activity
-    if: ${{ needs.check-branch-activity.outputs.should_run == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Exempt Pinned Issues
@@ -134,6 +133,7 @@ jobs:
             core.info(`issues exempted this run: ${exempted}`);
 
       - name: Mark Stale & Close
+        if: ${{ needs.check-branch-activity.outputs.should_run == 'true' }}
         uses: actions/stale@v9
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -145,6 +145,21 @@ jobs:
           stale-issue-message: >
             此 Issue 已超过一个月没有任何活动，已被自动标记为 stale。
             如果该问题仍然有效，请回复评论以恢复活跃状态。
+          close-issue-message: >
+            此 Issue 已超过一年没有任何活动，现自动关闭。如仍需处理，请重新评论说明。
+          days-before-pr-stale: -1
+          days-before-pr-close: -1
+
+      - name: Close Only Existing Stale Issues
+        if: ${{ needs.check-branch-activity.outputs.should_run != 'true' }}
+        uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operations-per-run: 1000
+          days-before-issue-stale: -1
+          days-before-issue-close: 335
+          exempt-issue-labels: pinned
+          stale-issue-label: stale
           close-issue-message: >
             此 Issue 已超过一年没有任何活动，现自动关闭。如仍需处理，请重新评论说明。
           days-before-pr-stale: -1
