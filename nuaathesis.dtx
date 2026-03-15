@@ -950,6 +950,7 @@ and the derived files           nuaathesis.ins,
   \nuaa@define{value@thesisid}
   \nuaa@define{value@majorsubject}
   \nuaa@define{value@researchfield}
+  \nuaa@define{value@promisepdf}
 %    \end{macrocode}
 %
 % 文档的英文信息
@@ -1201,6 +1202,7 @@ and the derived files           nuaathesis.ins,
 \PassOptionsToPackage{normalem}{ulem}
 \RequirePackage{ulem}      % 英文下划线
 \RequirePackage{graphicx}  % 图
+\RequirePackage{pdfpages}  % 外部 PDF 页面（承诺书替换）
 \RequirePackage{array}
 \RequirePackage{tabu}
 \RequirePackage{booktabs}  % toprule, etc
@@ -1981,11 +1983,17 @@ and the derived files           nuaathesis.ins,
 % 绘制承诺书
 %    \begin{macrocode}
 \newcommand\makedeclare{
-  \ifnuaa@bachelor
-    \nuaa@make@declare@bachelor
-  \else
-    \nuaa@make@declare@master
-  \fi
+  \ifdefempty{\nuaa@value@promisepdf}{
+    \ifnuaa@bachelor
+      \nuaa@make@declare@bachelor
+    \else
+      \nuaa@make@declare@master
+    \fi
+  }{
+    \cleardoublepage
+    \includepdf[pages=-,pagecommand={\thispagestyle{style@empty}}]{\nuaa@value@promisepdf}
+    \clearpage
+  }
 }
 %    \end{macrocode}
 % \end{macro}
