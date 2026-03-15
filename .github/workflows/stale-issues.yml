@@ -79,7 +79,12 @@ jobs:
                   repository(owner: $owner, name: $repo) {
                     pinnedIssues(first: 100, after: $cursor) {
                       nodes {
-                        number
+                        content {
+                          __typename
+                          ... on Issue {
+                            number
+                          }
+                        }
                       }
                       pageInfo {
                         hasNextPage
@@ -94,7 +99,9 @@ jobs:
 
               const nodes = result.repository.pinnedIssues.nodes || [];
               for (const n of nodes) {
-                if (typeof n.number === 'number') pinnedIssueNumbers.push(n.number);
+                if (n.content?.__typename === 'Issue' && typeof n.content.number === 'number') {
+                  pinnedIssueNumbers.push(n.content.number);
+                }
               }
 
               hasNextPage = result.repository.pinnedIssues.pageInfo.hasNextPage;
