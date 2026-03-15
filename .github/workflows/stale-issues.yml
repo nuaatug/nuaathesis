@@ -1,0 +1,59 @@
+name: Close Stale Issues
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-branch-activity:
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
+    steps:
+      - name: Check Branch Activity
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = context.payload.repository.default_branch;
+            const { owner, repo } = context.repo;
+
+            const { data: branchData } = await github.rest.repos.getBranch({
+              owner,
+              repo,
+              branch,
+            });
+
+            const lastCommitTime = new Date(branchData.commit.commit.committer.date).getTime();
+            const oneYearMs = 365 * 24 * 60 * 60 * 1000;
+            const shouldRun = Date.now() - lastCommitTime <= oneYearMs;
+
+            core.info(`default branch: ${branch}`);
+            core.info(`last commit at: ${branchData.commit.commit.committer.date}`);
+            core.info(`stale workflow enabled: ${shouldRun}`);
+            core.setOutput('should_run', shouldRun ? 'true' : 'false');
+
+  stale:
+    needs: check-branch-activity
+    if: ${{ needs.check-branch-activity.outputs.should_run == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark Stale & Close
+        uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          days-before-issue-stale: 30
+          days-before-issue-close: 335
+          stale-issue-label: stale
+          stale-issue-message: >
+            此 Issue 已超过一个月没有任何活动，已被自动标记为 stale。
+            如果该问题仍然有效，请回复评论以恢复活跃状态。
+          close-issue-message: >
+            此 Issue 已超过一年没有任何活动，现自动关闭。如仍需处理，请重新评论说明。
+          days-before-pr-stale: -1
+          days-before-pr-close: -1
