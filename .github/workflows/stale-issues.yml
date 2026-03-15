@@ -43,12 +43,100 @@ jobs:
     if: ${{ needs.check-branch-activity.outputs.should_run == 'true' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Exempt Pinned Issues
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const exemptLabel = 'pinned';
+
+            // Ensure the exemption label exists.
+            try {
+              await github.rest.issues.getLabel({ owner, repo, name: exemptLabel });
+            } catch (error) {
+              if (error.status === 404) {
+                await github.rest.issues.createLabel({
+                  owner,
+                  repo,
+                  name: exemptLabel,
+                  color: '0052cc',
+                  description: 'Pinned issue; exempt from stale automation.',
+                });
+              } else {
+                throw error;
+              }
+            }
+
+            const pinnedIssueNumbers = [];
+            let hasNextPage = true;
+            let cursor = null;
+
+            // Fetch all pinned issues via GraphQL.
+            while (hasNextPage) {
+              const result = await github.graphql(
+                `
+                query($owner: String!, $repo: String!, $cursor: String) {
+                  repository(owner: $owner, name: $repo) {
+                    pinnedIssues(first: 100, after: $cursor) {
+                      nodes {
+                        number
+                      }
+                      pageInfo {
+                        hasNextPage
+                        endCursor
+                      }
+                    }
+                  }
+                }
+                `,
+                { owner, repo, cursor }
+              );
+
+              const nodes = result.repository.pinnedIssues.nodes || [];
+              for (const n of nodes) {
+                if (typeof n.number === 'number') pinnedIssueNumbers.push(n.number);
+              }
+
+              hasNextPage = result.repository.pinnedIssues.pageInfo.hasNextPage;
+              cursor = result.repository.pinnedIssues.pageInfo.endCursor;
+            }
+
+            let exempted = 0;
+            for (const issueNumber of pinnedIssueNumbers) {
+              const { data: issue } = await github.rest.issues.get({
+                owner,
+                repo,
+                issue_number: issueNumber,
+              });
+
+              if (issue.state !== 'open') continue;
+
+              const hasLabel = issue.labels.some((l) => {
+                if (typeof l === 'string') return l === exemptLabel;
+                return l?.name === exemptLabel;
+              });
+              if (hasLabel) continue;
+
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number: issueNumber,
+                labels: [exemptLabel],
+              });
+              exempted += 1;
+            }
+
+            core.info(`pinned issues found: ${pinnedIssueNumbers.length}`);
+            core.info(`issues exempted this run: ${exempted}`);
+
       - name: Mark Stale & Close
         uses: actions/stale@v9
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operations-per-run: 1000
           days-before-issue-stale: 30
           days-before-issue-close: 335
+          exempt-issue-labels: pinned
           stale-issue-label: stale
           stale-issue-message: >
             此 Issue 已超过一个月没有任何活动，已被自动标记为 stale。
