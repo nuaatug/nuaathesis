@@ -1,4 +1,4 @@
-% \iffalse meta-comment
+﻿% \iffalse meta-comment
 % !TEX program  = XeLaTeX
 % !TEX encoding = UTF-8
 %<*internal>
@@ -1282,6 +1282,7 @@ and the derived files           nuaathesis.ins,
   \nuaa@mainmatterfalse
   \ifnuaa@bachelor
     \pagenumbering{roman}
+    \renewcommand\thepage{\roman{page}}
     \assignpagestyle{\chapter}{style@footonly}
   \else
     \pagenumbering{Roman}
@@ -1294,6 +1295,9 @@ and the derived files           nuaathesis.ins,
   \@backmatterfalse
   \nuaa@mainmattertrue
   \pagenumbering{arabic}
+  \ifnuaa@bachelor
+    \renewcommand\thepage{- \arabic{page} -}
+  \fi
   \pagestyle{style@main}
   \setlength\leftskip{\nuaaparleft}
   \assignpagestyle{\chapter}{style@main}
@@ -1377,8 +1381,7 @@ and the derived files           nuaathesis.ins,
 %    \begin{macrocode}
 \newcommand\nuaa@footerpagenum@decorate[1]{%
 \ifnuaa@bachelor%
-  \fontsize{10.5bp}{15.874bp}\selectfont%
-  \if@frontmatter{#1}\else{- #1 -}\fi%
+  \fontsize{10.5bp}{15.874bp}\selectfont #1%
 \else%
   \fontsize{9bp}{15.874bp}\selectfont #1%
 \fi%
@@ -1453,14 +1456,17 @@ and the derived files           nuaathesis.ins,
     {\centering\linespread{1}\nuaa@font@title\fontsize{15bp}{31.748bp}\selectfont}
     {\nuaa@chaptername}{1em}{}
   \titlespacing*{\chapter}{0pt}{\ifnuaa@mainmatter{-5bp}\else{-20.874bp}\fi}{0bp}
-  \titleformat*{\section}
+  	\titleformat{\section}
     {\linespread{1.0}\nuaa@font@title\fontsize{14bp}{31.748bp}\selectfont}
+    {\sffamily\heiti\thesection}{0.5em}{}
   \titlespacing*{\section}{0pt}{0bp}{0bp}
-  \titleformat*{\subsection}
+  	\titleformat{\subsection}
     {\linespread{1.0}\nuaa@font@title\fontsize{12bp}{23.811bp}\selectfont}
+    {\sffamily\heiti\thesubsection}{0.3em}{}
   \titlespacing*{\subsection}{0pt}{0bp}{0bp}
-  \titleformat*{\subsubsection}
+  	\titleformat{\subsubsection}
     {\linespread{1.0}\fontsize{12bp}{23.811bp}\selectfont}
+    {\sffamily\heiti\thesubsubsection}{0.3em}{}
   \titlespacing*{\subsubsection}{0pt}{0bp}{0bp}
 \else
   \newcommand{\nuaa@chapterbeforesep}{\if@frontmatter{-7bp}\else{10.4bp}\fi}
@@ -1498,28 +1504,28 @@ and the derived files           nuaathesis.ins,
 %    \begin{macrocode}
 \newcommand\nuaa@toc@rule{.57ex}
 \ifnuaa@bachelor
-  \newcommand\nuaa@toc@font{\fontsize{12bp}{15.874bp}\selectfont}
+  \newcommand\nuaa@toc@font{\linespread{1.5}\fontsize{12bp}{15.874bp}\selectfont}
   \ifnuaa@lang@en
-    \titlecontents{chapter}[5pc]
+    	\titlecontents{chapter}[0pt]
       {\nuaa@toc@font}
-      {\contentslabel[\chaptername~\thecontentslabel]{5pc}}
-      {\renewcommand\thecontentslabel{\relax}\hspace*{-5pc}}
+      {\chaptername~\thecontentslabel\ }
+      {}
       {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
   \else
-    \titlecontents{chapter}[5.5pc]
+    	\titlecontents{chapter}[0pt]
       {\nuaa@toc@font}
-      {\contentslabel[\thecontentslabel]{3.5pc}}
-      {\hspace*{-3.5pc}}
+      {\thecontentslabel\ }
+      {}
       {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
   \fi
-  \titlecontents{section}[6.5pc]
+  	\titlecontents{section}[.6em]
     {\nuaa@toc@font}
-    {\contentslabel[\thecontentslabel]{3.5pc}}
+    {\thecontentslabel\ }
     {}
     {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
-  \titlecontents{subsection}[7.5pc]
+  	\titlecontents{subsection}[1.2em]
     {\nuaa@toc@font}
-    {\contentslabel[\thecontentslabel]{3.5pc}}
+    {\thecontentslabel\ }
     {}
     {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
   \titlecontents{figure}[\nuaa@indentloft]
@@ -2161,6 +2167,7 @@ and the derived files           nuaathesis.ins,
     \linespread{1.0}\songti\fontsize{12bp}{23.811bp}\selectfont
     \setlength\parindent{2\ccwd}\indent
     本人郑重声明：所呈交的毕业设计（论文）是本人在导师的指导下独立进行研究所取得的成果。
+    论文核心内容（如研究设计、数据分析、结论等）均为原创，未使用AI进行数据篡改与虚构、规避查重等违规操作。
     尽我所知，除了文中特别加以标注和致谢的内容外，
     本设计（论文）不包含任何其他个人或集体已经发表或撰写的成果作品。
     对本设计（论文）所涉及的研究工作作出贡献的其他个人和集体，均已在文中以明确方式标明。
@@ -2247,7 +2254,7 @@ and the derived files           nuaathesis.ins,
 \newcommand\nuaa@make@abstract@bachelor@en{
   \clearpage
 
-  \chapter*{\textbf{\textrm{\nuaa@labelEn@ABSTRACT}}}
+  \chapter*{\textbf{\textrm{\nuaa@labelEn@abstract}}}
 
   \begingroup
     \setlength\parindent{1em}\rmfamily\songti
@@ -2256,7 +2263,7 @@ and the derived files           nuaathesis.ins,
 
   \vspace{23.811bp minus 20bp}
 
-  \nuaa@put@kw{\zihao{-3}\nuaa@labelEn@KeyWords}{\nuaa@keywordsEn}
+  \nuaa@put@kw{\zihao{-3}\textbf{\textrm{\nuaa@labelEn@keywords}}}{\nuaa@keywordsEn}
 }
 %    \end{macrocode}
 % \end{macro}
